@@ -1,4 +1,4 @@
-package com.example.mater_electronic.ui.navigation.catagory;
+package com.example.mater_electronic.ui.navigation.category;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,21 +10,21 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.mater_electronic.databinding.FragmentHomeBinding;
+import com.example.mater_electronic.databinding.FragmentCategoryBinding;
 
-public class HomeFragment extends Fragment {
+public class CategoryFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
+    private FragmentCategoryBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        CategoryViewModel homeViewModel =
+                new ViewModelProvider(this).get(CategoryViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentCategoryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
+        final TextView textView = binding.textCategory;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }

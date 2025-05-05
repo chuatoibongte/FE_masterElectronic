@@ -1,4 +1,4 @@
-package com.example.mater_electronic.ui.navigation.profile;
+package com.example.mater_electronic.ui.navigation.my_cart;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,21 +10,21 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.mater_electronic.databinding.FragmentNotificationsBinding;
+import com.example.mater_electronic.databinding.FragmentMycartBinding;
 
-public class NotificationsFragment extends Fragment {
+public class MyCartFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private FragmentMycartBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
+        MyCartViewModel notificationsViewModel =
+                new ViewModelProvider(this).get(MyCartViewModel.class);
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentMycartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textNotifications;
+        final TextView textView = binding.textMycart;
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
