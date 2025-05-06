@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mater_electronic.databinding.FragmentHomeBinding;
-import com.example.mater_electronic.ui.register.Register;
+import com.example.mater_electronic.ui.activity.register.Register;
 
 public class HomeFragment extends Fragment {
 

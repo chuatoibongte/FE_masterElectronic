@@ -2,6 +2,7 @@ package com.example.mater_electronic.ui.activity.register;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +26,6 @@ public class Register extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setContentView(R.layout.activity_register);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -38,8 +38,9 @@ public class Register extends AppCompatActivity {
             String phone = binding.phoneInput.getText().toString();
             String password = binding.passwordInput.getText().toString();
 
-            // Add your registration logic here
-            Log.e("Register", "Username: " + username + ", Email: " + email + ", Phone: " + phone + ", Password: " + password);
+            // Hiển thị thông tin đăng ký bằng Toast
+            String message = "Username: " + username + "\nEmail: " + email + "\nPhone: " + phone + "\nPassword: " + password;
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         });
 
     }
