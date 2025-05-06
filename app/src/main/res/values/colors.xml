@@ -8,4 +8,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="pink">#F4B5A4</color>
+
+    <!--Text color-->
+    <color name="dark_text">#363130</color>
+    <color name="primary_text">#F4B5A4</color>
+    <color name="dark_primary_text">#CC7861</color>
+
+    <!--Background color-->
+    <color name="light_color_bg">#FCEFE6</color>
+    <color name="dark_color_bg">#F4B5A4</color>
 </resources>
