@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mater_electronic.databinding.FragmentHomeBinding;
+import com.example.mater_electronic.ui.activity.register.Register;
 
 public class HomeFragment extends Fragment {
 
@@ -31,6 +32,12 @@ public class HomeFragment extends Fragment {
         // Xử lý click nút Search
         binding.buttonSearch.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), search.class);
+            startActivity(intent);
+        });
+
+        // Xử lý click nút Register
+        binding.registerBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), Register.class);
             startActivity(intent);
         });
 

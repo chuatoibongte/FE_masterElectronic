@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mater_electronic.databinding.FragmentFavouriteBinding;
 
+import com.example.mater_electronic.databinding.FragmentFavouriteBinding;
+
 public class FavouriteFragment extends Fragment {
 
     private FragmentFavouriteBinding binding;

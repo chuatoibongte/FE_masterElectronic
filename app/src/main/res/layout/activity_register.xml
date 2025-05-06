@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
+    android:id="@+id/main"
     android:padding="24dp">
 
     <LinearLayout
@@ -91,7 +92,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/edittext_background"
             android:hint="1234 567 890"
-            android:inputType="textPassword"
+            android:inputType="phone"
             android:padding="12dp"
             android:textColorHint="#D8CFC6" />
 
@@ -143,7 +144,7 @@
             android:layout_marginTop="10dp">
 
             <EditText
-                android:id="@+id/confim_password_input"
+                android:id="@+id/confirm_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/edittext_background"
