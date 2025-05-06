@@ -1,4 +1,15 @@
 <resources>
+<!--    login-->
+    <string name="login_title">Đăng nhập</string>
+    <string name="welcome_text">Chào mừng</string>"
+    <string name="your_info">Vui lòng nhập thông tin của bạn để tiếp tục.</string>
+    <string name="enter_your_email">Tên người dùng hoặc email</string>">
+    <string name="enter_your_password">Mật khẩu</string>"
+    <string name="forgot_password">Quên mật khẩu?</string>"
+    <string name="or_log_in_with">hoặc đăng nhập với</string>"
+    <string name="don_t_have_account">Bạn không có tài khoản ?</string>"
+    <string name="sign_up_now">Đăng ký ngay</string>"
+<!--    -->
     <string name="app_name">mater_electronic</string>
     <string name="title_home">Home</string>
     <string name="title_category">Category</string>

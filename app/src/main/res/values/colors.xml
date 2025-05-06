@@ -13,6 +13,8 @@
     <color name="dark_text">#363130</color>
     <color name="primary_text">#F4B5A4</color>
     <color name="dark_primary_text">#CC7861</color>
+    <color name="blur_text">#808080</color>
+    <color name="blur_text_lg">#D8CFC6</color>
 
     <!--Background color-->
     <color name="light_color_bg">#FCEFE6</color>
