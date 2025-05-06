@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">mater_electronic</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_category">Category</string>
+    <string name="title_mycart">Mycart</string>
+    <string name="title_favourite">Favourite</string>
+    <string name="title_profile">Profile</string>
 </resources>
