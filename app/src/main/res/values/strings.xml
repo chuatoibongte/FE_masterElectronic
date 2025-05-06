@@ -1,5 +1,10 @@
 <resources>
-<!--    login-->
+
+    <string name="product_image">Product Image</string>
+    <string name="add_to_favorite">Add to favorites</string>
+    <string name="add_to_cart">Add to cart</string>
+
+    <!--    login-->
     <string name="login_title">Đăng nhập</string>
     <string name="welcome_text">Chào mừng</string>"
     <string name="your_info">Vui lòng nhập thông tin của bạn để tiếp tục.</string>
@@ -21,4 +26,6 @@
     <string name="sign_up_txt">Đăng ký</string>
     <string name="policy_sign_up">Nếu tiếp tục, bạn đồng ý với\n<b>Điều khoản</b> và <b>Chính sách bảo mật</b></string>
     <string name="banner_image">Banner image</string>
+
+
 </resources>

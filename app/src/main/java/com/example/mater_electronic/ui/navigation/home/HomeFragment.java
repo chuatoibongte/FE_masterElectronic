@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.mater_electronic.R;
@@ -17,6 +20,7 @@ import com.example.mater_electronic.databinding.FragmentHomeBinding;
 import com.example.mater_electronic.ui.activity.login.LoginActivity;
 import com.example.mater_electronic.ui.activity.register.Register;
 import com.example.mater_electronic.ui.navigation.search.SearchActivity;
+import com.example.mater_electronic.ui.tai_sd.ProductItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +98,21 @@ public class HomeFragment extends Fragment {
         });
 
         startAutoScroll();
+
+        // Khởi tạo danh sách sản phẩm
+        RecyclerView recyclerView = binding.homeProduct;
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2); // 2 cột
+        recyclerView.setLayoutManager(gridLayoutManager);
+        List<ProductItem> productList = new ArrayList<>();
+
+        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", "500.000đ"));
+        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", "500.000đ"));
+        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", "500.000đ"));
+        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", "500.000đ"));
+
+        HomeProductAdapter adapter = new HomeProductAdapter(productList);
+        recyclerView.setAdapter(adapter);
+
 
         return root;
     }
