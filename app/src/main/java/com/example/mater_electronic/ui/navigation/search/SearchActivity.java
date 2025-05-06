@@ -1,4 +1,4 @@
-package com.example.mater_electronic.ui.navigation.home;
+package com.example.mater_electronic.ui.navigation.search;
 
 import android.os.Bundle;
 
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mater_electronic.R;
 
-public class search extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

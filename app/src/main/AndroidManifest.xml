@@ -16,10 +16,10 @@
             android:name=".ui.activity.register.Register"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.login.Login"
+            android:name=".ui.activity.login.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.navigation.home.search"
+            android:name=".ui.navigation.search.SearchActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
