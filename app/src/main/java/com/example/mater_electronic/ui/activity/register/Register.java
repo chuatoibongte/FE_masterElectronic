@@ -1,4 +1,4 @@
-package com.example.mater_electronic.ui.register;
+package com.example.mater_electronic.ui.activity.register;
 
 import android.os.Bundle;
 import android.util.Log;
