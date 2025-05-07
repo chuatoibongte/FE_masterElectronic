@@ -35,6 +35,7 @@ public class Register extends AppCompatActivity {
         //Tạo RegisterModel
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
+        //Observe quan sát thay đổi để thực hiện Chuyển sang trang đăng nhập nếu đăng ký thành công
         registerViewModel.getResultMessage().observe(this, message -> {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             if (message.contains("thành công")) {
@@ -68,6 +69,7 @@ public class Register extends AppCompatActivity {
                 return;
             }
 
+            //Call api đăng ký
             registerViewModel.registerAccount(username,email,phone,password);
         });
         binding.loginNowTxtClickable.setOnClickListener(v -> {
