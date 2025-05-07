@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.mater_electronic.MainActivity;
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.databinding.ActivityLoginBinding;
 import com.example.mater_electronic.ui.activity.changepass.ForgotPasswordActivity;
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel.getResultMessage().observe(this, message-> {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             if(message.contains("thành công")){
-                Intent intent = new Intent(this, HomeFragment.class);
+                Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }
         });
