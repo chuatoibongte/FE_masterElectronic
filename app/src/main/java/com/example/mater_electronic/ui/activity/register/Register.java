@@ -1,5 +1,6 @@
 package com.example.mater_electronic.ui.activity.register;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.databinding.ActivityRegisterBinding;
+import com.example.mater_electronic.ui.activity.login.LoginActivity;
 
 public class Register extends AppCompatActivity {
 
@@ -26,12 +28,6 @@ public class Register extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
         binding.signupButton.setOnClickListener(v -> {
             String username = binding.usernameInput.getText().toString();
             String email = binding.emailInput.getText().toString();
@@ -42,6 +38,9 @@ public class Register extends AppCompatActivity {
             String message = "Username: " + username + "\nEmail: " + email + "\nPhone: " + phone + "\nPassword: " + password;
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         });
-
+        binding.loginNowTxtClickable.setOnClickListener(v -> {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+        });
     }
 }

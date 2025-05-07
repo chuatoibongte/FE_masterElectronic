@@ -22,7 +22,7 @@
     <string name="title_favourite">Favourite</string>
     <string name="title_profile">Profile</string>
     <string name="register_title">Đăng ký</string>
-    <string name="sign_up_option_alt">Already have an account? </string>
+    <string name="sign_up_option_alt">Đã có tài khoản ? </string>
     <string name="sign_up_txt">Đăng ký</string>
     <string name="policy_sign_up">Nếu tiếp tục, bạn đồng ý với\n<b>Điều khoản</b> và <b>Chính sách bảo mật</b></string>
     <string name="banner_image">Banner image</string>
