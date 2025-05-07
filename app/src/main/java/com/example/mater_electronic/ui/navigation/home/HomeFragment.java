@@ -1,6 +1,8 @@
 package com.example.mater_electronic.ui.navigation.home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -38,6 +40,22 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        //Lấy accessToken từ SharedPreferences
+        SharedPreferences prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        String accessToken = prefs.getString("accessToken", null);
+
+        //Kiểm tra người dùng có đăng nhập chưa thông quá accessToken
+        if (accessToken != null && !accessToken.isEmpty()) {
+            //Ẩn nút đăng ký đăng nhập vì người dùng đã đăng nhập
+            binding.homeLogin.setVisibility(View.GONE);
+            binding.homeRegister.setVisibility(View.GONE);
+            binding.tvWelcome.setText("Hi, Welcome " + prefs.getString("username", null));
+        } else {
+            //Hiện nút vì người dùng chưa đăng nhập
+            binding.homeLogin.setVisibility(View.VISIBLE);
+            binding.homeRegister.setVisibility(View.VISIBLE);
+        }
 
         // Sự kiện Đăng Nhập
         binding.homeLogin.setOnClickListener(v -> {

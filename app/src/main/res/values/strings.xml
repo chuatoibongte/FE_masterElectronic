@@ -38,4 +38,6 @@
     <string name="set_password_enter_new_password">Nhập mật khẩu mới</string>
     <string name="set_password_hint_new_password">● ● ● ● ● ● ● ●</string>
     <string name="set_password_confirm_new_password">Xác nhận mật khẩu mới</string>
+    <string name="app_title">ELECTRONIC</string>
+    <string name="app_subtitle">MASTER</string>
 </resources>
