@@ -26,10 +26,22 @@ public class Register extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        //Tạo RegisterModel
+        registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
+
+        //Observe quan sát thay đổi để thực hiện Chuyển sang trang đăng nhập nếu đăng ký thành công
+        registerViewModel.getResultMessage().observe(this, message -> {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            if (message.contains("thành công")) {
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Khi call api đang loading
+        registerViewModel.getIsLoading().observe(this, isLoading -> {
+            binding.signupButton.setEnabled(!isLoading);
         });
 
         binding.signupButton.setOnClickListener(v -> {
@@ -38,9 +50,24 @@ public class Register extends AppCompatActivity {
             String phone = binding.phoneInput.getText().toString();
             String password = binding.passwordInput.getText().toString();
 
-            // Hiển thị thông tin đăng ký bằng Toast
-            String message = "Username: " + username + "\nEmail: " + email + "\nPhone: " + phone + "\nPassword: " + password;
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            // Kiểm tra rỗng
+            if (username.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty() || confirmpass.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Kiểm tra mật khẩu trùng khớp
+            if (!password.equals(confirmpass)) {
+                Toast.makeText(this, "Mật khẩu xác nhận không khớp", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            //Call api đăng ký
+            registerViewModel.registerAccount(username,email,phone,password);
+        });
+        binding.loginNowTxtClickable.setOnClickListener(v -> {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
         });
 
     }

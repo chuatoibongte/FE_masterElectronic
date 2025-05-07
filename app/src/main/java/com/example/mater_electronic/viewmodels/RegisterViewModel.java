@@ -19,7 +19,7 @@ import retrofit2.Response;
 
 public class RegisterViewModel extends ViewModel {
     private final AuthRepository repo = new AuthRepository();
-
+    //Sử dụng cho processbar
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final MutableLiveData<String> resultMessage = new MutableLiveData<>();
     public LiveData<Boolean> getIsLoading() {
