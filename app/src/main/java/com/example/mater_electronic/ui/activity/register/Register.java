@@ -17,6 +17,7 @@ import com.example.mater_electronic.databinding.ActivityRegisterBinding;
 import com.example.mater_electronic.ui.activity.login.LoginActivity;
 import com.example.mater_electronic.viewmodels.RegisterViewModel;
 
+
 public class Register extends AppCompatActivity {
 
     private ActivityRegisterBinding binding;
@@ -30,12 +31,6 @@ public class Register extends AppCompatActivity {
         //View Binding
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         //Tạo RegisterModel
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
@@ -75,6 +70,9 @@ public class Register extends AppCompatActivity {
 
             registerViewModel.registerAccount(username,email,phone,password);
         });
-
+        binding.loginNowTxtClickable.setOnClickListener(v -> {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+        });
     }
 }

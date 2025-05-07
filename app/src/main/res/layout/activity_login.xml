@@ -1,41 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/margin_lg"
     android:background="#FFFFFF"
+    android:layout_gravity="center"
     android:layout_margin="@dimen/activity_horizontal_margin"
+    android:orientation="vertical"
     >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <!-- Back arrow -->
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:layout_height="wrap_content">
+            <!-- Back arrow -->
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:src="@drawable/ic_back_arrow"
                 android:contentDescription="Back"
                 android:layout_gravity="start" />
 
-            <!-- Title -->
+                <!-- Title -->
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="@string/login_title"
                 android:textAlignment="center"
-                android:textColor="#F4B6A5"
+                android:textColor="@color/pink"
                 android:textSize="@dimen/large_text_size"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp" />
-        </LinearLayout>
-
+                />
+        </FrameLayout>
 
         <!-- Welcome Text -->
         <TextView
@@ -102,7 +96,7 @@
             <ImageView
                 android:id="@+id/eye_icon"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:src="@drawable/ic_eye"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
@@ -174,6 +168,7 @@
                 android:layout_gravity="center"
                 />
             <TextView
+                android:id="@+id/login_now_txt_clickable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sign_up_now"
@@ -182,5 +177,5 @@
                 android:layout_gravity="center"
                 />
 
-    </LinearLayout>
-</ScrollView>
+
+</LinearLayout>
