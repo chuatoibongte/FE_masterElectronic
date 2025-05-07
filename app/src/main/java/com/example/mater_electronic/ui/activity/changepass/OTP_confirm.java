@@ -38,13 +38,13 @@ public class OTP_confirm extends AppCompatActivity {
         // Handle confirm button click
         binding.buttonOtpXacnhan.setOnClickListener(v -> {
             String otp = getOtpInput();
-            if (otp.length() == 5) {
+            if (otp.length() == 6) {
                 // Add logic to verify OTP here (e.g., API call)
                 Toast.makeText(this, "Xác nhận OTP: " + otp, Toast.LENGTH_SHORT).show();
                 // Navigate to next activity or finish on success
                 // e.g., startActivity(new Intent(this, NextActivity.class));
             } else {
-                Toast.makeText(this, "Vui lòng nhập đủ 5 chữ số OTP", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Vui lòng nhập đủ 6 chữ số OTP", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -55,7 +55,8 @@ public class OTP_confirm extends AppCompatActivity {
                 binding.otptest2,
                 binding.otptest3,
                 binding.otptest4,
-                binding.otptest5
+                binding.otptest5,
+                binding.otptest6
         };
 
         for (int i = 0; i < otpBoxes.length; i++) {
@@ -84,7 +85,8 @@ public class OTP_confirm extends AppCompatActivity {
                 binding.otptest2.getText().toString() +
                 binding.otptest3.getText().toString() +
                 binding.otptest4.getText().toString() +
-                binding.otptest5.getText().toString();
+                binding.otptest5.getText().toString() +
+                binding.otptest6.getText().toString();
     }
 
     @Override
