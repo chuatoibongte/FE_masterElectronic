@@ -1,5 +1,6 @@
 package com.example.mater_electronic.ui.activity.changepass;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -7,8 +8,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mater_electronic.databinding.ActivityOtpConfirmBinding;
+import com.example.mater_electronic.viewmodels.OTPConfirmViewModel;
+import com.example.mater_electronic.viewmodels.SendOTPViewModel;
 
 public class OTP_confirm extends AppCompatActivity {
 
@@ -20,6 +24,15 @@ public class OTP_confirm extends AppCompatActivity {
         // Inflate the binding layout
         binding = ActivityOtpConfirmBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        // Initialize OTPConfirmViewModel
+        OTPConfirmViewModel otpConfirmViewModel = new ViewModelProvider(this).get(OTPConfirmViewModel.class);
+        // Initialize SendOTPViewModel for re-send OTP
+        SendOTPViewModel sendOTPViewModel = new ViewModelProvider(this).get(SendOTPViewModel.class);
+        // get email sent from ForgotPasswordActivity
+        String email = getIntent().getStringExtra("email");
+        // Mask the email
+        String maskedEmail = maskEmail(email);
+        binding.yourEmail.setText(maskedEmail);
 
         // Setup OTP input boxes
         setupOtpInput();
@@ -31,8 +44,25 @@ public class OTP_confirm extends AppCompatActivity {
 
         // Handle resend button click
         binding.buttonOtpGuilaima.setOnClickListener(v -> {
+            // Send OTP again
+            sendOTPViewModel.sendOTP(email);
             Toast.makeText(this, "Mã OTP đã được gửi lại!", Toast.LENGTH_SHORT).show();
             // Add logic to resend OTP here (e.g., API call)
+        });
+
+        // Handle OTP verification result
+        otpConfirmViewModel.getResultMessage().observe(this, message -> {
+            if(message.contains("thành công")) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                String otp = getOtpInput();
+                Intent intent = new Intent(this, SetPassword.class);
+                intent.putExtra("email", email);
+                intent.putExtra("otp", otp);
+                startActivity(intent);
+            }
+            else {
+                Toast.makeText(this, "Mã OTP không chính xác", Toast.LENGTH_SHORT).show();
+            }
         });
 
         // Handle confirm button click
@@ -40,9 +70,8 @@ public class OTP_confirm extends AppCompatActivity {
             String otp = getOtpInput();
             if (otp.length() == 6) {
                 // Add logic to verify OTP here (e.g., API call)
+                otpConfirmViewModel.verifyOTP(email, otp);
                 Toast.makeText(this, "Xác nhận OTP: " + otp, Toast.LENGTH_SHORT).show();
-                // Navigate to next activity or finish on success
-                // e.g., startActivity(new Intent(this, NextActivity.class));
             } else {
                 Toast.makeText(this, "Vui lòng nhập đủ 6 chữ số OTP", Toast.LENGTH_SHORT).show();
             }
@@ -87,6 +116,21 @@ public class OTP_confirm extends AppCompatActivity {
                 binding.otptest4.getText().toString() +
                 binding.otptest5.getText().toString() +
                 binding.otptest6.getText().toString();
+    }
+
+    private String maskEmail(String email) {
+        if (email == null || email.isEmpty() || !email.contains("@")) {
+            return email; // Return original email if it's invalid
+        }
+
+        String[] parts = email.split("@");
+        String username = parts[0];
+        String domain = parts[1];
+
+        int visibleChars = Math.min(2, username.length() / 2);
+        String maskedUsername = username.substring(0, visibleChars) + "*".repeat(username.length() - visibleChars) ;
+
+        return maskedUsername + "@" + domain;
     }
 
     @Override

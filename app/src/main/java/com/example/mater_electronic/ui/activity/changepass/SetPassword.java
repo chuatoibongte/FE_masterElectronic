@@ -1,6 +1,7 @@
 package com.example.mater_electronic.ui.activity.changepass;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,8 @@ public class SetPassword extends AppCompatActivity {
         binding = ActivitySetPasswordBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
+        String email = getIntent().getStringExtra("email");
+        String otp = getIntent().getStringExtra("otp");
+        Toast.makeText(this, email + " - " + otp, Toast.LENGTH_SHORT).show();
     }
 }
