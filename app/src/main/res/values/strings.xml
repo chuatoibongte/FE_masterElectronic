@@ -31,4 +31,11 @@
     <string name="reset_pass_txt">Đặt lại mật khẩu ?</string>
     <string name="enter_your_email_address">Vui lòng nhập địa chỉ email của bạn</string>
     <string name="forgot_pass_continue">Tiếp tục</string>
+    <!--set password-->
+    <string name="set_password_title">Đặt lại mật khẩu</string>
+    <string name="set_password_change_the_password">Thay đổi mật khẩu</string>
+    <string name="set_password_description">Vui lòng nhập mật khẩu mới và xác nhận</string>
+    <string name="set_password_enter_new_password">Nhập mật khẩu mới</string>
+    <string name="set_password_hint_new_password">● ● ● ● ● ● ● ●</string>
+    <string name="set_password_confirm_new_password">Xác nhận mật khẩu mới</string>
 </resources>
