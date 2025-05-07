@@ -1,6 +1,8 @@
 package com.example.mater_electronic.ui.activity.changepass;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +24,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         binding = ActivityForgotPasswordBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
+        binding.forgotPasswordNext.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), OTP_confirm.class);
+            startActivity(intent);
+        });
 
 
     }

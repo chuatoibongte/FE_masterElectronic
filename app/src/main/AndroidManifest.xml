@@ -21,6 +21,10 @@
             android:name=".ui.activity.changepass.ForgotPasswordActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.activity.changepass.OTP_confirm"
+            android:exported="false"/>
+
+        <activity
             android:name=".ui.activity.register.Register"
             android:exported="false" />
         <activity
