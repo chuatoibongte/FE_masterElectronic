@@ -114,7 +114,7 @@
             android:layout_marginTop="@dimen/margin_lg"
             android:background="@drawable/button_background"
             android:text="@string/login_title"
-            android:textColor="@color/black" />
+            android:textColor="@color/dark_primary_text" />
 
         <!-- Forgot Password -->
         <TextView

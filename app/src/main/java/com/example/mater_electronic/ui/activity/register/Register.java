@@ -1,6 +1,5 @@
 package com.example.mater_electronic.ui.activity.register;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -10,18 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.databinding.ActivityRegisterBinding;
-import com.example.mater_electronic.ui.activity.login.LoginActivity;
-import com.example.mater_electronic.viewmodels.RegisterViewModel;
-
 
 public class Register extends AppCompatActivity {
 
     private ActivityRegisterBinding binding;
-    private RegisterViewModel registerViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +25,7 @@ public class Register extends AppCompatActivity {
         //View Binding
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         //Tạo RegisterModel
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
@@ -49,13 +44,11 @@ public class Register extends AppCompatActivity {
             binding.signupButton.setEnabled(!isLoading);
         });
 
-        //Xử lý nhấn nút đăng ký
         binding.signupButton.setOnClickListener(v -> {
             String username = binding.usernameInput.getText().toString();
             String email = binding.emailInput.getText().toString();
             String phone = binding.phoneInput.getText().toString();
             String password = binding.passwordInput.getText().toString();
-            String confirmpass = binding.confirmPasswordInput.getText().toString();
 
             // Kiểm tra rỗng
             if (username.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty() || confirmpass.isEmpty()) {
@@ -76,5 +69,6 @@ public class Register extends AppCompatActivity {
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
         });
+
     }
 }
