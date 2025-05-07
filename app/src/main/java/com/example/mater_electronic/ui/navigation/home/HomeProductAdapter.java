@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mater_electronic.R;
 
 
-import com.example.mater_electronic.ui.tai_sd.ProductItem;
+import com.example.mater_electronic.models.ProductItem;
 
 import java.util.List;
 
