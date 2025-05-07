@@ -1,4 +1,4 @@
-package com.example.mater_electronic.ui.tai_sd;
+package com.example.mater_electronic.models;
 public class ProductItem {
     private final int imageResId;
     private final String name;

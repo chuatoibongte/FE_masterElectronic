@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -20,7 +19,7 @@ import com.example.mater_electronic.databinding.FragmentHomeBinding;
 import com.example.mater_electronic.ui.activity.login.LoginActivity;
 import com.example.mater_electronic.ui.activity.register.Register;
 import com.example.mater_electronic.ui.navigation.search.SearchActivity;
-import com.example.mater_electronic.ui.tai_sd.ProductItem;
+import com.example.mater_electronic.models.ProductItem;
 
 import java.util.ArrayList;
 import java.util.List;

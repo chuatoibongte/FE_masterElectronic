@@ -43,6 +43,10 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.squareup.picasso:picasso:2.71828")
 
+    implementation ("com.google.code.gson:gson:2.9.1")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
