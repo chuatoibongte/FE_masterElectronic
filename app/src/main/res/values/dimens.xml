@@ -5,6 +5,7 @@
     <dimen name="input_padding">12dp</dimen>
     <!--    -->
     <dimen name="margin_vlg">72dp</dimen>
+    <dimen name="margin_top_title">50dp</dimen>
     <dimen name="margin_lg">30dp</dimen>
     <dimen name="margin_md">22dp</dimen>
     <dimen name="margin_sm">16dp</dimen>

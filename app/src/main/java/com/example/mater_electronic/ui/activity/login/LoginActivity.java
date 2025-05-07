@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.databinding.ActivityLoginBinding;
+import com.example.mater_electronic.ui.activity.changepass.ForgotPasswordActivity;
 import com.example.mater_electronic.ui.activity.register.Register;
 
 public class LoginActivity extends AppCompatActivity {
@@ -32,6 +33,10 @@ public class LoginActivity extends AppCompatActivity {
         });
         binding.loginNowTxtClickable.setOnClickListener(v -> {
             Intent intent = new Intent(this, Register.class);
+            startActivity(intent);
+        });
+        binding.forgotPassBtn.setOnClickListener(v-> {
+            Intent intent = new Intent(this, ForgotPasswordActivity.class);
             startActivity(intent);
         });
     }
