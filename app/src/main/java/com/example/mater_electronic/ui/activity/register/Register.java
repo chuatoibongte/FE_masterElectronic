@@ -1,5 +1,6 @@
 package com.example.mater_electronic.ui.activity.register;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -9,9 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.databinding.ActivityRegisterBinding;
+import com.example.mater_electronic.ui.activity.login.LoginActivity;
+import com.example.mater_electronic.viewmodels.RegisterViewModel;
 
 public class Register extends AppCompatActivity {
 
@@ -28,7 +32,7 @@ public class Register extends AppCompatActivity {
 
 
         //Tạo RegisterModel
-        registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
+        RegisterViewModel registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
         //Observe quan sát thay đổi để thực hiện Chuyển sang trang đăng nhập nếu đăng ký thành công
         registerViewModel.getResultMessage().observe(this, message -> {
@@ -49,6 +53,7 @@ public class Register extends AppCompatActivity {
             String email = binding.emailInput.getText().toString();
             String phone = binding.phoneInput.getText().toString();
             String password = binding.passwordInput.getText().toString();
+            String confirmpass = binding.confirmPasswordInput.getText().toString();
 
             // Kiểm tra rỗng
             if (username.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty() || confirmpass.isEmpty()) {
