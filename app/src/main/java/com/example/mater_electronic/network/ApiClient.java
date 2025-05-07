@@ -1,0 +1,22 @@
+package com.example.mater_electronic.network;
+
+import com.example.mater_electronic.network.auth.AuthService;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class ApiClient {
+    private static final String BASE_URL = "https://3320-42-114-200-239.ngrok-free.app";
+    private static Retrofit retrofit;
+
+    public static AuthService getApiService() {
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofit.create(AuthService.class);
+    }
+}
+
