@@ -5,12 +5,14 @@
     android:padding="@dimen/margin_lg"
     android:background="#FFFFFF"
     android:layout_gravity="center"
-    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
     android:orientation="vertical"
     >
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_title"
+            >
             <!-- Back arrow -->
             <ImageView
                 android:layout_width="wrap_content"
@@ -116,6 +118,7 @@
 
         <!-- Forgot Password -->
         <TextView
+            android:id="@+id/forgot_pass_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/forgot_password"

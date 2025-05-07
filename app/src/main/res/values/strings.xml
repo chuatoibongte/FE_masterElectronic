@@ -14,7 +14,7 @@
     <string name="or_log_in_with">hoặc đăng nhập với</string>"
     <string name="don_t_have_account">Bạn không có tài khoản ?</string>"
     <string name="sign_up_now">Đăng ký ngay</string>"
-<!--    -->
+    <!--    -->
     <string name="app_name">mater_electronic</string>
     <string name="title_home">Home</string>
     <string name="title_category">Category</string>
@@ -26,6 +26,9 @@
     <string name="sign_up_txt">Đăng ký</string>
     <string name="policy_sign_up">Nếu tiếp tục, bạn đồng ý với\n<b>Điều khoản</b> và <b>Chính sách bảo mật</b></string>
     <string name="banner_image">Banner image</string>
-
-
+    <!--    -->
+    <string name="forgot_pass_title">Quên mật khẩu</string>
+    <string name="reset_pass_txt">Đặt lại mật khẩu ?</string>
+    <string name="enter_your_email_address">Vui lòng nhập địa chỉ email của bạn</string>
+    <string name="forgot_pass_continue">Tiếp tục</string>
 </resources>
