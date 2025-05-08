@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }
+            finish();
         });
 
         //Khi call api đang loading (nên dùng process bar)
