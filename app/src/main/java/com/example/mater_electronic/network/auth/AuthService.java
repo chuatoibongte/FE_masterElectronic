@@ -1,5 +1,6 @@
 package com.example.mater_electronic.network.auth;
 
+import com.example.mater_electronic.models.auth.ChangePasswordResponse;
 import com.example.mater_electronic.models.auth.LoginRequest;
 import com.example.mater_electronic.models.auth.LoginResponse;
 import com.example.mater_electronic.models.auth.RegisterRequest;
@@ -11,6 +12,8 @@ import com.example.mater_electronic.models.auth.VerifyOTPResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface AuthService {
@@ -26,5 +29,13 @@ public interface AuthService {
     //API xác nhận OTP
     @POST("/user/accountAction/verifyOTP")
     Call<VerifyOTPResponse> verifyOTP(@Body VerifyOTPRequest request);
+
+    @FormUrlEncoded
+    @POST("/user/accountAction/changepassbyOTP")
+    Call<ChangePasswordResponse> changePassword(
+            @Field("email") String email,
+            @Field("otp") String otp,
+            @Field("newpass") String newPassword
+    );
 }
 
