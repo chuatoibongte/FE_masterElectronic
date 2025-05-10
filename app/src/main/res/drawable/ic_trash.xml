@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Vòng tròn bao quanh -->
+    <path
+        android:pathData="M24,2a22,22 0 1,0 0.01,0"
+        android:strokeWidth="2"
+        android:strokeColor="@color/pink"
+        android:fillColor="@android:color/transparent" />
+
+    <!-- Nắp thùng -->
+    <path
+        android:fillColor="@color/pink"
+        android:pathData="M15,16h18v2H15z" />
+
+    <!-- Tay cầm -->
+    <path
+        android:fillColor="@color/pink"
+        android:pathData="M20,12h8a1,1 0 0,1 1,1v1H19v-1a1,1 0 0,1 1,-1z" />
+
+    <!-- Thân thùng -->
+    <path
+        android:fillColor="@color/pink"
+        android:pathData="M17,18h14v14a1,1 0 0,1 -1,1H18a1,1 0 0,1 -1,-1V18z" />
+
+    <!-- Các đường kẻ dọc (rác) -->
+    <path
+        android:strokeWidth="1.5"
+        android:strokeColor="#FFFFFF"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M21,20v10" />
+    <path
+        android:strokeWidth="1.5"
+        android:strokeColor="#FFFFFF"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M24,20v10" />
+    <path
+        android:strokeWidth="1.5"
+        android:strokeColor="#FFFFFF"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M27,20v10" />
+</vector>
