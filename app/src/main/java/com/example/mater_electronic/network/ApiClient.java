@@ -19,4 +19,3 @@ public class ApiClient {
         return retrofit.create(AuthService.class);
     }
 }
-
