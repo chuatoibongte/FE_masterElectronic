@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.databinding.ActivityRegisterBinding;
 import com.example.mater_electronic.ui.activity.login.LoginActivity;
+import com.example.mater_electronic.utils.PasswordToggleUtil;
 import com.example.mater_electronic.viewmodels.RegisterViewModel;
 
 public class Register extends AppCompatActivity {
@@ -30,6 +31,8 @@ public class Register extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        PasswordToggleUtil.setupPasswordToggle(binding.passwordInput, binding.eyeIcon2);
+        PasswordToggleUtil.setupPasswordToggle(binding.confirmPasswordInput, binding.eyeIcon);
 
         //Tạo RegisterModel
         RegisterViewModel registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);

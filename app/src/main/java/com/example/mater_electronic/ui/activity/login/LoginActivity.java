@@ -18,6 +18,7 @@ import com.example.mater_electronic.databinding.ActivityLoginBinding;
 import com.example.mater_electronic.ui.activity.changepass.ForgotPasswordActivity;
 import com.example.mater_electronic.ui.activity.register.Register;
 import com.example.mater_electronic.ui.navigation.home.HomeFragment;
+import com.example.mater_electronic.utils.PasswordToggleUtil;
 import com.example.mater_electronic.viewmodels.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
@@ -48,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel.getIsLoading().observe(this, isLoading -> {
             binding.loginButton.setEnabled(!isLoading);
         });
+
+        PasswordToggleUtil.setupPasswordToggle(binding.passwordInput, binding.eyeIcon);
 
         //Xử lý nút Đăng nhập
         binding.loginButton.setOnClickListener(v -> {
