@@ -41,4 +41,6 @@
     <string name="app_title">ELECTRONIC</string>
     <string name="app_subtitle">MASTER</string>
     <string name="logout_txt">Đăng xuất</string>
+    <!--    cart-->
+    <string name="cart_title">Giỏ hàng</string>
 </resources>

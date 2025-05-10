@@ -122,10 +122,10 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
         List<ProductItem> productList = new ArrayList<>();
 
-        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", "500.000đ"));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", "500.000đ"));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", "500.000đ"));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", "500.000đ"));
+        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500.000));
+        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500.000));
+        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500.000));
+        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500.000));
 
         HomeProductAdapter adapter = new HomeProductAdapter(productList);
         recyclerView.setAdapter(adapter);

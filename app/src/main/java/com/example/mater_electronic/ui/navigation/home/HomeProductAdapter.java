@@ -18,13 +18,10 @@ import java.util.List;
 
 
 public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.ProductViewHolder> {
-
     private final List<ProductItem> products;
-
     public HomeProductAdapter(List<ProductItem> products) {
         this.products = products;
     }
-
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -32,24 +29,20 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
                 .inflate(R.layout.product_item, parent, false);
         return new ProductViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         ProductItem item = products.get(position);
         holder.imgProduct.setImageResource(item.getImageResId());
         holder.tvName.setText(item.getName());
-        holder.tvPrice.setText(item.getPrice());
+        holder.tvPrice.setText(String.valueOf(item.getPrice()));
     }
-
     @Override
     public int getItemCount() {
         return products.size();
     }
-
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct, btnFavorite, btnAddToCart;
         TextView tvName, tvPrice;
-
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             imgProduct = itemView.findViewById(R.id.imgProduct);

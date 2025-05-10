@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:padding="8dp">
+
+        <!-- Icon Select -->
+        <ImageView
+            android:id="@+id/iconSelect"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_unselected"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Product Image -->
+        <ImageView
+            android:id="@+id/cartItemImg"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/test_product_item"
+            app:layout_constraintStart_toEndOf="@id/iconSelect"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="8dp" />
+
+        <!-- Product Name -->
+        <TextView
+            android:id="@+id/cartItemName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Tên sản phẩm"
+            android:textColor="@color/black"
+            android:textSize="@dimen/medium_text_size"
+            android:maxLines="2"
+            app:layout_constraintStart_toEndOf="@id/cartItemImg"
+            app:layout_constraintTop_toTopOf="@id/cartItemImg"
+            app:layout_constraintEnd_toStartOf="@id/trashIcon"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Trash Icon -->
+        <ImageView
+            android:id="@+id/trashIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_trash"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cartItemName" />
+
+        <!-- Quantity Controls -->
+        <LinearLayout
+            android:id="@+id/quantityLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="8dp">
+
+            <ImageButton
+                android:id="@+id/btnDecrease"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_remove_circle"
+                android:contentDescription="Giảm" />
+
+            <TextView
+                android:id="@+id/txtQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:gravity="center" />
+
+            <ImageButton
+                android:id="@+id/btnIncrease"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_add_circle"
+                android:contentDescription="Tăng" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

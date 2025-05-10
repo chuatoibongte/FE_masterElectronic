@@ -9,24 +9,49 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mater_electronic.databinding.FragmentMycartBinding;
+import com.example.mater_electronic.models.ProductItem;
+import com.example.mater_electronic.models.cart.CartItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyCartFragment extends Fragment {
-
+    private RecyclerView rcvCart;
+    private MyCartAdapter myCartAdapter;
     private FragmentMycartBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        MyCartViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(MyCartViewModel.class);
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // tạo view model cho cart
+        MyCartViewModel myCartViewModel = new ViewModelProvider(this).get(MyCartViewModel.class);
         binding = FragmentMycartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textMycart;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        rcvCart = binding.cartItemsList;
+        myCartAdapter = new MyCartAdapter(getContext());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        rcvCart.setLayoutManager(linearLayoutManager);
+
+        // myCartAdapter.setData(getCartItems()); // set data cho recycler view (list các CartItem
+        myCartViewModel.getCartItems().observe(getViewLifecycleOwner(), cartItems -> {
+            myCartAdapter.setData(cartItems);
+        });
+
+        binding.cartItemsList.setAdapter(myCartAdapter);
+
         return root;
+    }
+
+    private List<CartItem> getCartItems() {
+        List<CartItem> cartItems = new ArrayList<>();
+        for(int i = 0; i < 5; i++) {
+            cartItems.add(new CartItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154983/ElectronicMaster/ElectronicImages/kt6zkcwyzas9e7nrcvem.jpg", "Sản phẩm " + i, 100.0 * (i + 1), 1, "main category"));
+        }
+        return cartItems;
     }
 
     @Override
