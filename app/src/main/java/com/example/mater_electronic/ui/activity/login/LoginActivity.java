@@ -35,6 +35,9 @@ public class LoginActivity extends AppCompatActivity {
         //Tạo LoginModel
         LoginViewModel loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
+        //Back button
+        binding.backArrow.setOnClickListener(v -> finish());
+
         //Observe quan sát thay đổi để thực hiện Chuyển trang Home nếu đăng nhập thành công
         loginViewModel.getResultMessage().observe(this, message-> {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
