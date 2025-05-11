@@ -18,6 +18,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.databinding.FragmentHomeBinding;
+import com.example.mater_electronic.ui.activity.detail.ProductDetailActivity;
 import com.example.mater_electronic.ui.activity.login.LoginActivity;
 import com.example.mater_electronic.ui.activity.register.Register;
 import com.example.mater_electronic.ui.navigation.search.SearchActivity;
@@ -71,7 +72,7 @@ public class HomeFragment extends Fragment {
 
         // Sự kiện Search chuyển sang Activity
         binding.homeSearch.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), SearchActivity.class);
+            Intent intent = new Intent(getContext(), ProductDetailActivity.class);
             startActivity(intent);
         });
 

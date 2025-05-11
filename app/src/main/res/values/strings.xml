@@ -2,7 +2,6 @@
 
     <string name="product_image">Product Image</string>
     <string name="add_to_favorite">Add to favorites</string>
-    <string name="add_to_cart">Add to cart</string>
 
     <!--    login-->
     <string name="login_title">Đăng nhập</string>
@@ -43,4 +42,9 @@
     <string name="logout_txt">Đăng xuất</string>
     <!--    cart-->
     <string name="cart_title">Giỏ hàng</string>
+    <!--    detail-->
+    <string name="buy_now">Mua Ngay</string>
+    <string name="add_to_cart">Thêm vào giỏ</string>
+    <string name="product_description">Mô Tả Sản Phẩm</string>
+    <string name="customer_review">Khách Hàng Đánh Giá</string>
 </resources>
