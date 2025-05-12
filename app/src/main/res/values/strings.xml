@@ -43,4 +43,14 @@
     <string name="logout_txt">Đăng xuất</string>
     <!--    cart-->
     <string name="cart_title">Giỏ hàng</string>
+
+    <!-- profile -->
+    <string name="profile_title">Hồ sơ của tôi</string>
+    <string name="accountName">Huỳnh Tấn Đạt</string>
+    <string name="my_address_list">Địa Chỉ Của Tôi</string>
+    <string name="my_policy">Chính Sách Riêng Tư</string>
+    <string name="my_notification">Thông Báo</string>
+    <string name="my_setting">Cài Đặt</string>
+    <string name="my_chatbot">Trợ Giúp Chatbot</string>
+    <string name="my_logout">Đăng Xuất</string>
 </resources>
