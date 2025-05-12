@@ -183,6 +183,7 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/button_background"
             android:text="@string/sign_up_txt"
+            android:textSize="@dimen/large_text_size"
             android:textStyle="bold"
             android:textColor="@color/dark_primary_text" />
 

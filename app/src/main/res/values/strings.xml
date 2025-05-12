@@ -52,9 +52,12 @@
     <string name="my_setting">Cài Đặt</string>
     <string name="my_chatbot">Trợ Giúp Chatbot</string>
     <string name="my_logout">Đăng Xuất</string>
+<!--    editprofile-->
+    <string name="update">Cập nhật</string>
     <!--    detail-->
     <string name="buy_now">Mua Ngay</string>
     <string name="add_to_cart">Thêm vào giỏ</string>
     <string name="product_description">Mô Tả Sản Phẩm</string>
     <string name="customer_review">Khách Hàng Đánh Giá</string>
+
 </resources>

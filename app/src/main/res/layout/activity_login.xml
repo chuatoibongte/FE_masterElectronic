@@ -113,6 +113,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_lg"
+            android:textSize="@dimen/large_text_size"
+            android:textStyle="bold"
             android:background="@drawable/button_background"
             android:text="@string/login_title"
             android:textColor="@color/dark_primary_text" />

@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mater_electronic.databinding.FragmentProfileBinding;
 import com.example.mater_electronic.ui.activity.login.LoginActivity;
+import com.example.mater_electronic.ui.activity.profile.edit.EditAccountActivity;
 
 public class ProfileFragment extends Fragment {
 
@@ -30,7 +31,7 @@ public class ProfileFragment extends Fragment {
         View root = binding.getRoot();
 
         //Khi người dùng ấn đăng xuất, xóa dữ liệu Shared Preferences
-        binding.logoutBtn.setOnClickListener(v -> {
+        binding.logoutLayout.setOnClickListener(v -> {
             SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.clear();
@@ -41,8 +42,18 @@ public class ProfileFragment extends Fragment {
             getActivity().finish();
         });
 
-        final TextView textView = binding.textProfile; // Chú ý tên 'textProfile' phải khớp với ID trong XML
-        profileViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        //Go to edit user
+        binding.editBtn.setOnClickListener(v-> {
+            Intent intent = new Intent(getActivity(), EditAccountActivity.class);
+            startActivity(intent);
+        });
+
+        //Go to edit user through ptions button
+        binding.editProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), EditAccountActivity.class);
+            startActivity(intent);
+        });
+
         return root;
     }
 
