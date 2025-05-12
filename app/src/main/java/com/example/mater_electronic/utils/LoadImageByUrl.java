@@ -10,6 +10,7 @@ public class LoadImageByUrl {
         Glide.with(view.getContext())
                 .load(imageUrl)
                 .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.processing)
                 .into(view);
     }
 }

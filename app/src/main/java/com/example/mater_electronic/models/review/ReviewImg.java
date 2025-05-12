@@ -5,6 +5,12 @@ public class ReviewImg {
     private String public_id;
     private String _id;
 
+    public ReviewImg(String url, String public_id, String _id) {
+        this.url = url;
+        this.public_id = public_id;
+        this._id = _id;
+    }
+
     public String getUrl() {
         return url;
     }
