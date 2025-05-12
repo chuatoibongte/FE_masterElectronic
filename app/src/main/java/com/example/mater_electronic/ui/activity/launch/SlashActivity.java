@@ -25,6 +25,6 @@ public class SlashActivity extends AppCompatActivity {
             Intent intent = new Intent(SlashActivity.this, SecondSlashActivity.class);
             startActivity(intent);
             finish();
-        }, 1500);
+        }, 1000);
     }
 }
