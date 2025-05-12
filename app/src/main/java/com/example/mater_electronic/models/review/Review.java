@@ -13,6 +13,18 @@ public class Review {
     private String updatedAt;
     private double __v;
 
+    public Review(String _id, String userID, String content, String electronicID, double rating, List<ReviewImg> reviewImgs, String createdAt, String updatedAt, double __v) {
+        this._id = _id;
+        this.userID = userID;
+        this.content = content;
+        this.electronicID = electronicID;
+        this.rating = rating;
+        this.reviewImgs = reviewImgs;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.__v = __v;
+    }
+
     public String get_id() {
         return _id;
     }
