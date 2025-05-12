@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ public class MyCartFragment extends Fragment {
     private MyCartAdapter myCartAdapter;
     private FragmentMycartBinding binding;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // tạo view model cho cart
         MyCartViewModel myCartViewModel = new ViewModelProvider(this).get(MyCartViewModel.class);
@@ -41,7 +43,21 @@ public class MyCartFragment extends Fragment {
             myCartAdapter.setData(cartItems);
         });
 
+
         binding.cartItemsList.setAdapter(myCartAdapter);
+
+        binding.myCartBuynow.setOnClickListener(v-> {
+            List<CartItem> cartList = new ArrayList<>();
+
+            for (int i = 1; i <= 3; i++) {
+                String name = "BCS loại " + i;
+                double price = i * 100.0;
+                int quantity = i;
+
+                CartItem item = new CartItem(name, price, quantity);
+                cartList.add(item);
+            }
+        });
 
         return root;
     }
