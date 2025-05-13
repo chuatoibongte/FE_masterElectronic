@@ -167,6 +167,36 @@
             android:text="Mua ngay"
             android:textColor="@color/dark_primary_text"
             android:layout_gravity="center_horizontal" />
+        <!-- Hỏi người dùng có muốn nhận thông báo hay không -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bạn có muốn nhận thông báo khuyến mãi?"
+            android:textColor="@color/dark_primary_text"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/notificationChoiceGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <RadioButton
+                android:id="@+id/rbNotifyYes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Có" />
+
+            <RadioButton
+                android:id="@+id/rbNotifyNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Không"
+                android:layout_marginStart="16dp" />
+        </RadioGroup>
+
 
     </LinearLayout>
 </ScrollView>

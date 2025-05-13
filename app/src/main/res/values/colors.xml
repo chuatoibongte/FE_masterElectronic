@@ -23,4 +23,7 @@
     <color name="title_text_color">#CC7861</color>
 
     <color name="mycart_backgroud">#FAF0E6</color>
+
+    <color name="red">#FF0000</color>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.example.mater_electronic.ui.activity.checkout;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +19,7 @@ import com.example.mater_electronic.R;
 import com.example.mater_electronic.databinding.ActivityCheckoutBinding;
 import com.example.mater_electronic.databinding.ItemCheckoutProductBinding;
 import com.example.mater_electronic.models.cart.CartItem;
+import com.example.mater_electronic.ui.activity.success.ActivitySuccess;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.text.NumberFormat;
@@ -47,6 +48,18 @@ public class ActivityCheckout extends AppCompatActivity {
         setDeliveryDate();        // Set ngày giao hàng dự kiến
         setupClickListeners();    // Xử lý nút bấm
         binding.editAddressIcon.setOnClickListener(v -> showAddressDropdown());
+
+        binding.checkoutMuangayButton.setOnClickListener(v -> {
+            // Xác định lựa chọn Có/Không
+            int selectedId = binding.notificationChoiceGroup.getCheckedRadioButtonId();
+            boolean wantsNotification = selectedId == R.id.rbNotifyYes;
+
+            // Tạo intent để mở activity khác
+            Intent intent = new Intent(ActivityCheckout.this, ActivitySuccess.class); // <-- thay bằng tên Activity thật
+            intent.putExtra("wants_notification", wantsNotification);
+            startActivity(intent);
+        });
+
     }
 
     private void setupCustomerInfo() {
