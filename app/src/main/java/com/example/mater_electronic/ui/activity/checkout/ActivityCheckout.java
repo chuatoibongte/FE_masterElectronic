@@ -23,7 +23,7 @@ public class ActivityCheckout extends AppCompatActivity {
     private double totalPrice = 0.0;
 
     @Override
-    protected void onCreate(Bundle savedInstanaState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCheckoutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
