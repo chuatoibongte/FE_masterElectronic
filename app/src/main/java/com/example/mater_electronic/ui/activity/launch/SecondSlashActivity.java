@@ -29,9 +29,15 @@ public class SecondSlashActivity extends AppCompatActivity {
             SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
             String accessToken = prefs.getString("accessToken", null);
             if (accessToken != null) {
+
+                // Nếu có token, thêm dữ liệu user vào local database
+
+
+                //Chuyển sang màn hình chính
                 Intent intent = new Intent(SecondSlashActivity.this, MainActivity.class);
                 startActivity(intent);
             } else {
+                //Không có token nên chuyển sang màn hình login
                 Intent intent = new Intent(SecondSlashActivity.this, LoginActivity.class);
                 startActivity(intent);
             }

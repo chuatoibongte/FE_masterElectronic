@@ -3,6 +3,7 @@ package com.example.mater_electronic.viewmodels;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -10,6 +11,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.mater_electronic.database.AccountDatabase;
+import com.example.mater_electronic.models.account.Account;
 import com.example.mater_electronic.models.auth.LoginRequest;
 import com.example.mater_electronic.models.auth.LoginResponse;
 import com.example.mater_electronic.repositories.AuthRepository;
@@ -53,6 +56,14 @@ public class LoginViewModel extends AndroidViewModel {
                         editor.putString("username", response.body().getData().getUsername());
 
                         editor.apply();
+
+                        //Lưu Thông tin người dùng vào database
+                        Account account = response.body().getData();
+                        AccountDatabase.getInstance(application).accountDAO().insertAccount(account);
+                        //Check xem có lưu vào database chưa
+                        Account acc = AccountDatabase.getInstance(application).accountDAO().getAccount();
+                        Log.d("RoomAccount", "Username: " + acc.getUsername() + " " + acc.getRole());
+
                         resultMessage.setValue("Đăng nhập thành công: " + response.body().getData().getUsername());
                     }else{
                         resultMessage.setValue("Đăng nhập thất bại");

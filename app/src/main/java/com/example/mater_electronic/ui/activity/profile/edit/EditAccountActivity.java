@@ -14,7 +14,6 @@ import com.example.mater_electronic.databinding.ActivityEditAccountBinding;
 public class EditAccountActivity extends AppCompatActivity {
     private ActivityEditAccountBinding binding;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
