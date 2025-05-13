@@ -18,6 +18,9 @@
         <activity
             android:name=".ui.activity.checkout.ActivityCheckout"
             android:exported="false" />
+        <activity
+            android:name=".ui.activity.success.ActivitySuccess"
+            android:exported="false" />
 
         <activity
             android:name=".ui.activity.profile.edit.EditAccountActivity"

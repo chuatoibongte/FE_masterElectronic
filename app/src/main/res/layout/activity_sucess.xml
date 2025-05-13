@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutSuccess"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/tvThankYou"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cảm Ơn Bạn"
+        android:textColor="#CC7861"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:layout_marginTop="32dp" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đơn Hàng Của Bạn Đã Đặt Thành Công"
+        android:textColor="#CC7861"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/vetrangchu"
+        android:layout_width="186dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_lg"
+        android:layout_marginBottom="@dimen/margin_bottom_btn"
+        android:background="@drawable/button_background"
+        android:text="Mua ngay"
+        android:textColor="@color/dark_primary_text" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dssanpham"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp" />
+
+</LinearLayout>
