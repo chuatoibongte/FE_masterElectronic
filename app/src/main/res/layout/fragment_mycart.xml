@@ -152,7 +152,7 @@
 
     <!-- Nút Mua ngay -->
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/my_cart_buynow"
+        android:id="@+id/mycart_muangay_button"
         android:layout_width="186dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_lg"
