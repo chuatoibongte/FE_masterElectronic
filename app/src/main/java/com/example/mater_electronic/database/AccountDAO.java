@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.mater_electronic.models.account.Account;
 
@@ -16,5 +17,7 @@ public interface AccountDAO {
 
     @Query("SELECT * FROM account LIMIT 1")
     Account getAccount();
-
+//Update account
+    @Update
+    void updateAccount(Account account);
 }

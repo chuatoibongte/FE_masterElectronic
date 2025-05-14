@@ -9,7 +9,7 @@ import androidx.room.TypeConverters;
 
 import com.example.mater_electronic.models.account.Account;
 
-@Database(entities = {Account.class}, version = 1, exportSchema = false)
+@Database(entities = {Account.class}, version = 2)
 @TypeConverters(Converters.class)
 public abstract class AccountDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "account.db";
@@ -18,6 +18,7 @@ public abstract class AccountDatabase extends RoomDatabase {
         if(instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(), AccountDatabase.class, DATABASE_NAME)
                     .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
                     .build();
         }
         return instance;

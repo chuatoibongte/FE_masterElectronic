@@ -4,19 +4,23 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = "account")
 public class Account {
-    @PrimaryKey @NonNull
+    @PrimaryKey
+    @NonNull
     private String _id;
     private String username;
+    private  String name;
     private String email;
     private String phone;
     private String password;
     private String gender;
     private Avatar avatar;
     private String role;
+    private Date birthday;
     private List<Address> addressList;
     private String createdAt;
     private String updatedAt;
@@ -28,6 +32,14 @@ public class Account {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void set_id(String _id) {
@@ -84,6 +96,14 @@ public class Account {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public List<Address> getAddressList() {
