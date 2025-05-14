@@ -72,7 +72,8 @@ public class HomeFragment extends Fragment {
 
         // Sự kiện Search chuyển sang Activity
         binding.homeSearch.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+            // Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+            Intent intent = new Intent(getContext(), SearchActivity.class);
             startActivity(intent);
         });
 
@@ -123,10 +124,10 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
         List<ProductItem> productList = new ArrayList<>();
 
-        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500000));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500000));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500000));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500000));
+        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
+        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
+        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
+        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
 
         HomeProductAdapter adapter = new HomeProductAdapter(productList);
         recyclerView.setAdapter(adapter);

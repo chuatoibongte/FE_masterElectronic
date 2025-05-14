@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         holder.imgProduct.setImageResource(item.getImageResId());
         holder.tvName.setText(item.getName());
         holder.tvPrice.setText(String.valueOf(item.getPrice()) + "VNĐ");
+        holder.ratingBar.setRating((float) item.getRating());
     }
     @Override
     public int getItemCount() {
@@ -43,6 +45,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct, btnFavorite, btnAddToCart;
         TextView tvName, tvPrice;
+        RatingBar ratingBar;
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             imgProduct = itemView.findViewById(R.id.imgProduct);
@@ -50,6 +53,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             tvPrice = itemView.findViewById(R.id.tvProductPrice);
             btnFavorite = itemView.findViewById(R.id.btnFavorite);
             btnAddToCart = itemView.findViewById(R.id.btnAddToCart);
+            ratingBar = itemView.findViewById(R.id.productRatingBar);
         }
     }
 }
