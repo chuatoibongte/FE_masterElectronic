@@ -21,11 +21,8 @@ import java.util.List;
 
 public class ProductDetailActivity extends AppCompatActivity {
     private ActivityProductDetailBinding binding;
-    private ProductViewModel productViewModel;
     private Handler handler;
     private Runnable autoScrollRunnable;
-
-    private RecyclerView recyclerViewReviews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +37,12 @@ public class ProductDetailActivity extends AppCompatActivity {
             finish();
             return;
         }
-        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        // set viewmodel
+        ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         productViewModel.getProductDetail(productId);
         productViewModel.getReviews(productId);
-
-        recyclerViewReviews = binding.customerReviewRecyclerView;
+        // set recyclerview
+        RecyclerView recyclerViewReviews = binding.customerReviewRecyclerView;
         recyclerViewReviews.setLayoutManager(new LinearLayoutManager(this));
         CustomerReviewAdapter customerReviewAdapter = new CustomerReviewAdapter(this);
 

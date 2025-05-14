@@ -34,7 +34,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         ProductItem item = products.get(position);
         holder.imgProduct.setImageResource(item.getImageResId());
         holder.tvName.setText(item.getName());
-        holder.tvPrice.setText(String.valueOf(item.getPrice()));
+        holder.tvPrice.setText(String.valueOf(item.getPrice()) + "VNĐ");
     }
     @Override
     public int getItemCount() {
