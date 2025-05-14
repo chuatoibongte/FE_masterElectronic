@@ -4,13 +4,20 @@ public class ProductItem {
     private final String name;
     private final double price;
 
-    public ProductItem(int imageResId, String name, double price) {
+    private final double rating;
+
+    public ProductItem(int imageResId, String name, double price, double rating) {
         this.imageResId = imageResId;
         this.name = name;
         this.price = price;
+        this.rating = rating;
     }
 
     public int getImageResId() { return imageResId; }
     public String getName() { return name; }
     public double getPrice() { return price; }
+
+    public double getRating() {
+        return rating;
+    }
 }
