@@ -60,9 +60,6 @@ public class LoginViewModel extends AndroidViewModel {
                         //Lưu Thông tin người dùng vào database
                         Account account = response.body().getData();
                         AccountDatabase.getInstance(application).accountDAO().insertAccount(account);
-                        //Check xem có lưu vào database chưa
-                        Account acc = AccountDatabase.getInstance(application).accountDAO().getAccount();
-                        Log.d("RoomAccount", "Username: " + acc.getUsername() + " " + acc.getRole());
 
                         resultMessage.setValue("Đăng nhập thành công: " + response.body().getData().getUsername());
                     }else{
