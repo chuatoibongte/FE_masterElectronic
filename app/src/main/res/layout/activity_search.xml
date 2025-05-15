@@ -17,7 +17,7 @@
         android:tint="@color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="8dp" />
+        android:layout_marginTop="8dp" />
 
     <!-- Nút Chatbot -->
     <androidx.appcompat.widget.AppCompatImageButton
@@ -46,16 +46,14 @@
         android:layout_margin="8dp" />
 
     <!-- Ô tìm kiếm -->
-    <EditText
+    <TextView
         android:id="@+id/etSearch"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:hint="Search ..."
         android:drawableStart="@drawable/ic_search"
         android:paddingStart="20dp"
         android:paddingEnd="12dp"
         android:background="@drawable/bg_search_edittext"
-        android:inputType="text"
         android:textColor="#000000"
         android:textColorHint="#888888"
         app:layout_constraintTop_toBottomOf="@id/btnBack"
