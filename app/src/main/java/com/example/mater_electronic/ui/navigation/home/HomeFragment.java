@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.mater_electronic.R;
+import com.example.mater_electronic.database.AccountDatabase;
 import com.example.mater_electronic.databinding.FragmentHomeBinding;
+import com.example.mater_electronic.models.account.Account;
 import com.example.mater_electronic.ui.activity.detail.ProductDetailActivity;
 import com.example.mater_electronic.ui.activity.login.LoginActivity;
 import com.example.mater_electronic.ui.activity.register.Register;
@@ -45,13 +47,17 @@ public class HomeFragment extends Fragment {
         //Lấy accessToken từ SharedPreferences
         SharedPreferences prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         String accessToken = prefs.getString("accessToken", null);
+        //Lấy _id từ SharePreferences
+        String _id = prefs.getString("_id", null);
+        //Lấy User từ DB
+        Account account = AccountDatabase.getInstance(getContext()).accountDAO().getAccountById(_id);
 
         //Kiểm tra người dùng có đăng nhập chưa thông quá accessToken
         if (accessToken != null && !accessToken.isEmpty()) {
             //Ẩn nút đăng ký đăng nhập vì người dùng đã đăng nhập
             binding.homeLogin.setVisibility(View.GONE);
             binding.homeRegister.setVisibility(View.GONE);
-            binding.tvWelcome.setText("Hi, Welcome " + prefs.getString("username", null));
+            binding.tvWelcome.setText("Hi, Welcome " + account.getUsername() + "Or MR." + account.getName());
         } else {
             //Hiện nút vì người dùng chưa đăng nhập
             binding.homeLogin.setVisibility(View.VISIBLE);
