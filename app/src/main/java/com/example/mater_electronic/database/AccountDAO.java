@@ -15,8 +15,8 @@ public interface AccountDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAccount(Account account);
 
-    @Query("SELECT * FROM account LIMIT 1")
-    Account getAccount();
+    @Query("SELECT * FROM account WHERE _id = :id LIMIT 1")
+    Account getAccountById(String id);
 //Update account
     @Update
     void updateAccount(Account account);

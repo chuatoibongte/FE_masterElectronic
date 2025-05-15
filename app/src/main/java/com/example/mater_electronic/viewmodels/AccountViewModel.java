@@ -10,6 +10,7 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import com.example.mater_electronic.database.AccountDatabase;
 import com.example.mater_electronic.models.account.Account;
 import com.example.mater_electronic.models.account.GetAccountResponse;
+import com.example.mater_electronic.models.account.UpdateAccountResponse;
 import com.example.mater_electronic.repositories.AccountRespository;
 
 import retrofit2.Call;
@@ -38,6 +39,26 @@ public class AccountViewModel extends ViewModel {
             }
             @Override
             public void onFailure(Call<GetAccountResponse> call, Throwable t){
+                errorMessage.setValue("Lỗi: " + t.getMessage());
+            }
+        });
+    }
+
+    public void updateAccount(String accessToken){
+        accountRespository.updateAccount(accessToken, new Callback<UpdateAccountResponse>() {
+            @Override
+            public void onResponse(Call<UpdateAccountResponse> call, Response<UpdateAccountResponse> response) {
+                if(!response.isSuccessful()){
+                    errorMessage.setValue("Lỗi: " + response.code());
+                    return;
+                }
+                assert response.body() != null;
+                Account account = response.body().getData();
+                accountLiveData.setValue(account);
+            }
+
+            @Override
+            public void onFailure(Call<UpdateAccountResponse> call, Throwable t) {
                 errorMessage.setValue("Lỗi: " + t.getMessage());
             }
         });

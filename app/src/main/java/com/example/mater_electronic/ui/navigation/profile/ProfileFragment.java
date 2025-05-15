@@ -34,10 +34,11 @@ public class ProfileFragment extends Fragment {
         // Lấy accessToken từ SharedPreferences để sử dụng khi cần gọi API hoặc xác thực
         SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         String accessToken = prefs.getString("accessToken", "");
+        String _id = prefs.getString("_id", "");
         Log.e("ProfileFragment", "Token: " + accessToken);
 
         // Truy vấn thông tin tài khoản đã lưu trong Room Database
-        Account account = AccountDatabase.getInstance(requireActivity()).accountDAO().getAccount();
+        Account account = AccountDatabase.getInstance(requireActivity()).accountDAO().getAccountById(_id);
 
         // Nếu tài khoản tồn tại, hiển thị lên giao diện
         if (account != null) {
