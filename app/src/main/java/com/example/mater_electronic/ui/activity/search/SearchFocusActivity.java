@@ -23,7 +23,6 @@ public class SearchFocusActivity extends AppCompatActivity {
         // focus thanh search khi mở màn hình này
         binding.etSearch.requestFocus();
 
-
         RecyclerView searchHintRecyclerView = binding.rvSearchHint;
         searchHintRecyclerView.setLayoutManager( new LinearLayoutManager(this));
         List<String> searchHints = new ArrayList<>();

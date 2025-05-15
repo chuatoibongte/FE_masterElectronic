@@ -42,13 +42,13 @@ public class ActivitySuccess extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         List<ProductItem> productList = new ArrayList<>();
-        productList.add(new ProductItem(R.drawable.test_product_item, "Kingston KF432C16BB/8 FURY Beast 8GB DDR4", 500000, 4.5));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Kingston KF432C16BB/8 FURY Beast 8GB DDR4", 500000, 4.5));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Kingston KF432C16BB/8 FURY Beast 8GB DDR4", 500000, 4.5));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Kingston KF432C16BB/8 FURY Beast 8GB DDR4", 500000, 4.5));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Kingston KF432C16BB/8 FURY Beast 8GB DDR4", 500000, 4.5));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Kingston KF432C16BB/8 FURY Beast 8GB DDR4", 500000, 4.5));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Kingston KF432C16BB/8 FURY Beast 8GB DDR4", 500000, 4.5));
+        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Kingston KF432C16BB/8 FURY Beast 8GB DDR4", 500000, 4.5));
+        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Kingston KF432C16BB/8 FURY Beast 8GB DDR4", 500000, 4.5));
+        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Kingston KF432C16BB/8 FURY Beast 8GB DDR4", 500000, 4.5));
+        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Kingston KF432C16BB/8 FURY Beast 8GB DDR4", 500000, 4.5));
+        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Kingston KF432C16BB/8 FURY Beast 8GB DDR4", 500000, 4.5));
+        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Kingston KF432C16BB/8 FURY Beast 8GB DDR4", 500000, 4.5));
+        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Kingston KF432C16BB/8 FURY Beast 8GB DDR4", 500000, 4.5));
 
         HomeProductAdapter adapter = new HomeProductAdapter(productList);
         recyclerView.setAdapter(adapter);
