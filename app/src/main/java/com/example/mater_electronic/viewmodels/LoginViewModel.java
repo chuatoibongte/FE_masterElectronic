@@ -53,7 +53,7 @@ public class LoginViewModel extends AndroidViewModel {
                         SharedPreferences.Editor editor = prefs.edit();
                         //Lưu các dữ liệu người dùng quan trọng vào SharedPreferences
                         editor.putString("accessToken", response.body().getAccessToken());
-                        editor.putString("username", response.body().getData().getUsername());
+                        editor.putString("_id", response.body().getData().get_id());
 
                         editor.apply();
 

@@ -54,7 +54,7 @@
             android:src="@drawable/user_default_pic" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/cameraView"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="bottom|end"
@@ -136,6 +136,8 @@
             android:hint="example@gmail.com"
             android:inputType="textEmailAddress"
             android:padding="12dp"
+            android:focusable="false"
+            android:clickable="false"
             android:textColorHint="#D8CFC6" />
 
         <!--Phone-->
@@ -156,6 +158,8 @@
             android:hint="1234 567 890"
             android:inputType="phone"
             android:padding="12dp"
+            android:focusable="false"
+            android:clickable="false"
             android:textColorHint="#D8CFC6" />
 
 
