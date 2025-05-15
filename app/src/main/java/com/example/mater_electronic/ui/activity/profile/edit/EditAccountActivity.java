@@ -2,10 +2,15 @@ package com.example.mater_electronic.ui.activity.profile.edit;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -25,6 +30,10 @@ import java.text.SimpleDateFormat;
 
 public class EditAccountActivity extends AppCompatActivity {
     private ActivityEditAccountBinding binding;
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private Uri selectedImageUri;
+    private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +43,11 @@ public class EditAccountActivity extends AppCompatActivity {
         //Back button
         binding.backArrow.setOnClickListener(v -> finish());
 
+        //Lấy _id từ sharedPreferences
+        String _id = getSharedPreferences("user_prefs", MODE_PRIVATE).getString("_id", null);
+
         //Lấy dữ liệu từ account và hiển thị
-        Account account = AccountDatabase.getInstance(this).accountDAO().getAccount();
+        Account account = AccountDatabase.getInstance(this).accountDAO().getAccountById(_id);
 
         if (account != null) {
             binding.usernameEdt.setText(account.getUsername());
@@ -55,6 +67,24 @@ public class EditAccountActivity extends AppCompatActivity {
                 LoadImageByUrl.loadImage(binding.profileImg, account.getAvatar().getUrl());
             }
         }
+
+        // Đăng ký launcher Photo Picker
+        pickMedia = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+            if (uri != null) {
+                selectedImageUri = uri;
+                binding.profileImg.setImageURI(uri); // hiển thị ảnh mới
+                Log.d("PhotoPicker", "Selected image URI: " + uri.toString());
+            } else {
+                Toast.makeText(this, "Không có ảnh nào được chọn", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+// Sự kiện click vào cameraView để mở picker
+        binding.cameraView.setOnClickListener(v -> {
+            pickMedia.launch(new PickVisualMediaRequest.Builder()
+                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                    .build());
+        });
 
 //        Chọn ngày sinh với DatePicker
         binding.calendarImg.setOnClickListener(v -> {
@@ -92,7 +122,10 @@ public class EditAccountActivity extends AppCompatActivity {
 
             account.setGender(newGender);
 
-            // Cập nhật vào database
+            // Cập nhật vào main database
+
+
+            // Cập nhật vào local database
             AccountDatabase.getInstance(this).accountDAO().updateAccount(account);
 
             Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
@@ -102,4 +135,5 @@ public class EditAccountActivity extends AppCompatActivity {
 
 
     }
+
 }
