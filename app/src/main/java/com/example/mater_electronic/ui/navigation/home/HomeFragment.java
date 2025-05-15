@@ -50,14 +50,21 @@ public class HomeFragment extends Fragment {
         //Lấy _id từ SharePreferences
         String _id = prefs.getString("_id", null);
         //Lấy User từ DB
-        Account account = AccountDatabase.getInstance(getContext()).accountDAO().getAccountById(_id);
-
         //Kiểm tra người dùng có đăng nhập chưa thông quá accessToken
-        if (accessToken != null && !accessToken.isEmpty()) {
+        if (accessToken != null && !accessToken.isEmpty() && _id != null && !_id.isEmpty()) {
+            Account account = AccountDatabase.getInstance(getContext()).accountDAO().getAccountById(_id);
             //Ẩn nút đăng ký đăng nhập vì người dùng đã đăng nhập
-            binding.homeLogin.setVisibility(View.GONE);
-            binding.homeRegister.setVisibility(View.GONE);
-            binding.tvWelcome.setText("Hi, Welcome " + account.getUsername() + "Or MR." + account.getName());
+            if (account != null) {
+                // Đã đăng nhập và tìm thấy tài khoản
+                binding.homeLogin.setVisibility(View.GONE);
+                binding.homeRegister.setVisibility(View.GONE);
+                binding.tvWelcome.setText("Hi, Welcome " + account.getUsername());
+            } else {
+                // Đã có accessToken nhưng không tìm thấy tài khoản trong DB
+                binding.homeLogin.setVisibility(View.VISIBLE);
+                binding.homeRegister.setVisibility(View.VISIBLE);
+                binding.tvWelcome.setText("Welcome! Please register or log in.");
+            }
         } else {
             //Hiện nút vì người dùng chưa đăng nhập
             binding.homeLogin.setVisibility(View.VISIBLE);
@@ -130,10 +137,10 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
         List<ProductItem> productList = new ArrayList<>();
 
-        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
-        productList.add(new ProductItem(R.drawable.test_product_item, "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
+        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
+        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
+        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
+        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
 
         HomeProductAdapter adapter = new HomeProductAdapter(productList);
         recyclerView.setAdapter(adapter);

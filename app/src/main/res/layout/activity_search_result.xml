@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="16dp"
+    tools:context=".ui.activity.searchresult.SearchResultActivity">
+    <!-- Nút Back -->
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_back_arrow"
+        android:contentDescription="quay lại"
+        android:tint="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <!-- Nút Chatbot -->
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btnChatbot"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_chatbot"
+        android:contentDescription="chatbot"
+        android:tint="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="8dp" />
+
+    <!-- Nút Giỏ hàng -->
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btnMyCart"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_detail_cart"
+        android:contentDescription="giỏ hàng"
+        android:tint="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnChatbot"
+        android:layout_margin="8dp" />
+
+    <!-- Ô tìm kiếm -->
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:drawableStart="@drawable/ic_search"
+        android:paddingStart="20dp"
+        android:paddingEnd="12dp"
+        android:background="@drawable/bg_search_edittext"
+        android:textColor="#000000"
+        android:textColorHint="#888888"
+        app:layout_constraintTop_toBottomOf="@id/btnBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <HorizontalScrollView
+        android:id="@+id/hsvFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@+id/etSearch"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Liên quan"
+                android:textSize="@dimen/big_text_size"
+                android:textColor="@color/dark_color_bg"
+                android:paddingHorizontal="@dimen/margin_sm"
+                android:layout_margin="8dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mới nhất"
+                android:textSize="@dimen/big_text_size"
+                android:textColor="@color/dark_color_bg"
+                android:paddingHorizontal="@dimen/margin_sm"
+                android:layout_margin="8dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bán chạy"
+                android:textSize="@dimen/big_text_size"
+                android:textColor="@color/dark_color_bg"
+                android:paddingHorizontal="@dimen/margin_sm"
+                android:layout_margin="8dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giá"
+                android:textSize="@dimen/big_text_size"
+                android:textColor="@color/dark_color_bg"
+                android:paddingHorizontal="@dimen/margin_sm"
+                android:layout_margin="8dp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSearchResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@+id/hsvFilter"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

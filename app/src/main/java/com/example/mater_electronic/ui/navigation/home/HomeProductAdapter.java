@@ -14,6 +14,7 @@ import com.example.mater_electronic.R;
 
 
 import com.example.mater_electronic.models.ProductItem;
+import com.example.mater_electronic.utils.LoadImageByUrl;
 
 import java.util.List;
 
@@ -33,7 +34,8 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         ProductItem item = products.get(position);
-        holder.imgProduct.setImageResource(item.getImageResId());
+        LoadImageByUrl.loadImage(holder.imgProduct, item.getImg());
+        // holder.imgProduct.setImageResource(item.getImageResId());
         holder.tvName.setText(item.getName());
         holder.tvPrice.setText(String.valueOf(item.getPrice()) + "VNĐ");
         holder.ratingBar.setRating((float) item.getRating());
