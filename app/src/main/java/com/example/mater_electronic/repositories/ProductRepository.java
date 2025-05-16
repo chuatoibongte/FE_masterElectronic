@@ -2,6 +2,7 @@ package com.example.mater_electronic.repositories;
 
 import com.example.mater_electronic.models.displaydata.GetAllCategoryResponse;
 import com.example.mater_electronic.models.displaydata.GetElectronicByIdResponse;
+import com.example.mater_electronic.models.displaydata.GetSearchResultResponse;
 import com.example.mater_electronic.models.product.Product;
 import com.example.mater_electronic.models.review.GetReviewResponse;
 import com.example.mater_electronic.network.ApiClient;
@@ -28,6 +29,10 @@ public class ProductRepository {
     // Lấy review theo ID sản phẩm
     public void getReviews(String productId, Callback<GetReviewResponse> callback) {
         productServiceApi.getReviews(productId).enqueue(callback);
+    }
+
+    public void getSearchResults(String keyword, String slugCates, String brandNames, String sortBy, String sortOrder, int page, int limit, Callback<GetSearchResultResponse> callback) {
+        productServiceApi.getSearchResults(keyword, slugCates, brandNames, sortBy, sortOrder, page, limit).enqueue(callback);
     }
 
     // Lấy danh sách sản phẩm theo danh mục

@@ -12,14 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.models.ProductItem;
+import com.example.mater_electronic.models.product.Product;
 import com.example.mater_electronic.utils.LoadImageByUrl;
 
 import java.util.List;
 
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder> {
-    private List<ProductItem> productList;
+    private List<Product> productList;
 
-    public SearchResultAdapter(List<ProductItem> productList) {
+    public SearchResultAdapter(List<Product> productList) {
         this.productList = productList;
     }
 
@@ -32,8 +33,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     @Override
     public void onBindViewHolder(@NonNull SearchResultAdapter.SearchResultViewHolder holder, int position) {
-        ProductItem productItem = productList.get(position);
-        LoadImageByUrl.loadImage(holder.imgProduct, productItem.getImg());
+        Product productItem = productList.get(position);
+        LoadImageByUrl.loadImage(holder.imgProduct, productItem.getElectronicImgs().get(0).getUrl());
         holder.tvName.setText(productItem.getName());
         holder.tvPrice.setText(String.valueOf(productItem.getPrice()) + "VNĐ");
         holder.ratingBar.setRating((float) productItem.getRating());

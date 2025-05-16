@@ -2,6 +2,7 @@ package com.example.mater_electronic.network.product;
 
 import com.example.mater_electronic.models.displaydata.GetAllCategoryResponse;
 import com.example.mater_electronic.models.displaydata.GetElectronicByIdResponse;
+import com.example.mater_electronic.models.displaydata.GetSearchResultResponse;
 import com.example.mater_electronic.models.product.Product;
 import com.example.mater_electronic.models.review.GetReviewResponse;
 
@@ -25,6 +26,18 @@ public interface ProductService {
     // Lấy đánh giá theo ID sản phẩm
     @GET("/user/displayData/commentsByElectronic/{id}")
     Call<GetReviewResponse> getReviews(@Path("id") String productId);
+
+    // Lấy kết quả tìm kiếm sản phẩm
+    @GET("/user/displayData/search/electronic")
+    Call<GetSearchResultResponse> getSearchResults(
+            @Query("keyword") String keyword,
+            @Query("slugCates") String slugCates,
+            @Query("brandNames") String brandNames,
+            @Query("sortBy") String sortBy,
+            @Query("sortOrder") String sortOrder,
+            @Query("page") int page,
+            @Query("limit") int limit
+    );
 
     // Lấy danh sách sản phẩm theo danh mục (ví dụ: "RAM Máy Tính")
     @GET("/product/getByCategory")

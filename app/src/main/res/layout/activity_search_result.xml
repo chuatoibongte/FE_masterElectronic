@@ -7,6 +7,22 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="16dp"
     tools:context=".ui.activity.searchresult.SearchResultActivity">
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        >
+        <ProgressBar
+            android:layout_gravity="center"
+            style="?android:attr/secondaryProgressTintMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
     <!-- Nút Back -->
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/btnBack"
@@ -18,7 +34,8 @@
         android:tint="@color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        />
 
     <!-- Nút Chatbot -->
     <androidx.appcompat.widget.AppCompatImageButton
@@ -60,7 +77,10 @@
         app:layout_constraintTop_toBottomOf="@id/btnBack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        />
 
     <HorizontalScrollView
         android:id="@+id/hsvFilter"
@@ -109,7 +129,15 @@
                 android:layout_margin="8dp" />
         </LinearLayout>
     </HorizontalScrollView>
+    <TextView
+        android:id="@+id/tvNotFound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/hsvFilter"
+        android:gravity="center"
+        >
 
+    </TextView>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearchResult"
         android:layout_width="match_parent"
