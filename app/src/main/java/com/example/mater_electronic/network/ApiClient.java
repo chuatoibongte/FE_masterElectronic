@@ -8,7 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static final String BASE_URL = "https://be-electronic-master.vercel.app/";
+    private static final String BASE_URL = "https://a6ee-113-161-91-92.ngrok-free.app";
     private static Retrofit retrofit;
 
     public static AuthService getApiService() {
