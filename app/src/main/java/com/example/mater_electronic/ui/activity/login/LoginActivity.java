@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         //Observe quan sát thay đổi để thực hiện Chuyển trang Home nếu đăng nhập thành công
         loginViewModel.getResultMessage().observe(this, message-> {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            Log.e("LoginViewModel", message);
             if(message.contains("thành công")){
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
