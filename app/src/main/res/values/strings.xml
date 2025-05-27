@@ -59,6 +59,7 @@
     <string name="add_to_cart">Thêm vào giỏ</string>
     <string name="product_description">Mô Tả Sản Phẩm</string>
     <string name="customer_review">Khách Hàng Đánh Giá</string>
+    <string name="no_review">Không có đánh giá nào</string>"
 
     <!--    Setting-->
     <string name="settingTitle">Cài đặt</string>

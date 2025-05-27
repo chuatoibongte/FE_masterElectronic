@@ -3,6 +3,7 @@ package com.example.mater_electronic.ui.activity.detail;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,8 +31,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.btnBack.setOnClickListener(v -> finish());
-        // String productId = getIntent().getStringExtra("product_id");
-        String productId = "6814329cc86355927f0c3bf3";
+        String productId = getIntent().getStringExtra("product_id");
+//        String productId = "6814329cc86355927f0c3bf3";
         if (productId == "") {
             Toast.makeText(this, "Không có mã sản phẩm", Toast.LENGTH_SHORT).show();
             finish();
@@ -49,6 +50,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         recyclerViewReviews.setAdapter(customerReviewAdapter);
         productViewModel.getProductReviewLiveData().observe(this, reviews -> {
             Log.e("ProductViewModel", "Reviews  : " + new Gson().toJson(reviews));
+            if(reviews.isEmpty()) {
+                binding.tvNoReview.setVisibility(View.VISIBLE);
+            }
             customerReviewAdapter.setData(reviews);
         });
 
