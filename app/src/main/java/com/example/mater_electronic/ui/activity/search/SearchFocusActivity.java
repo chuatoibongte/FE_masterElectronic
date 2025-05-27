@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.databinding.ActivitySearchFocusBinding;
+import com.example.mater_electronic.localdata.DataLocalManager;
 import com.example.mater_electronic.ui.activity.searchresult.SearchResultActivity;
 import com.example.mater_electronic.ui.activity.searchresult.SearchResultAdapter;
 
@@ -31,10 +32,8 @@ public class SearchFocusActivity extends AppCompatActivity {
 
         RecyclerView searchHintRecyclerView = binding.rvSearchHint;
         searchHintRecyclerView.setLayoutManager( new LinearLayoutManager(this));
-        List<String> searchHints = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
-            searchHints.add("Search Hint " + i);
-        }
+
+        List<String> searchHints = DataLocalManager.getSearchHistory();
         SearchFocusAdapter searchFocusAdapter = new SearchFocusAdapter(searchHints);
         searchHintRecyclerView.setAdapter(searchFocusAdapter);
 
@@ -62,6 +61,7 @@ public class SearchFocusActivity extends AppCompatActivity {
                         event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     // Toast.makeText(SearchResultActivity.this, binding.etSearch.getText().toString(), Toast.LENGTH_SHORT).show();
                     String keyword = binding.etSearch.getText().toString();
+                    DataLocalManager.setSearchHistory(keyword);
                     Intent intent = new Intent(SearchFocusActivity.this, SearchResultActivity.class);
                     intent.putExtra("keyword", keyword);
                     startActivity(intent);

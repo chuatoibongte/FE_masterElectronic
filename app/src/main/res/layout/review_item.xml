@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/card_border"
     app:cardPreventCornerOverlap="true"
-    app:cardBackgroundColor="@android:color/transparent"
+    android:backgroundTint="@color/light_color_bg"
     android:layout_marginTop="@dimen/margin_xs"
     >
 
