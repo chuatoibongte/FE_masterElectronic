@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -77,6 +78,21 @@ public class EditAccountActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Không có ảnh nào được chọn", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        // Show gender selection menu
+        binding.gender.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(this, binding.gender);
+            popup.getMenu().add("Nam");
+            popup.getMenu().add("Nữ");
+            popup.getMenu().add("Khác");
+
+            popup.setOnMenuItemClickListener(item -> {
+                binding.gender.setText(item.getTitle().toString());
+                return true;
+            });
+
+            popup.show();
         });
 
 // Sự kiện click vào cameraView để mở picker
