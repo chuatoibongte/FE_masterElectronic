@@ -16,11 +16,11 @@ import retrofit2.http.Part;
 
 public interface AccountService {
     //API lấy data Account
-    @GET("/customer/manageAccount")
+    @GET("customer/manageAccount")
     Call<GetAccountResponse> getAccount(@Header("Authorization") String accessToken);
     //API Cập nhật account sử dụng formdata
     @Multipart
-    @PATCH("/customer/manageAccount")
+    @PATCH("customer/manageAccount")
     Call<UpdateAccountResponse> updateAccount(
             @Header("Authorization") String accessToken,
             @Part("username") RequestBody username,
@@ -33,7 +33,7 @@ public interface AccountService {
 
     //API Update data Account without image
     @Multipart
-    @PATCH("/customer/manageAccount")
+    @PATCH("customer/manageAccount")
     Call<UpdateAccountResponse> updateAccountWithoutImage(
             @Header("Authorization") String accessToken,
             @Part("username") RequestBody username,
