@@ -44,7 +44,7 @@
                     android:id="@+id/recipientName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ho va tên"
+                    android:text="Họ và tên"
                     android:textStyle="bold"
                     android:textColor="@android:color/black" />
 
@@ -52,14 +52,14 @@
                     android:id="@+id/recipientAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="địa chỉ"
+                    android:text="Địa chỉ"
                     android:textColor="@android:color/black" />
 
                 <TextView
                     android:id="@+id/recipientPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SDT"
+                    android:text="SĐT"
                     android:textColor="@android:color/black" />
             </LinearLayout>
 
@@ -76,25 +76,25 @@
             android:id="@+id/checkoutProductContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:background="@drawable/bg_rounded_10dp"
             android:padding="12dp"
             android:layout_marginBottom="16dp">
 
             <!-- Danh sách sản phẩm sẽ được thêm động ở đây -->
-            <LinearLayout
-                android:id="@+id/productListLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lvProductList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
 
             <!-- Tổng giá -->
             <TextView
                 android:id="@+id/txtTotalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="tong giá"
+                android:text="Tổng giá"
                 android:textColor="@color/dark_primary_text"
                 android:textSize="18sp"
                 android:textStyle="bold"

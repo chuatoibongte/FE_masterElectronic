@@ -21,8 +21,11 @@ import com.example.mater_electronic.models.product.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SearchResultActivity extends AppCompatActivity {
+    private String sortBy = "";
+    private String sortOrder = "";
     private SearchResultViewModel searchResultViewModel;
     private SearchResultAdapter adapter;
     private List<Product> productList;
@@ -45,6 +48,77 @@ public class SearchResultActivity extends AppCompatActivity {
         adapter = new SearchResultAdapter(productList);
         binding.rvSearchResult.setAdapter(adapter);
 
+        binding.bestSeller.setOnClickListener(v -> {
+            if(Objects.equals(sortBy, "quantitySold")) {
+                sortBy = "";
+                binding.bestSeller.setBackgroundResource(0);
+                binding.relatedTo.setBackgroundResource(R.drawable.button_background2);
+                searchData(binding, currentKeyword, true);
+                return;
+            }
+            sortBy = "quantitySold";
+            binding.bestSeller.setBackgroundResource(R.drawable.button_background2);
+            binding.relatedTo.setBackgroundResource(0);
+            binding.newest.setBackgroundResource(0);
+            binding.price.setBackgroundResource(0);
+            searchData(binding, currentKeyword, true);
+        });
+        binding.newest.setOnClickListener(v -> {
+            if(Objects.equals(sortBy, "publishDate")) {
+                sortBy = "";
+                binding.newest.setBackgroundResource(0);
+                binding.relatedTo.setBackgroundResource(R.drawable.button_background2);
+                searchData(binding, currentKeyword, true);
+                return;
+            }
+            sortBy = "publishDate";
+            binding.bestSeller.setBackgroundResource(0);
+            binding.relatedTo.setBackgroundResource(0);
+            binding.newest.setBackgroundResource(R.drawable.button_background2);
+            binding.price.setBackgroundResource(0);
+            searchData(binding, currentKeyword, true);
+        });
+        binding.relatedTo.setOnClickListener(v -> {
+            sortBy = "";
+            binding.bestSeller.setBackgroundResource(0);
+            binding.relatedTo.setBackgroundResource(R.drawable.button_background2);
+            binding.newest.setBackgroundResource(0);
+            binding.price.setBackgroundResource(0);
+            searchData(binding, currentKeyword, true);
+        });
+        binding.price.setOnClickListener(v -> {
+            if(Objects.equals(sortBy, "price")) {
+                sortBy = "";
+                binding.price.setBackgroundResource(0);
+                binding.relatedTo.setBackgroundResource(R.drawable.button_background2);
+                searchData(binding, currentKeyword, true);
+                return;
+            }
+            sortBy = "price";
+            binding.bestSeller.setBackgroundResource(0);
+            binding.relatedTo.setBackgroundResource(0);
+            binding.newest.setBackgroundResource(0);
+            binding.price.setBackgroundResource(R.drawable.button_background2);
+            searchData(binding, currentKeyword, true);
+        });
+        // sắp xếp tăng / giảm dần
+        binding.tvOrder.setOnClickListener(v -> {
+            if(Objects.equals(sortOrder, "asc")) {
+                sortOrder = "desc";
+                binding.tvOrder.setText("Sắp xếp: Giảm dần");
+                searchData(binding, currentKeyword, true);
+                return;
+            }
+            sortOrder = "asc";
+            binding.tvOrder.setText("Sắp xếp: Tăng dần");
+            searchData(binding, currentKeyword, true);
+        });
+        // Đặt lại
+        binding.tvResetOrder.setOnClickListener(v -> {
+            sortOrder = "";
+            binding.tvOrder.setText("Sắp xếp: Không");
+            binding.relatedTo.performClick();
+        });
         // Add scroll listener for pagination
         binding.rvSearchResult.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -152,13 +226,13 @@ public class SearchResultActivity extends AppCompatActivity {
             isLastPage = false;
             binding.tvNotFound.setText("");
         }
-        searchResultViewModel.getSearchResults(keyword, "", "", "", "", currentPage, 10);
+        searchResultViewModel.getSearchResults(keyword, "", "", sortBy, sortOrder, currentPage, 10);
     }
 
     private void loadMoreData() {
         if (!isLoading && !isLastPage) {
             currentPage++;
-            searchResultViewModel.getSearchResults(currentKeyword, "", "", "", "", currentPage, 10);
+            searchResultViewModel.getSearchResults(currentKeyword, "", "", sortBy, sortOrder, currentPage, 10);
         }
     }
 }

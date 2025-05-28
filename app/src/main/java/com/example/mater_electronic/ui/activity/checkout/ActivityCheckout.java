@@ -1,6 +1,8 @@
 package com.example.mater_electronic.ui.activity.checkout;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -14,8 +16,11 @@ import androidx.core.content.ContextCompat;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.mater_electronic.R;
+import com.example.mater_electronic.database.cart.CartManager;
 import com.example.mater_electronic.databinding.ActivityCheckoutBinding;
 import com.example.mater_electronic.databinding.ItemCheckoutProductBinding;
 import com.example.mater_electronic.models.cart.CartItem;
@@ -28,10 +33,11 @@ import java.util.List;
 import java.util.Locale;
 
 public class ActivityCheckout extends AppCompatActivity {
+    private CartManager cartManager;
+    private CheckoutViewModel checkoutViewModel;
 
     private ActivityCheckoutBinding binding;
-    private ArrayList<CartItem> cartItems;
-    private double totalPrice = 0.0;
+    private List<CartItem> cartItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +45,19 @@ public class ActivityCheckout extends AppCompatActivity {
         binding = ActivityCheckoutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        cartManager = new CartManager(this, getCurrentUserId());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        binding.lvProductList.setLayoutManager(linearLayoutManager);
+
+        checkoutViewModel = new ViewModelProvider(this).get(CheckoutViewModel.class);
+        checkoutViewModel.getCartItems().observe(this, items -> {
+            cartItems = new ArrayList<>(items);
+            binding.lvProductList.setAdapter(new CheckoutProductAdapter(cartItems));
+            showProductList();
+            showTotalPrice();
+        });
         // Nhận dữ liệu từ Intent
-        cartItems = (ArrayList<CartItem>) getIntent().getSerializableExtra("cart_list");
 
         setupCustomerInfo();      // Thiết lập thông tin người nhận (hardcoded ở đây)
         showProductList();        // Hiển thị danh sách sản phẩm và tính tổng
@@ -61,7 +78,13 @@ public class ActivityCheckout extends AppCompatActivity {
         });
 
     }
-
+    private String getCurrentUserId() {
+        SharedPreferences prefs = this.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        return prefs.getString("_id", "");
+    }
+    private String formatPrice(double price) {
+        return String.format("%,.0f₫", price);  // 1000000 -> 1.000.000₫
+    }
     private void setupCustomerInfo() {
         binding.recipientName.setText("Nguyễn Văn A");
         binding.recipientAddress.setText("123 Lý Thường Kiệt, Q.10, TP.HCM");
@@ -69,23 +92,11 @@ public class ActivityCheckout extends AppCompatActivity {
     }
 
     private void showProductList() {
-        LayoutInflater inflater = LayoutInflater.from(this);
-
-        for (CartItem item : cartItems) {
-            ItemCheckoutProductBinding itemBinding = ItemCheckoutProductBinding.inflate(inflater);
-            itemBinding.productName.setText(item.getProductName());
-            itemBinding.productQuantity.setText("x" + item.getQuantity());
-
-            double itemTotal = item.getPrice() * item.getQuantity();
-            totalPrice += itemTotal;
-
-            binding.productListLayout.addView(itemBinding.getRoot());
-        }
+        // SET ADAPTER cho lvProductList
     }
 
     private void showTotalPrice() {
-        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-        binding.txtTotalPrice.setText(format.format(totalPrice));
+        binding.txtTotalPrice.setText("Tổng giá: " + String.valueOf(formatPrice(cartManager.getTotalPrice())));
     }
 
     private void setDeliveryDate() {
