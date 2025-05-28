@@ -63,7 +63,7 @@ public class ProfileFragment extends Fragment {
         binding.accountId.setText("ID: " + shortId);
 
         // Tải ảnh đại diện nếu có, nếu không thì đặt ảnh mặc định
-        if (account.getAvatar() != null && account.getAvatar().getUrl() != null) {
+        if (account.getAvatar() != null && account.getAvatar().getUrl() != null && !account.getAvatar().getUrl().isEmpty()) {
             LoadImageByUrl.loadImage(binding.profileImg, account.getAvatar().getUrl());
         } else {
             binding.profileImg.setImageResource(com.example.mater_electronic.R.drawable.img_placeholder);
