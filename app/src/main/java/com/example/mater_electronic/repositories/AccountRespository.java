@@ -3,6 +3,8 @@ package com.example.mater_electronic.repositories;
 import android.net.Uri;
 
 import com.example.mater_electronic.models.account.Account;
+import com.example.mater_electronic.models.account.ChangePassAccountRequest;
+import com.example.mater_electronic.models.account.ChangePassAccountResponse;
 import com.example.mater_electronic.models.account.GetAccountResponse;
 import com.example.mater_electronic.models.account.UpdateAccountResponse;
 import com.example.mater_electronic.network.ApiClient;
@@ -25,6 +27,12 @@ public class AccountRespository {
     public void getAccount(String accessToken, Callback<GetAccountResponse> callback) {
         String authHeader = "Bearer " + accessToken;
         accountServiceApi.getAccount(authHeader).enqueue(callback);
+    }
+
+    //Thay đổi password Account
+    public void changePasss(String accessToken, ChangePassAccountRequest request, Callback<ChangePassAccountResponse> callback){
+        String authHeader = "Bearer " + accessToken;
+        accountServiceApi.changePass(authHeader, request).enqueue(callback);
     }
 
     //Update dữ liệu Account with image

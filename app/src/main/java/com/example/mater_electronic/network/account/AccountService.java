@@ -1,6 +1,8 @@
 package com.example.mater_electronic.network.account;
 
 import com.example.mater_electronic.models.account.Account;
+import com.example.mater_electronic.models.account.ChangePassAccountRequest;
+import com.example.mater_electronic.models.account.ChangePassAccountResponse;
 import com.example.mater_electronic.models.account.GetAccountResponse;
 import com.example.mater_electronic.models.account.UpdateAccountResponse;
 
@@ -41,5 +43,12 @@ public interface AccountService {
             @Part("phone") RequestBody phone,
             @Part("birthday") RequestBody birthday,
             @Part("gender") RequestBody gender
+    );
+
+    //API đổi mật khẩu trong profile
+    @PATCH("customer/manageAccount/changepass")
+    Call<ChangePassAccountResponse> changePass(
+            @Header("Authorization") String accessToken,
+            @Body ChangePassAccountRequest request
     );
 }

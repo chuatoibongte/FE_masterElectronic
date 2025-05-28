@@ -17,6 +17,8 @@ import com.example.mater_electronic.databinding.FragmentProfileBinding;
 import com.example.mater_electronic.models.account.Account;
 import com.example.mater_electronic.ui.activity.login.LoginActivity;
 import com.example.mater_electronic.ui.activity.profile.edit.EditAccountActivity;
+import com.example.mater_electronic.ui.activity.profile.notification.Notification;
+import com.example.mater_electronic.ui.activity.profile.setting.Setting;
 import com.example.mater_electronic.utils.LoadImageByUrl;
 
 public class ProfileFragment extends Fragment {
@@ -30,6 +32,16 @@ public class ProfileFragment extends Fragment {
         // Inflate layout using ViewBinding
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        //Sang thông báo activity
+        binding.settingLayout.setOnClickListener(v ->{
+            startActivity(new Intent(getActivity(), Setting.class));
+        });
+
+        //Sang notification activity
+        binding.notifacationLayout.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), Notification.class));
+        });
 
         // Lấy accessToken từ SharedPreferences để sử dụng khi cần gọi API hoặc xác thực
         SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
