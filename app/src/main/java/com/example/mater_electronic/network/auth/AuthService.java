@@ -18,20 +18,20 @@ import retrofit2.http.POST;
 
 public interface AuthService {
     //API đăng ký
-    @POST("/user/accountAction/register")
+    @POST("user/accountAction/register")
     Call<RegisterResponse> register(@Body RegisterRequest request);
     //API đăng nhập
-    @POST("/user/accountAction/login")
+    @POST("user/accountAction/login")
     Call<LoginResponse> login(@Body LoginRequest request);
     //API gửi OTP
-    @POST("/user/accountAction/sendOTP")
+    @POST("user/accountAction/sendOTP")
     Call<SendOTPResponse> sendOTP(@Body SendOTPRequest email);
     //API xác nhận OTP
-    @POST("/user/accountAction/verifyOTP")
+    @POST("user/accountAction/verifyOTP")
     Call<VerifyOTPResponse> verifyOTP(@Body VerifyOTPRequest request);
 
     @FormUrlEncoded
-    @POST("/user/accountAction/changepassbyOTP")
+    @POST("user/accountAction/changepassbyOTP")
     Call<ChangePasswordResponse> changePassword(
             @Field("email") String email,
             @Field("otp") String otp,
