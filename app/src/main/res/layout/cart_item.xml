@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:padding="8dp">
+        android:layout_height="wrap_content"
+        android:padding="12dp">
 
         <!-- Icon Select -->
         <ImageView
@@ -20,7 +20,9 @@
             android:src="@drawable/ic_unselected"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintVertical_bias="0.5" />
 
         <!-- Product Image -->
         <ImageView
@@ -28,10 +30,20 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:src="@drawable/test_product_item"
+            android:scaleType="centerCrop"
             app:layout_constraintStart_toEndOf="@id/iconSelect"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="8dp" />
+            android:layout_marginEnd="8dp" />
+
+        <!-- Trash Icon -->
+        <ImageView
+            android:id="@+id/trashIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_trash"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Product Name -->
         <TextView
@@ -42,10 +54,10 @@
             android:textColor="@color/black"
             android:textSize="@dimen/medium_text_size"
             android:maxLines="2"
+            android:ellipsize="end"
             app:layout_constraintStart_toEndOf="@id/cartItemImg"
-            app:layout_constraintTop_toTopOf="@id/cartItemImg"
             app:layout_constraintEnd_toStartOf="@id/trashIcon"
-            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toTopOf="@id/cartItemImg"
             android:layout_marginEnd="8dp" />
 
         <!-- Product Type -->
@@ -53,39 +65,27 @@
             android:id="@+id/cartItemType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"
             android:text="Ram"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="@id/cartItemName"
-            app:layout_constraintTop_toBottomOf="@id/cartItemName" />
+            app:layout_constraintTop_toBottomOf="@id/cartItemName"
+            android:visibility="invisible"
+            />
 
         <!-- Product Price -->
-
-
-        <!-- Trash Icon -->
         <TextView
             android:id="@+id/cartItemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="999.999₫"
-            android:textColor="@color/red"
+            android:textColor="@color/dark_color_bg"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/quantityLayout"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintTop_toBottomOf="@+id/cartItemName"
-            app:layout_constraintVertical_bias="0.777" />
-
-        <ImageView
-            android:id="@+id/trashIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_trash"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/cartItemName" />
+            app:layout_constraintStart_toStartOf="@id/cartItemName"
+            app:layout_constraintTop_toBottomOf="@id/cartItemType"
+            android:layout_marginTop="4dp" />
 
         <!-- Quantity Controls -->
         <LinearLayout
@@ -95,12 +95,13 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="8dp">
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp">
 
             <ImageButton
                 android:id="@+id/btnDecrease"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_remove_circle"
                 android:contentDescription="Giảm" />
@@ -108,7 +109,7 @@
             <TextView
                 android:id="@+id/txtQuantity"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="1"
                 android:textSize="16sp"
                 android:padding="8dp"
@@ -116,12 +117,13 @@
 
             <ImageButton
                 android:id="@+id/btnIncrease"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_add_circle"
                 android:contentDescription="Tăng" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

@@ -73,7 +73,7 @@ public class ActivityCheckout extends AppCompatActivity {
 
         for (CartItem item : cartItems) {
             ItemCheckoutProductBinding itemBinding = ItemCheckoutProductBinding.inflate(inflater);
-            itemBinding.productName.setText(item.getName());
+            itemBinding.productName.setText(item.getProductName());
             itemBinding.productQuantity.setText("x" + item.getQuantity());
 
             double itemTotal = item.getPrice() * item.getQuantity();

@@ -30,7 +30,7 @@ public class CheckoutProductAdapter extends RecyclerView.Adapter<CheckoutProduct
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         CartItem item = cartItems.get(position);
-        holder.binding.productName.setText(item.getName());
+        holder.binding.productName.setText(item.getProductName());
         holder.binding.productQuantity.setText("x" + item.getQuantity());
     }
 
