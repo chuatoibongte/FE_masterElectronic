@@ -201,7 +201,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                             productId,
                             product.getName(),
                             imageUrl,
-                            product.getPrice() * quantity[0],
+                            product.getPrice(),
                             quantity[0],
                             product.getMainCategory(), // ← hoặc product.getSlugCate(), tùy theo bạn muốn hiển thị gì
                             userId

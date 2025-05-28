@@ -59,6 +59,9 @@ public class MyCartFragment extends Fragment {
 
         btnmuangay = binding.mycartMuangayButton;
 
+        binding.originalPriceValue.setText(String.valueOf(cartManager.getTotalPrice()));
+        // calc total price
+        binding.totalPriceValue.setText(String.valueOf(cartManager.getTotalPrice()));
 
         btnmuangay.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), ActivityCheckout.class);

@@ -39,7 +39,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         LoadImageByUrl.loadImage(holder.imgProduct, productItem.getElectronicImgs().get(0).getUrl());
         // holder.imgProduct.setImageResource(productItem.getImageResId());
         holder.tvName.setText(productItem.getName());
-        holder.tvPrice.setText(String.valueOf(productItem.getPrice()) + "VNĐ");
+        holder.tvPrice.setText(String.valueOf(productItem.getPrice()) + "\nVNĐ");
         holder.ratingBar.setRating((float) productItem.getRating());
         holder.tvName.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
