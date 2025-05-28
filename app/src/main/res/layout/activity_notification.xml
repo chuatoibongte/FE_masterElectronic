@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/notification"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/margin_lg"
+    tools:context=".ui.activity.profile.notification.Notification">
+
+    <FrameLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!-- Back arrow -->
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_back_arrow" />
+
+        <TextView
+            android:id="@+id/notificationTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|center_vertical"
+            android:text="@string/notifacationtext"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/large_text_size"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/CommonNotLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_vlg"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/titleLayout"
+        app:layout_constraintStart_toStartOf="@+id/titleLayout"
+        app:layout_constraintTop_toBottomOf="@+id/titleLayout">
+
+        <TextView
+            android:id="@+id/commonNoteTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:layout_weight="1"
+            android:text="Thông báo chung"
+            android:textColor="@color/dark_text"
+            android:textSize="@dimen/large_text_size" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/commonNoteToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:thumbTint="@color/toggle_thumb"
+            android:trackTint="@color/toggle_track" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/soundLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/CommonNotLayout"
+        app:layout_constraintStart_toStartOf="@+id/CommonNotLayout"
+        app:layout_constraintTop_toBottomOf="@+id/CommonNotLayout">
+
+        <TextView
+            android:id="@+id/soundTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:layout_weight="1"
+            android:text="Âm thanh"
+            android:textColor="@color/dark_text"
+            android:textSize="@dimen/large_text_size" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/soundToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:thumbTint="@color/toggle_thumb"
+            android:trackTint="@color/toggle_track" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shakeModeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/soundLayout"
+        app:layout_constraintStart_toStartOf="@+id/soundLayout"
+        app:layout_constraintTop_toBottomOf="@+id/soundLayout">
+
+        <TextView
+            android:id="@+id/shakeModeTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:layout_weight="1"
+            android:text="Chế độ rung"
+            android:textColor="@color/dark_text"
+            android:textSize="@dimen/large_text_size" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/shakeModeToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:thumbTint="@color/toggle_thumb"
+            android:trackTint="@color/toggle_track" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/saleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/shakeModeLayout"
+        app:layout_constraintStart_toStartOf="@+id/shakeModeLayout"
+        app:layout_constraintTop_toBottomOf="@+id/shakeModeLayout">
+
+        <TextView
+            android:id="@+id/saleTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:layout_weight="1"
+            android:text="Giảm giá"
+            android:textColor="@color/dark_text"
+            android:textSize="@dimen/large_text_size" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/saleToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:thumbTint="@color/toggle_thumb"
+            android:trackTint="@color/toggle_track" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/eventLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/saleLayout"
+        app:layout_constraintStart_toStartOf="@+id/saleLayout"
+        app:layout_constraintTop_toBottomOf="@+id/saleLayout">
+
+        <TextView
+            android:id="@+id/eventTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:layout_weight="1"
+            android:text="Sự kiện"
+            android:textColor="@color/dark_text"
+            android:textSize="@dimen/large_text_size" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/eventToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:thumbTint="@color/toggle_thumb"
+            android:trackTint="@color/toggle_track" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/paymentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/eventLayout"
+        app:layout_constraintStart_toStartOf="@+id/eventLayout"
+        app:layout_constraintTop_toBottomOf="@+id/eventLayout">
+
+        <TextView
+            android:id="@+id/paymentTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="@dimen/margin_sm"
+            android:layout_weight="1"
+            android:text="Thanh toán"
+            android:textColor="@color/dark_text"
+            android:textSize="@dimen/large_text_size" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/paymentToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:thumbTint="@color/toggle_thumb"
+            android:trackTint="@color/toggle_track" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

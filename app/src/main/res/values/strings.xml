@@ -68,8 +68,15 @@
     <string name="settingNotification">Cài đặt thông báo</string>
     <string name="settingPasstxt">Cài đặt mật khẩu</string>
     <string name="delAccounttxt">Xóa tài khoản</string>
+    <!--    Setting Pass-->
     <string name="settingPassTitle">Cài đặt mật khẩu</string>
     <string name="currPassword">Mật khẩu hiện tại</string>
-    <!--    Setting Pass-->
+    <string name="newPassTxt">Mật khẩu mới</string>
+    <string name="checkNewPassTxt">Xác nhận mật khẩu</string>
+    <string name="hiddenPassTxt">● ● ● ● ● ● ● ●</string>
+    <string name="changePassTxt">Thay đổi</string>
+<!--    Setting Notification-->
+    <string name="notifacationtext">Thông báo</string>
+
 
 </resources>

@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.mater_electronic.database.AccountDatabase;
 import com.example.mater_electronic.models.account.Account;
+import com.example.mater_electronic.models.account.ChangePassAccountRequest;
+import com.example.mater_electronic.models.account.ChangePassAccountResponse;
 import com.example.mater_electronic.models.account.GetAccountResponse;
 import com.example.mater_electronic.models.account.UpdateAccountResponse;
 import com.example.mater_electronic.repositories.AccountRespository;
@@ -22,6 +24,10 @@ public class AccountViewModel extends ViewModel {
     private final MutableLiveData<Account> accountLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> updateSuccess = new MutableLiveData<>();
+    private final MutableLiveData<String> resultMessage = new MutableLiveData<>();
+    public LiveData<String> getResultMessage() {
+        return resultMessage;
+    }
 
     public LiveData<Account> getAccountLiveData() {
         return accountLiveData;
@@ -53,6 +59,35 @@ public class AccountViewModel extends ViewModel {
             @Override
             public void onFailure(Call<GetAccountResponse> call, Throwable t) {
                 errorMessage.setValue("Lỗi: " + t.getMessage());
+            }
+        });
+    }
+
+    //Change pass account
+    public void changePass(String accessToken, String password, String newpassword){
+        ChangePassAccountRequest request = new ChangePassAccountRequest(password, newpassword);
+
+        accountRespository.changePasss(accessToken, request, new Callback<ChangePassAccountResponse>(){
+            @Override
+            public void onResponse(Call<ChangePassAccountResponse> call, Response<ChangePassAccountResponse> response){
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().isSuccess()) {
+                        resultMessage.setValue("Đổi mật khẩu thành công;");
+                    } else {
+                        resultMessage.setValue("Đổi mật khẩu thất bại");
+                    }
+                } else {
+                    resultMessage.setValue("Lỗi server: " + response.message());
+                }
+
+                assert response.body() != null;
+                updateSuccess.setValue(response.body().isSuccess());
+            }
+
+            @Override
+            public void onFailure(Call<ChangePassAccountResponse> call, Throwable t){
+                errorMessage.setValue("Lỗi: " + t.getMessage());
+                updateSuccess.setValue(false);
             }
         });
     }
