@@ -3,6 +3,12 @@ package com.example.mater_electronic.ui.activity.detail;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,18 +17,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.mater_electronic.R;
 import com.example.mater_electronic.databinding.ActivityProductDetailBinding;
 import com.example.mater_electronic.models.product.ElectronicImg;
+import com.example.mater_electronic.models.product.Product;
 import com.example.mater_electronic.utils.LoadImageByUrl;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductDetailActivity extends AppCompatActivity {
     private ActivityProductDetailBinding binding;
     private Handler handler;
     private Runnable autoScrollRunnable;
+    private Product currentProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +42,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.btnBack.setOnClickListener(v -> finish());
-        // String productId = getIntent().getStringExtra("product_id");
-        String productId = "6814329cc86355927f0c3bf3";
+        String productId = getIntent().getStringExtra("product_id");
+//        String productId = "6814329cc86355927f0c3bf3";
         if (productId == "") {
             Toast.makeText(this, "Không có mã sản phẩm", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
+
         // set viewmodel
         ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         productViewModel.getProductDetail(productId);
@@ -49,12 +62,17 @@ public class ProductDetailActivity extends AppCompatActivity {
         recyclerViewReviews.setAdapter(customerReviewAdapter);
         productViewModel.getProductReviewLiveData().observe(this, reviews -> {
             Log.e("ProductViewModel", "Reviews  : " + new Gson().toJson(reviews));
+            if(reviews.isEmpty()) {
+                binding.tvNoReview.setVisibility(View.VISIBLE);
+            }
             customerReviewAdapter.setData(reviews);
         });
 
         productViewModel.getProductLiveData().observe(this, product -> {
             Log.e("ProductViewModel", "Product: " + new Gson().toJson(product));
             if (product != null) {
+                currentProduct = product; // Store current product for bottom sheet
+
                 List<ProductImageItem> images = new ArrayList<>();
                 for (ElectronicImg electronicImg : product.getElectronicImgs()) {
                     images.add(new ProductImageItem(electronicImg.getUrl()));
@@ -89,36 +107,112 @@ public class ProductDetailActivity extends AppCompatActivity {
                 startAutoScroll();
 
                 binding.tvProductName.setText(product.getName());
-                binding.tvProductPrice.setText(product.getPrice() + " ₫");
+                binding.tvProductPrice.setText(formatPrice(product.getPrice()) + " ₫");
                 binding.tvProductDescription.setText(product.getDescription());
                 binding.tvRating.setText(String.valueOf(product.getRating()));
                 binding.productRatingBar.setRating((float) product.getRating());
-                // load ảnh sử dụng Glide
-                // LoadImageByUrl.loadImage(binding.ivProductImage, product.getElectronicImgs().get(0).getUrl());
 
                 binding.btnAddToCart.setOnClickListener(v ->
                         Toast.makeText(this, "Đã thêm vào giỏ", Toast.LENGTH_SHORT).show());
 
-                binding.btnBuyNow.setOnClickListener(v ->
-                        Toast.makeText(this, "Mua ngay chưa hỗ trợ", Toast.LENGTH_SHORT).show());
+                // Show bottom sheet when clicking Buy Now
+                binding.btnBuyNow.setOnClickListener(v -> showQuantityBottomSheet(product));
             }
         });
     }
+
+    private void showQuantityBottomSheet(Product product) {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        View bottomSheetView = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_quantity, null);
+        bottomSheetDialog.setContentView(bottomSheetView);
+
+        // Initialize views
+        ImageView ivProductImage = bottomSheetView.findViewById(R.id.ivProductImage);
+        TextView tvProductName = bottomSheetView.findViewById(R.id.tvProductName);
+        TextView tvProductPrice = bottomSheetView.findViewById(R.id.tvProductPrice);
+        TextView tvQuantity = bottomSheetView.findViewById(R.id.tvQuantity);
+        TextView tvTotalPrice = bottomSheetView.findViewById(R.id.tvTotalPrice);
+        ImageButton btnDecrease = bottomSheetView.findViewById(R.id.btnDecrease);
+        ImageButton btnIncrease = bottomSheetView.findViewById(R.id.btnIncrease);
+        ImageButton btnClose = bottomSheetView.findViewById(R.id.btnClose);
+        Button btnAddToCart = bottomSheetView.findViewById(R.id.btnAddToCart);
+        Button btnBuyNow = bottomSheetView.findViewById(R.id.btnBuyNow);
+
+        // Set product data
+        tvProductName.setText(product.getName());
+        tvProductPrice.setText(formatPrice(product.getPrice()) + " ₫");
+
+        // Load product image
+        if (!product.getElectronicImgs().isEmpty()) {
+            LoadImageByUrl.loadImage(ivProductImage, product.getElectronicImgs().get(0).getUrl());
+        }
+
+        // Quantity management
+        final int[] quantity = {1};
+        final double productPrice = product.getPrice();
+
+        // Update total price initially
+        updateTotalPrice(tvTotalPrice, productPrice, quantity[0]);
+
+        btnDecrease.setOnClickListener(v -> {
+            if (quantity[0] > 1) {
+                quantity[0]--;
+                tvQuantity.setText(String.valueOf(quantity[0]));
+                updateTotalPrice(tvTotalPrice, productPrice, quantity[0]);
+            }
+        });
+
+        btnIncrease.setOnClickListener(v -> {
+            quantity[0]++;
+            tvQuantity.setText(String.valueOf(quantity[0]));
+            updateTotalPrice(tvTotalPrice, productPrice, quantity[0]);
+        });
+
+        btnClose.setOnClickListener(v -> bottomSheetDialog.dismiss());
+
+        btnAddToCart.setOnClickListener(v -> {
+            Toast.makeText(this, "Đã thêm " + quantity[0] + " sản phẩm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+            bottomSheetDialog.dismiss();
+        });
+
+        btnBuyNow.setOnClickListener(v -> {
+            Toast.makeText(this, "Mua " + quantity[0] + " sản phẩm - Tổng: " +
+                    formatPrice(productPrice * quantity[0]) + " ₫", Toast.LENGTH_SHORT).show();
+            bottomSheetDialog.dismiss();
+            // Here you can add logic to proceed to checkout/payment
+        });
+
+        bottomSheetDialog.show();
+    }
+
+    private void updateTotalPrice(TextView tvTotalPrice, double unitPrice, int quantity) {
+        double totalPrice = unitPrice * quantity;
+        tvTotalPrice.setText("Tổng: \n" + formatPrice(totalPrice) + " ₫");
+    }
+
+    private String formatPrice(double price) {
+        NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
+        return formatter.format(price);
+    }
+
     private void startAutoScroll() {
         if (handler != null && autoScrollRunnable != null) {
             handler.postDelayed(autoScrollRunnable, 6000); // Bắt đầu sau 6 giây
         }
     }
+
     private void stopAutoScroll() {
         if (handler != null && autoScrollRunnable != null) {
             handler.removeCallbacks(autoScrollRunnable);
         }
     }
+
     @Override
     public void onPause() {
         super.onPause();
         stopAutoScroll();
     }
+
     @Override
     public void onResume() {
         super.onResume();
