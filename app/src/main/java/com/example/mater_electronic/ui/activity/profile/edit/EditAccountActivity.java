@@ -16,12 +16,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.database.AccountDatabase;
 import com.example.mater_electronic.databinding.ActivityEditAccountBinding;
 import com.example.mater_electronic.models.account.Account;
 import com.example.mater_electronic.utils.LoadImageByUrl;
+import com.example.mater_electronic.viewmodels.AccountViewModel;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -47,8 +49,14 @@ public class EditAccountActivity extends AppCompatActivity {
         //Lấy _id từ sharedPreferences
         String _id = getSharedPreferences("user_prefs", MODE_PRIVATE).getString("_id", null);
 
+        //Lấy accessToken từ sharedPreferences
+        String accessToken = getSharedPreferences("user_prefs", MODE_PRIVATE).getString("accessToken", null);
+
         //Lấy dữ liệu từ account và hiển thị
         Account account = AccountDatabase.getInstance(this).accountDAO().getAccountById(_id);
+
+        //Tạo account viewmodel
+        AccountViewModel accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
 
         if (account != null) {
             binding.usernameEdt.setText(account.getUsername());
@@ -111,6 +119,28 @@ public class EditAccountActivity extends AppCompatActivity {
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
         });
 
+
+        // Observe update results
+        accountViewModel.getUpdateSuccess().observe(this, success -> {
+            if (success != null) {
+                if (success) {
+                    // Update local database after successful API call
+                    AccountDatabase.getInstance(this).accountDAO().updateAccount(account);
+                    Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // Observe error messages
+        accountViewModel.getErrorMessage().observe(this, error -> {
+            if (error != null) {
+                Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+            }
+        });
+
 //        Cập nhật account
         binding.editBtn.setOnClickListener(v -> {
             // Lấy dữ liệu từ EditText
@@ -120,6 +150,12 @@ public class EditAccountActivity extends AppCompatActivity {
             String newPhone = binding.phoneInput.getText().toString().trim();
             String newBirth = binding.birthEdit.getText().toString().trim();
             String newGender = binding.gender.getText().toString().trim();
+
+            // Validate input data
+            if (newUsername.isEmpty() || newName.isEmpty() || newEmail.isEmpty()) {
+                Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             // Cập nhật dữ liệu vào Account object
             account.setUsername(newUsername);
@@ -133,20 +169,25 @@ public class EditAccountActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Ngày sinh không hợp lệ", Toast.LENGTH_SHORT).show();
-                return; // Không cập nhật nếu lỗi ngày sinh
+                return;
             }
 
             account.setGender(newGender);
 
-            // Cập nhật vào main database
+            if (accessToken == null) {
+                Toast.makeText(this, "Không tìm thấy token, vui lòng đăng nhập lại", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
 
-            // Cập nhật vào local database
-            AccountDatabase.getInstance(this).accountDAO().updateAccount(account);
-
-            Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-
-            finish();
+            // Call API to update account - with or without image
+            if (selectedImageUri != null) {
+                // Update with new image
+                accountViewModel.updateAccount(accessToken, account, selectedImageUri, this);
+            } else {
+                // Update without image
+                accountViewModel.updateAccount(accessToken, account, this);
+            }
         });
 
 
