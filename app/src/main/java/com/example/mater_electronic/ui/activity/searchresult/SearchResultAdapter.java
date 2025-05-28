@@ -38,7 +38,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         Product productItem = productList.get(position);
         LoadImageByUrl.loadImage(holder.imgProduct, productItem.getElectronicImgs().get(0).getUrl());
         holder.tvName.setText(productItem.getName());
-        holder.tvPrice.setText(String.valueOf(productItem.getPrice()) + "VNĐ");
+        holder.tvPrice.setText(String.valueOf(formatPrice(productItem.getPrice())) + "\nVNĐ");
         holder.ratingBar.setRating((float) productItem.getRating());
         holder.tvName.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
@@ -52,7 +52,9 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         if(productList != null) return productList.size();
         return 0;
     }
-
+    private String formatPrice(double price) {
+        return String.format("%,.0f", price);  // 1000000 -> 1.000.000₫
+    }
     public class SearchResultViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct, btnFavorite, btnAddToCart;
         TextView tvName, tvPrice;

@@ -39,7 +39,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         LoadImageByUrl.loadImage(holder.imgProduct, productItem.getElectronicImgs().get(0).getUrl());
         // holder.imgProduct.setImageResource(productItem.getImageResId());
         holder.tvName.setText(productItem.getName());
-        holder.tvPrice.setText(String.valueOf(productItem.getPrice()) + "\nVNĐ");
+        holder.tvPrice.setText(String.valueOf(formatPrice(productItem.getPrice())) + "\nVNĐ");
         holder.ratingBar.setRating((float) productItem.getRating());
         holder.tvName.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
@@ -50,6 +50,9 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     @Override
     public int getItemCount() {
         return products.size();
+    }
+    private String formatPrice(double price) {
+        return String.format("%,.0f", price);  // 1000000 -> 1.000.000₫
     }
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct, btnFavorite, btnAddToCart;

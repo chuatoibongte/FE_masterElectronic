@@ -29,11 +29,8 @@ import java.util.List;
 public class MyCartFragment extends Fragment {
     private CartManager cartManager;
     private MyCartViewModel myCartViewModel;
-    private RecyclerView rcvCart;
     private MyCartAdapter myCartAdapter;
     private FragmentMycartBinding binding;
-
-    private Button btnmuangay;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // tạo view model cho cart
@@ -41,14 +38,13 @@ public class MyCartFragment extends Fragment {
         binding = FragmentMycartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        rcvCart = binding.cartItemsList;
         myCartAdapter = new MyCartAdapter(getContext());
 
         cartManager = new CartManager(getContext(), getCurrentUserId());
         myCartAdapter.setCartManager(cartManager);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        rcvCart.setLayoutManager(linearLayoutManager);
+        binding.cartItemsList.setLayoutManager(linearLayoutManager);
 
         // myCartAdapter.setData(getCartItems()); // set data cho recycler view (list các CartItem
         myCartViewModel.getCartItems().observe(getViewLifecycleOwner(), cartItems -> {
@@ -57,13 +53,12 @@ public class MyCartFragment extends Fragment {
 
         binding.cartItemsList.setAdapter(myCartAdapter);
 
-        btnmuangay = binding.mycartMuangayButton;
 
-        binding.originalPriceValue.setText(String.valueOf(cartManager.getTotalPrice()));
+        binding.originalPriceValue.setText(String.valueOf(formatPrice(cartManager.getTotalPrice())));
         // calc total price
-        binding.totalPriceValue.setText(String.valueOf(cartManager.getTotalPrice()));
+        binding.totalPriceValue.setText(String.valueOf(formatPrice(cartManager.getTotalPrice())));
 
-        btnmuangay.setOnClickListener(v -> {
+        binding.btnBuyNow.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), ActivityCheckout.class);
             startActivity(intent);
         });
@@ -79,6 +74,9 @@ public class MyCartFragment extends Fragment {
     }
     private List<CartItem> getCartItems() {
         return new ArrayList<>();
+    }
+    private String formatPrice(double price) {
+        return String.format("%,.0f₫", price);  // 1000000 -> 1.000.000₫
     }
 
     @Override

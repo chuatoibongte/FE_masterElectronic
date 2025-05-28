@@ -83,7 +83,10 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartView
         // holder.cartItemType.setText(item.getType());
         holder.cartItemPrice.setText(formatPrice(item.getPrice() * item.getQuantity()));
         holder.txtQuantity.setText(String.valueOf(item.getQuantity()));
-
+        if(item.isSelected())
+            holder.iconSelect.setImageResource(R.drawable.ic_selected);
+        else
+            holder.iconSelect.setImageResource(R.drawable.ic_unselected);
         // Event: click item
         holder.cartItemName.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, ProductDetailActivity.class);
@@ -137,13 +140,23 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartView
                 notifyItemRangeChanged(item_position, mCartItems.size());
             }
         });
-
-
         // Event: icon trash - xóa item
         holder.trashIcon.setOnClickListener(v -> {
             mCartItems.remove(position);
+            if (cartManager != null) {
+                cartManager.removeFromCart(item.getId());
+            }
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, mCartItems.size());
+        });
+        holder.iconSelect.setOnClickListener(v -> {
+            if(item.isSelected()) {
+                item.setSelected(false);
+                holder.iconSelect.setImageResource(R.drawable.ic_unselected);
+                return;
+            }
+            holder.iconSelect.setImageResource(R.drawable.ic_selected);
+            item.setSelected(true);
         });
     }
     @Override
