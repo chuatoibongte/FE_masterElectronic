@@ -73,10 +73,10 @@ public class Register extends AppCompatActivity {
             //Call api đăng ký
             registerViewModel.registerAccount(username,email,phone,password);
         });
+
         binding.loginNowTxtClickable.setOnClickListener(v -> {
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
         });
-
     }
 }

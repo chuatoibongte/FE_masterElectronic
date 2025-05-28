@@ -17,6 +17,7 @@ import com.example.mater_electronic.databinding.FragmentProfileBinding;
 import com.example.mater_electronic.models.account.Account;
 import com.example.mater_electronic.ui.activity.login.LoginActivity;
 import com.example.mater_electronic.ui.activity.profile.edit.EditAccountActivity;
+import com.example.mater_electronic.ui.activity.profile.myaddress.MyAddress;
 import com.example.mater_electronic.ui.activity.profile.notification.Notification;
 import com.example.mater_electronic.ui.activity.profile.setting.Setting;
 import com.example.mater_electronic.utils.LoadImageByUrl;
@@ -43,11 +44,15 @@ public class ProfileFragment extends Fragment {
             startActivity(new Intent(getActivity(), Notification.class));
         });
 
+        //Sang MyAddress activity
+        binding.listAddressLayout.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), MyAddress.class));
+        });
+
         // Lấy accessToken từ SharedPreferences để sử dụng khi cần gọi API hoặc xác thực
         SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         String accessToken = prefs.getString("accessToken", "");
         String _id = prefs.getString("_id", "");
-        Log.e("ProfileFragment", "Token: " + accessToken);
 
         // Truy vấn thông tin tài khoản đã lưu trong Room Database
         Account account = AccountDatabase.getInstance(requireActivity()).accountDAO().getAccountById(_id);

@@ -75,7 +75,7 @@
     <string name="checkNewPassTxt">Xác nhận mật khẩu</string>
     <string name="hiddenPassTxt">● ● ● ● ● ● ● ●</string>
     <string name="changePassTxt">Thay đổi</string>
-<!--    Setting Notification-->
+    <!--    Setting Notification-->
     <string name="notifacationtext">Thông báo</string>
 
 
