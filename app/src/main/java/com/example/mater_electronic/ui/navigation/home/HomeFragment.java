@@ -25,6 +25,7 @@ import com.example.mater_electronic.models.product.Product;
 import com.example.mater_electronic.ui.activity.detail.ProductDetailActivity;
 import com.example.mater_electronic.ui.activity.login.LoginActivity;
 import com.example.mater_electronic.ui.activity.register.Register;
+import com.example.mater_electronic.ui.activity.search.SearchFocusActivity;
 import com.example.mater_electronic.ui.navigation.search.SearchActivity;
 import com.example.mater_electronic.models.ProductItem;
 
@@ -90,7 +91,7 @@ public class HomeFragment extends Fragment {
         // Sự kiện Search chuyển sang Activity
         binding.homeSearch.setOnClickListener(v -> {
             // Intent intent = new Intent(getContext(), ProductDetailActivity.class);
-            Intent intent = new Intent(getContext(), SearchActivity.class);
+            Intent intent = new Intent(getContext(), SearchFocusActivity.class);
             startActivity(intent);
         });
 
