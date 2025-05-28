@@ -81,7 +81,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartView
         // Set dữ liệu vào các view
         holder.cartItemName.setText(item.getProductName());
         // holder.cartItemType.setText(item.getType());
-        holder.cartItemPrice.setText(formatPrice(item.getPrice()));
+        holder.cartItemPrice.setText(formatPrice(item.getPrice() * item.getQuantity()));
         holder.txtQuantity.setText(String.valueOf(item.getQuantity()));
 
         // Event: click item
@@ -97,7 +97,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartView
             int newQuantity = item.getQuantity() + 1;
             item.setQuantity(newQuantity);
 
-            // Cập nhật database
+            // Cập nhật quantity trong database
             if (cartManager != null) {
                 cartManager.updateQuantity(item.getId(), newQuantity);
             }
@@ -123,9 +123,9 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartView
                 if (cartManager != null) {
                     cartManager.updateQuantity(item.getId(), newQuantity);
                 }
-
                 // Cập nhật giao diện
-                notifyItemChanged(item_position);
+                holder.txtQuantity.setText(String.valueOf(newQuantity));
+                holder.cartItemPrice.setText(formatPrice(item.getPrice() * newQuantity));
             } else {
                 // Nếu giảm về 0 thì xóa
                 if (cartManager != null) {
