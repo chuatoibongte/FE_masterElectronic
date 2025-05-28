@@ -83,14 +83,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/relatedTo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Liên quan"
                 android:textSize="@dimen/big_text_size"
                 android:textColor="@color/dark_color_bg"
+                android:background="@drawable/button_background2"
                 android:paddingHorizontal="@dimen/margin_sm"
                 android:layout_margin="8dp" />
             <TextView
+                android:id="@+id/newest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mới nhất"
@@ -99,6 +102,7 @@
                 android:paddingHorizontal="@dimen/margin_sm"
                 android:layout_margin="8dp" />
             <TextView
+                android:id="@+id/bestSeller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bán chạy"
@@ -107,6 +111,7 @@
                 android:paddingHorizontal="@dimen/margin_sm"
                 android:layout_margin="8dp" />
             <TextView
+                android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Giá"
@@ -116,12 +121,48 @@
                 android:layout_margin="8dp" />
         </LinearLayout>
     </HorizontalScrollView>
+    <LinearLayout
+        android:id="@+id/order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/margin_xs"
+        android:paddingHorizontal="@dimen/margin_xs"
+        app:layout_constraintTop_toBottomOf="@+id/hsvFilter"
+        >
+        <TextView
+            android:id="@+id/tvOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sắp xếp: Không"
+            android:textSize="@dimen/big_text_size"
+            android:background="@drawable/button_background"
+            android:textColor="@color/light_color_bg"
+            android:paddingHorizontal="@dimen/margin_sm"
+            >
+        </TextView>
+        <!-- Spacer to push tvResetOrder to the end -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <TextView
+            android:id="@+id/tvResetOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đặt lại"
+            android:textSize="@dimen/big_text_size"
+            android:background="@drawable/button_background3"
+            android:textColor="@color/white"
+            android:paddingHorizontal="@dimen/margin_sm"
+            >
+        </TextView>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvNotFound"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/hsvFilter"
+        app:layout_constraintTop_toBottomOf="@+id/order"
         android:gravity="center"
         />
 
@@ -132,7 +173,7 @@
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
         android:overScrollMode="never"
-        app:layout_constraintTop_toBottomOf="@+id/hsvFilter"
+        app:layout_constraintTop_toBottomOf="@+id/order"
         app:layout_constraintBottom_toTopOf="@+id/loadingOverlay"
         />
 

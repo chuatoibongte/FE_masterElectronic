@@ -75,7 +75,7 @@
         android:id="@+id/decreasedPriceValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="20.000đ"
+        android:text="0đ"
         app:layout_constraintBaseline_toBaselineOf="@id/decreasedPrice"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="@dimen/margin_lg"/>
@@ -98,7 +98,7 @@
         android:id="@+id/shipFeeValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="25.000đ"
+        android:text="0đ"
         app:layout_constraintBaseline_toBaselineOf="@id/shipFee"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="@dimen/margin_lg"/>
@@ -121,7 +121,7 @@
         android:id="@+id/decreasedShipFeeValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="5.000đ"
+        android:text="0đ"
         app:layout_constraintBaseline_toBaselineOf="@id/decreasedShipFee"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="@dimen/margin_lg"/>
@@ -152,7 +152,7 @@
 
     <!-- Nút Mua ngay -->
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/mycart_muangay_button"
+        android:id="@+id/btnBuyNow"
         android:layout_width="186dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_lg"

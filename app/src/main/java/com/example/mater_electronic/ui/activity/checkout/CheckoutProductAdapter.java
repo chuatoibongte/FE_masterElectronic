@@ -2,36 +2,39 @@
 package com.example.mater_electronic.ui.activity.checkout;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mater_electronic.databinding.ItemCheckoutProductBinding;
+import com.example.mater_electronic.R;
 import com.example.mater_electronic.models.cart.CartItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CheckoutProductAdapter extends RecyclerView.Adapter<CheckoutProductAdapter.ProductViewHolder> {
 
-    private final ArrayList<CartItem> cartItems;
+    private final List<CartItem> cartItems;
 
-    public CheckoutProductAdapter(ArrayList<CartItem> cartItems) {
+    public CheckoutProductAdapter(List<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
 
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemCheckoutProductBinding binding = ItemCheckoutProductBinding.inflate(
-                LayoutInflater.from(parent.getContext()), parent, false);
-        return new ProductViewHolder(binding);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_checkout_product, parent, false);
+        return new ProductViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         CartItem item = cartItems.get(position);
-        holder.binding.productName.setText(item.getProductName());
-        holder.binding.productQuantity.setText("x" + item.getQuantity());
+        holder.productName.setText(item.getProductName());
+        holder.productQuantity.setText("x" + item.getQuantity());
     }
 
     @Override
@@ -39,12 +42,14 @@ public class CheckoutProductAdapter extends RecyclerView.Adapter<CheckoutProduct
         return cartItems.size();
     }
 
-    static class ProductViewHolder extends RecyclerView.ViewHolder {
-        ItemCheckoutProductBinding binding;
+    public static class ProductViewHolder extends RecyclerView.ViewHolder {
+        TextView productName;
+        TextView productQuantity;
 
-        public ProductViewHolder(ItemCheckoutProductBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+        public ProductViewHolder(@NonNull View itemView) {
+            super(itemView);
+            productName = itemView.findViewById(R.id.productName);
+            productQuantity = itemView.findViewById(R.id.productQuantity);
         }
     }
 }
