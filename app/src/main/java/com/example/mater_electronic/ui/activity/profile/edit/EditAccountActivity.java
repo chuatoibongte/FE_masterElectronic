@@ -72,8 +72,10 @@ public class EditAccountActivity extends AppCompatActivity {
 
             binding.gender.setText(account.getGender());
 
-            if (account.getAvatar() != null && account.getAvatar().getUrl() != null) {
+            if (account.getAvatar() != null && account.getAvatar().getUrl() != null && !account.getAvatar().getUrl().isEmpty()) {
                 LoadImageByUrl.loadImage(binding.profileImg, account.getAvatar().getUrl());
+            } else{
+                binding.profileImg.setImageResource(com.example.mater_electronic.R.drawable.img_placeholder);
             }
         }
 
