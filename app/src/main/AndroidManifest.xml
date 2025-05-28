@@ -18,6 +18,12 @@
         android:theme="@style/Theme.Mater_electronic"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.profile.setting.PasswordSetting"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.profile.setting.Setting"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.searchresult.SearchResultActivity"
             android:exported="false" />
         <activity

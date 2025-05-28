@@ -244,6 +244,8 @@
                 android:background="@drawable/edittext_background"
                 android:hint="Nam"
                 android:inputType="text"
+                android:focusable="false"
+                android:clickable="false"
                 android:padding="12dp"
                 android:textColorHint="#D8CFC6" />
 
