@@ -16,19 +16,19 @@ import retrofit2.http.Query;
 public interface ProductService {
 
     // Lấy danh sách tất cả sản phẩm
-    @GET("/product/getAll")
+    @GET("product/getAll")
     Call<List<Product>> getAllProducts();
 
     // Lấy chi tiết sản phẩm theo ID
-    @GET("/user/displayData/electronic/{id}")
+    @GET("user/displayData/electronic/{id}")
     Call<GetElectronicByIdResponse> getProductDetail(@Path("id") String productId);
 
     // Lấy đánh giá theo ID sản phẩm
-    @GET("/user/displayData/commentsByElectronic/{id}")
+    @GET("user/displayData/commentsByElectronic/{id}")
     Call<GetReviewResponse> getReviews(@Path("id") String productId);
 
     // Lấy kết quả tìm kiếm sản phẩm
-    @GET("/user/displayData/search/electronic")
+    @GET("user/displayData/search/electronic")
     Call<GetSearchResultResponse> getSearchResults(
             @Query("keyword") String keyword,
             @Query("slugCates") String slugCates,
@@ -40,14 +40,14 @@ public interface ProductService {
     );
 
     // Lấy danh sách sản phẩm theo danh mục (ví dụ: "RAM Máy Tính")
-    @GET("/product/getByCategory")
+    @GET("product/getByCategory")
     Call<List<Product>> getProductsByCategory(@Query("category") String category);
 
     // Nếu bạn muốn thêm sản phẩm vào giỏ
-    @GET("/cart/add")
+    @GET("cart/add")
     Call<Void> addToCart(@Query("productId") String productId, @Query("quantity") int quantity);
 
     // Lấy tất cả category
-    @GET("/user/displayData/getAllCate")
+    @GET("user/displayData/getAllCate")
     Call<GetAllCategoryResponse> getAllCategories();
 }
