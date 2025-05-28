@@ -21,7 +21,7 @@
     <item
         android:id="@+id/navigation_favourite"
         android:icon="@drawable/ic_favourite"
-        android:title="@string/title_favourite" />
+        android:title="@string/title_chatbot" />
 
     <item
         android:id="@+id/navigation_profile"
