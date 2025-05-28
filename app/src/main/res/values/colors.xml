@@ -26,4 +26,8 @@
 
     <color name="red">#FF0000</color>
 
+    <color name="primary_color">#F4B5A4</color>
+<!--    <color name="primary_text">#1C1C1E</color>-->
+    <color name="secondary_text">#8E8E93</color>
+    <color name="background_light">#F8F9FA</color>
 </resources>

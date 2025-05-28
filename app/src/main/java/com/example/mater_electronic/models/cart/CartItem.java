@@ -1,77 +1,93 @@
 package com.example.mater_electronic.models.cart;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-public class CartItem implements Parcelable {
-        private String img;
-        private String name;
-        private double price;
-        private int quantity;
-        private String mainCategory;
+import java.util.Date;
 
-    public CartItem(String img, String name, double price, int quantity, String mainCategory) {
-            this.img = img;
-            this.name = name;
-            this.price = price;
-            this.quantity = quantity;
-            this.mainCategory = mainCategory;
-        }
+@Entity(tableName = "cart_items")
+public class CartItem {
+    @PrimaryKey(autoGenerate = true)
+    private long id;
 
-    public CartItem(String name, double price, int quantity) {
-            this.img = "";
-            this.name = name;
-            this.price = price;
-            this.quantity = quantity;
-            this.mainCategory = "";
-        }
+    @ColumnInfo(name = "product_id")
+    private String productId;
 
-    // ✅ Bổ sung constructor để đọc từ Parcel
-    protected CartItem(Parcel in) {
-        img = in.readString();
-        name = in.readString();
-        price = in.readDouble();
-        quantity = in.readInt();
-        mainCategory = in.readString();
+    @ColumnInfo(name = "product_name")
+    private String productName;
+
+    @ColumnInfo(name = "product_image")
+    private String productImage;
+
+    @ColumnInfo(name = "price")
+    private double price;
+
+    @ColumnInfo(name = "quantity")
+    private int quantity;
+
+    @ColumnInfo(name = "category")
+    private String category;
+
+    @ColumnInfo(name = "date_added")
+    private Date dateAdded;
+
+    @ColumnInfo(name = "is_selected")
+    private boolean isSelected;
+
+    @ColumnInfo(name = "user_id")
+    private String userId; // To support multiple users
+
+    // Constructors
+    public CartItem() {
+        this.dateAdded = new Date();
+        this.isSelected = true;
     }
 
-    // ✅ Triển khai Parcelable
-    public static final Parcelable.Creator<CartItem> CREATOR = new Parcelable.Creator<CartItem>() {
-       @Override
-        public CartItem createFromParcel(Parcel in) {
-            return new CartItem(in);
-        }
-
-       @Override
-        public CartItem[] newArray(int size) {
-            return new CartItem[size];
-       }
-    };
-
-
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(img);
-        dest.writeString(name);
-        dest.writeDouble(price);
-        dest.writeInt(quantity);
-        dest.writeString(mainCategory);
+    public CartItem(String productId, String productName, String productImage,
+                    double price, int quantity, String category, String userId) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productImage = productImage;
+        this.price = price;
+        this.quantity = quantity;
+        this.category = category;
+        this.userId = userId;
+        this.dateAdded = new Date();
+        this.isSelected = true;
     }
 
-
-    public int describeContents() {
-    return 0;
-   }
-
-    public String getImg() {
-        return img;
+    // Getters and Setters
+    public long getId() {
+        return id;
     }
 
-    public String getName() {
-        return name;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
     }
 
     public double getPrice() {
@@ -90,11 +106,40 @@ public class CartItem implements Parcelable {
         this.quantity = quantity;
     }
 
-    public String getMainCategory() {
-        return mainCategory;
+    public String getCategory() {
+        return category;
     }
 
-    public void setMainCategory(String mainCategory) {
-        this.mainCategory = mainCategory;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Date getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Date dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    // Helper method to calculate total price
+    public double getTotalPrice() {
+        return price * quantity;
     }
 }

@@ -155,12 +155,20 @@
             android:layout_marginTop="24dp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/home_product"
+            android:id="@+id/rvHomeProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
 
             android:orientation="horizontal"
             android:overScrollMode="never"/>
+        <ProgressBar
+            android:id="@+id/loadingOverlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center"
+            />
     </LinearLayout>
 </ScrollView>
