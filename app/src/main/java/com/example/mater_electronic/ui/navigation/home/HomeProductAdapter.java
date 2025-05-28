@@ -1,5 +1,6 @@
 package com.example.mater_electronic.ui.navigation.home;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mater_electronic.R;
 
 
-import com.example.mater_electronic.models.ProductItem;
+import com.example.mater_electronic.models.product.Product;
+import com.example.mater_electronic.ui.activity.detail.ProductDetailActivity;
 import com.example.mater_electronic.utils.LoadImageByUrl;
 
 import java.util.List;
 
 
 public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.ProductViewHolder> {
-    private final List<ProductItem> products;
-    public HomeProductAdapter(List<ProductItem> products) {
+    private final List<Product> products;
+    public HomeProductAdapter(List<Product> products) {
         this.products = products;
     }
     @NonNull
@@ -33,12 +35,17 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     }
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        ProductItem item = products.get(position);
-        LoadImageByUrl.loadImage(holder.imgProduct, item.getImg());
-        // holder.imgProduct.setImageResource(item.getImageResId());
-        holder.tvName.setText(item.getName());
-        holder.tvPrice.setText(String.valueOf(item.getPrice()) + "VNĐ");
-        holder.ratingBar.setRating((float) item.getRating());
+        Product productItem = products.get(position);
+        LoadImageByUrl.loadImage(holder.imgProduct, productItem.getElectronicImgs().get(0).getUrl());
+        // holder.imgProduct.setImageResource(productItem.getImageResId());
+        holder.tvName.setText(productItem.getName());
+        holder.tvPrice.setText(String.valueOf(productItem.getPrice()) + "VNĐ");
+        holder.ratingBar.setRating((float) productItem.getRating());
+        holder.tvName.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
+            intent.putExtra("product_id", productItem.get_id());
+            v.getContext().startActivity(intent);
+        });
     }
     @Override
     public int getItemCount() {

@@ -4,6 +4,7 @@ import androidx.room.TypeConverter;
 
 import com.example.mater_electronic.models.account.Address;
 import com.example.mater_electronic.models.account.Avatar;
+import com.example.mater_electronic.models.cart.CartItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -45,5 +46,17 @@ public class Converters {
     @TypeConverter
     public static Long dateToTimestamp(Date date) {
         return date == null ? null : date.getTime();
+    }
+    // Cart items list converter (if needed)
+    @TypeConverter
+    public static String fromCartItemList(List<CartItem> cartItems) {
+        return gson.toJson(cartItems);
+    }
+
+    @TypeConverter
+    public static List<CartItem> toCartItemList(String cartItemsString) {
+        Type listType = new TypeToken<List<CartItem>>() {
+        }.getType();
+        return gson.fromJson(cartItemsString, listType);
     }
 }

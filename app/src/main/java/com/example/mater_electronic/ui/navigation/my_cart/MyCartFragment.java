@@ -1,6 +1,8 @@
 package com.example.mater_electronic.ui.navigation.my_cart;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.request.target.BitmapThumbnailImageViewTarget;
+import com.example.mater_electronic.database.cart.CartManager;
 import com.example.mater_electronic.databinding.FragmentMycartBinding;
 import com.example.mater_electronic.models.ProductItem;
 import com.example.mater_electronic.models.cart.CartItem;
@@ -24,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyCartFragment extends Fragment {
+    private CartManager cartManager;
+    private MyCartViewModel myCartViewModel;
     private RecyclerView rcvCart;
     private MyCartAdapter myCartAdapter;
     private FragmentMycartBinding binding;
@@ -32,12 +37,15 @@ public class MyCartFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // tạo view model cho cart
-        MyCartViewModel myCartViewModel = new ViewModelProvider(this).get(MyCartViewModel.class);
+        myCartViewModel = new ViewModelProvider(this).get(MyCartViewModel.class);
         binding = FragmentMycartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         rcvCart = binding.cartItemsList;
         myCartAdapter = new MyCartAdapter(getContext());
+
+        cartManager = new CartManager(getContext(), getCurrentUserId());
+        myCartAdapter.setCartManager(cartManager);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         rcvCart.setLayoutManager(linearLayoutManager);
@@ -54,25 +62,7 @@ public class MyCartFragment extends Fragment {
 
         btnmuangay.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), ActivityCheckout.class);
-
-            // Tạo danh sách CartItem
-            ArrayList<CartItem> cartList = new ArrayList<>();
-            for (int i = 1; i <= 3; i++) {
-                String name = "BCS loại " + i;
-                double price = i * 100.0;
-                int quantity = i;
-
-                cartList.add(new CartItem(name, price, quantity));
-            }
-
-            // Truyền list (CartItem phải implement Serializable)
-            intent.putExtra("cart_list", cartList);
-
-
-
-            // Gọi activity
             startActivity(intent);
-
         });
 
         return root;
@@ -80,13 +70,12 @@ public class MyCartFragment extends Fragment {
     }
 
 
-
+    private String getCurrentUserId() {
+        SharedPreferences prefs = getContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        return prefs.getString("_id", "");
+    }
     private List<CartItem> getCartItems() {
-        List<CartItem> cartItems = new ArrayList<>();
-        for(int i = 0; i < 5; i++) {
-            cartItems.add(new CartItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154983/ElectronicMaster/ElectronicImages/kt6zkcwyzas9e7nrcvem.jpg", "Sản phẩm " + i, 100.0 * (i + 1), 1, "main category"));
-        }
-        return cartItems;
+        return new ArrayList<>();
     }
 
     @Override

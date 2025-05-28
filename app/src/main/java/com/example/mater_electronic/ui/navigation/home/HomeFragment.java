@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,7 @@ import com.example.mater_electronic.R;
 import com.example.mater_electronic.database.AccountDatabase;
 import com.example.mater_electronic.databinding.FragmentHomeBinding;
 import com.example.mater_electronic.models.account.Account;
+import com.example.mater_electronic.models.product.Product;
 import com.example.mater_electronic.ui.activity.detail.ProductDetailActivity;
 import com.example.mater_electronic.ui.activity.login.LoginActivity;
 import com.example.mater_electronic.ui.activity.register.Register;
@@ -30,16 +32,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-
+    private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
     private Handler handler;
     private Runnable autoScrollRunnable;
-
+    private HomeProductAdapter adapter;
+    private List<Product> productList;
+    private int currentPage = 1;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        HomeViewModel dashboardViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -132,21 +136,86 @@ public class HomeFragment extends Fragment {
         startAutoScroll();
 
         // Khởi tạo danh sách sản phẩm
-        RecyclerView recyclerView = binding.homeProduct;
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2); // 2 cột
-        recyclerView.setLayoutManager(gridLayoutManager);
-        List<ProductItem> productList = new ArrayList<>();
+        binding.rvHomeProduct.setLayoutManager(gridLayoutManager);
 
-        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
-        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
-        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
-        productList.add(new ProductItem("https://res.cloudinary.com/dvtcbryg5/image/upload/v1746154166/ElectronicMaster/ElectronicImages/ovuy9lqg7u1a34kjhiuy.jpg", "Wireless Headphones Bluetooth Style 3 Lavender", 500000, 4.5));
+        productList = new ArrayList<>();
+        adapter = new HomeProductAdapter(productList);
+        binding.rvHomeProduct.setAdapter(adapter);
 
-        HomeProductAdapter adapter = new HomeProductAdapter(productList);
-        recyclerView.setAdapter(adapter);
+        binding.rvHomeProduct.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+                if (layoutManager != null && !isLoading && !isLastPage) {
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
 
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                            && firstVisibleItemPosition >= 0) {
+                        // Load more data
+                        loadMoreData();
+                    }
+                }
+            }
+        });
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
+        homeViewModel.getIsLoading().observe(getViewLifecycleOwner(), loading -> {
+            if (loading != null) {
+                isLoading = loading;
+                if (loading) {
+                    binding.loadingOverlay.setVisibility(View.VISIBLE);
+                } else {
+                    binding.loadingOverlay.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+        homeViewModel.getHomeProducts().observe(getViewLifecycleOwner(), products ->{
+            if (products != null) {
+                if (currentPage == 1) {
+                    // First page or new search
+                    if (products.isEmpty()) {
+                        productList.clear();
+                        adapter.notifyDataSetChanged();
+                        return;
+                    }
+                    productList.clear();
+                    productList.addAll(products);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    // Load more data
+                    if (products.isEmpty()) {
+                        isLastPage = true;
+                    } else {
+                        int startPosition = productList.size();
+                        productList.addAll(products);
+                        adapter.notifyItemRangeInserted(startPosition, products.size());
+                    }
+                }
+
+                // Check if this might be the last page (assuming 10 items per page)
+                if (products.size() < 10) {
+                    isLastPage = true;
+                }
+            }
+        });
+
+        homeViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
+            if (errorMessage != null) {
+                Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+        loadMoreData();
         return root;
+    }
+    private void loadMoreData() {
+        if (!isLoading && !isLastPage) {
+            currentPage++;
+            homeViewModel.getHomeProducts(currentPage, 10);
+        }
     }
 
     private void startAutoScroll() {

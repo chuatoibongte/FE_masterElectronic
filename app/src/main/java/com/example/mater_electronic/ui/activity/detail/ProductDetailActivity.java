@@ -1,7 +1,10 @@
 package com.example.mater_electronic.ui.activity.detail;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.mater_electronic.R;
+import com.example.mater_electronic.database.cart.CartDAO;
+import com.example.mater_electronic.database.cart.CartDatabase;
 import com.example.mater_electronic.databinding.ActivityProductDetailBinding;
+import com.example.mater_electronic.models.cart.CartItem;
 import com.example.mater_electronic.models.product.ElectronicImg;
 import com.example.mater_electronic.models.product.Product;
 import com.example.mater_electronic.utils.LoadImageByUrl;
@@ -29,12 +35,14 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executors;
 
 public class ProductDetailActivity extends AppCompatActivity {
     private ActivityProductDetailBinding binding;
     private Handler handler;
     private Runnable autoScrollRunnable;
     private Product currentProduct;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +120,9 @@ public class ProductDetailActivity extends AppCompatActivity {
                 binding.tvRating.setText(String.valueOf(product.getRating()));
                 binding.productRatingBar.setRating((float) product.getRating());
 
-                binding.btnAddToCart.setOnClickListener(v ->
-                        Toast.makeText(this, "Đã thêm vào giỏ", Toast.LENGTH_SHORT).show());
+                binding.btnAddToCart.setOnClickListener(v -> {
+                    showQuantityBottomSheet(product);
+                });
 
                 // Show bottom sheet when clicking Buy Now
                 binding.btnBuyNow.setOnClickListener(v -> showQuantityBottomSheet(product));
@@ -171,9 +180,42 @@ public class ProductDetailActivity extends AppCompatActivity {
         btnClose.setOnClickListener(v -> bottomSheetDialog.dismiss());
 
         btnAddToCart.setOnClickListener(v -> {
-            Toast.makeText(this, "Đã thêm " + quantity[0] + " sản phẩm vào giỏ hàng", Toast.LENGTH_SHORT).show();
-            bottomSheetDialog.dismiss();
+            Executors.newSingleThreadExecutor().execute(() -> {
+                CartDatabase db = CartDatabase.getInstance(context);
+                CartDAO cartDAO = db.cartDAO();
+
+                String userId = getCurrentUserId(); // take userId from sharedpreferences
+                String productId = product.get_id(); // take _id of product
+                CartItem existingItem = cartDAO.getCartItemByProductId(productId, userId);
+
+                if (existingItem != null) {
+                    // Cập nhật số lượng nếu đã có trong giỏ hàng
+                    existingItem.setQuantity(existingItem.getQuantity() + quantity[0]);
+                    cartDAO.updateCartItem(existingItem);
+                } else {
+                    String imageUrl = product.getElectronicImgs() != null && !product.getElectronicImgs().isEmpty()
+                            ? product.getElectronicImgs().get(0).getUrl()
+                            : "";
+
+                    CartItem newItem = new CartItem(
+                            productId,
+                            product.getName(),
+                            imageUrl,
+                            product.getPrice() * quantity[0],
+                            quantity[0],
+                            product.getMainCategory(), // ← hoặc product.getSlugCate(), tùy theo bạn muốn hiển thị gì
+                            userId
+                    );
+                    cartDAO.insertCartItem(newItem);
+                }
+
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    Toast.makeText(context, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                    bottomSheetDialog.dismiss();
+                });
+            });
         });
+
 
         btnBuyNow.setOnClickListener(v -> {
             Toast.makeText(this, "Mua " + quantity[0] + " sản phẩm - Tổng: " +
@@ -205,6 +247,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (handler != null && autoScrollRunnable != null) {
             handler.removeCallbacks(autoScrollRunnable);
         }
+    }
+    private String getCurrentUserId() {
+        SharedPreferences prefs = getApplication().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        return prefs.getString("_id", "");
     }
 
     @Override
