@@ -60,4 +60,13 @@
     <string name="product_description">Mô Tả Sản Phẩm</string>
     <string name="customer_review">Khách Hàng Đánh Giá</string>
 
+    <!--    Setting-->
+    <string name="settingTitle">Cài đặt</string>
+    <string name="settingNotification">Cài đặt thông báo</string>
+    <string name="settingPasstxt">Cài đặt mật khẩu</string>
+    <string name="delAccounttxt">Xóa tài khoản</string>
+    <string name="settingPassTitle">Cài đặt mật khẩu</string>
+    <string name="currPassword">Mật khẩu hiện tại</string>
+    <!--    Setting Pass-->
+
 </resources>
