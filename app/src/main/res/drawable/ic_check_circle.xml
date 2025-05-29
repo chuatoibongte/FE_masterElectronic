@@ -1,0 +1,25 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="30dp"
+    android:height="30dp"
+    android:viewportWidth="30"
+    android:viewportHeight="30">
+
+    <!-- Vòng tròn khoanh ngoài màu đen, không fill -->
+    <path
+        android:pathData="M15,3
+            a12,12 0 1,0 0.01,0Z"
+        android:strokeColor="#000000"
+        android:strokeWidth="2.5"
+        android:fillColor="@android:color/transparent"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+
+    <!-- Dấu check trắng ở giữa -->
+    <path
+        android:pathData="M9,16 L13,20 L21,12"
+        android:strokeColor="#000000"
+        android:strokeWidth="2.5"
+        android:fillColor="@android:color/transparent"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+</vector>
