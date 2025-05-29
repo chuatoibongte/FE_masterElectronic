@@ -83,6 +83,11 @@ public class MyCartFragment extends Fragment {
     private String formatPrice(double price) {
         return String.format("%,.0f₫", price);  // 1000000 -> 1.000.000₫
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        myCartViewModel.loadCartItems();
+    }
 
     @Override
     public void onDestroyView() {

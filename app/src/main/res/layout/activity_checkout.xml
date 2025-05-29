@@ -157,8 +157,27 @@
             android:textStyle="italic"
             android:layout_marginBottom="24dp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ghi chú"
+            android:textColor="@color/dark_primary_text"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+        <EditText
+            android:id="@+id/etNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_10dp"
+            android:hint="Nhập ghi chú"
+
+            android:padding="@dimen/margin_xs"
+            >
+
+        </EditText>
+
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/checkout_muangay_button"
+            android:id="@+id/btnBuyNow"
             android:layout_width="186dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_lg"

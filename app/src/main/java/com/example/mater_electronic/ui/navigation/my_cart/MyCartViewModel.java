@@ -27,7 +27,7 @@ public class MyCartViewModel extends AndroidViewModel {
         loadCartItems();
     }
 
-    private void loadCartItems() {
+    public void loadCartItems() {
         new Thread(() -> {
             List<CartItem> items = cartManager.getAllCartItems();
             cartItems.postValue(items);

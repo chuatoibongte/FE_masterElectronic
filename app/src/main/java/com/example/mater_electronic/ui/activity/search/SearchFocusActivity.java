@@ -20,10 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFocusActivity extends AppCompatActivity {
+    private ActivitySearchFocusBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivitySearchFocusBinding binding = ActivitySearchFocusBinding.inflate(getLayoutInflater());
+        binding = ActivitySearchFocusBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         binding.btnBack.setOnClickListener(v -> finish());
@@ -70,5 +71,12 @@ public class SearchFocusActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List<String> searchHints = DataLocalManager.getSearchHistory();
+        SearchFocusAdapter searchFocusAdapter = new SearchFocusAdapter(searchHints);
+        binding.rvSearchHint.setAdapter(searchFocusAdapter);
     }
 }

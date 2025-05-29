@@ -28,20 +28,28 @@ public class ActivitySuccess extends AppCompatActivity {
 
         // Kiểm tra đơn hàng thành công hay không
         boolean wantsNotification = getIntent().getBooleanExtra("wants_notification", false);
-
-        if (wantsNotification) {
+        boolean success = getIntent().getBooleanExtra("success", false);
+        if(success) {
             binding.tvThankYou.setText("Cảm Ơn");
-            binding.tvMessage.setText("Đơn Hàng Của Bạn Đã Đặt Thành Công");
-        } else {
+            binding.tvMessage.setText("Đơn Hàng Của Bạn Đã Đặt Thành Công. \nVui lòng kiểm tra trong đơn hàng của bạn");
+        }
+        else {
             binding.tvThankYou.setText("Đơn Hàng Của Tôi");
             binding.tvMessage.setText("Đơn Hàng Của Bạn Thanh Toán Không Thành Công\nCó Lỗi Trong Quá Trình Thanh Toán\nĐơn Hàng Của Bạn. Hãy Thử Lại!");
         }
+//        if (wantsNotification) {
+//            binding.tvThankYou.setText("Cảm Ơn");
+//            binding.tvMessage.setText("Đơn Hàng Của Bạn Đã Đặt Thành Công");
+//        } else {
+//            binding.tvThankYou.setText("Đơn Hàng Của Tôi");
+//            binding.tvMessage.setText("Đơn Hàng Của Bạn Thanh Toán Không Thành Công\nCó Lỗi Trong Quá Trình Thanh Toán\nĐơn Hàng Của Bạn. Hãy Thử Lại!");
+//        }
 
         // Thiết lập danh sách sản phẩm (luôn luôn hiển thị)
-        RecyclerView recyclerView = binding.dssanpham;
+        RecyclerView recyclerView = binding.rvProductList;
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         // ...
-        binding.vetrangchu.setOnClickListener(v -> {
+        binding.btnGoHome.setOnClickListener(v -> {
             Intent intent = new Intent(ActivitySuccess.this, MainActivity.class);
             intent.putExtra("wants_notification", wantsNotification);
             startActivity(intent);
