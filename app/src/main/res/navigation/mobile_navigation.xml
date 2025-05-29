@@ -25,9 +25,9 @@
 
     <fragment
         android:id="@+id/navigation_favourite"
-        android:name="com.example.mater_electronic.ui.navigation.favourite.FavouriteFragment"
-        android:label="@string/title_favourite"
-        tools:layout="@layout/fragment_favourite" />
+        android:name="com.example.mater_electronic.ui.navigation.chabot.ChatbotFragment"
+        android:label="@string/title_chatbot"
+        tools:layout="@layout/fragment_chatbot" />
 
     <fragment
         android:id="@+id/navigation_profile"
