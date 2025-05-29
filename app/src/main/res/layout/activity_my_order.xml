@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/margin_lg"
+    tools:context=".ui.activity.profile.myorder.MyOrder">
+    <!--    Title-->
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!-- Back arrow -->
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_back_arrow" />
+
+        <TextView
+            android:id="@+id/myOrderTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|center_vertical"
+            android:text="Orders Của Tôi"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/large_text_size"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/hsvFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_marginTop="@dimen/margin_md"
+        app:layout_constraintEnd_toEndOf="@+id/frameLayout"
+        app:layout_constraintStart_toStartOf="@id/frameLayout"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/confirmedStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_background2"
+                android:paddingHorizontal="@dimen/margin_sm"
+                android:text="Đơn đã đặt"
+                android:textColor="@color/dark_color_bg"
+                android:textSize="@dimen/big_text_size" />
+
+            <TextView
+                android:id="@+id/processingStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:paddingHorizontal="@dimen/margin_sm"
+                android:text="Đang chuẩn bị"
+                android:textColor="@color/dark_color_bg"
+                android:textSize="@dimen/big_text_size" />
+
+            <TextView
+                android:id="@+id/intransitStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:paddingHorizontal="@dimen/margin_sm"
+                android:text="Đang vận chuyển"
+                android:textColor="@color/dark_color_bg"
+                android:textSize="@dimen/big_text_size" />
+
+            <TextView
+                android:id="@+id/deliveredStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:paddingHorizontal="@dimen/margin_sm"
+                android:text="Đã giao"
+                android:textColor="@color/dark_color_bg"
+                android:textSize="@dimen/big_text_size" />
+
+            <TextView
+                android:id="@+id/canceledStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:paddingHorizontal="@dimen/margin_sm"
+                android:text="Hủy đơn"
+                android:textColor="@color/dark_color_bg"
+                android:textSize="@dimen/big_text_size" />
+
+            <TextView
+                android:id="@+id/rejectedStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:paddingHorizontal="@dimen/margin_sm"
+                android:text="Từ chối"
+                android:textColor="@color/dark_color_bg"
+                android:textSize="@dimen/big_text_size" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_md"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        app:layout_constraintEnd_toEndOf="@+id/hsvFilter"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/hsvFilter"
+        app:layout_constraintTop_toBottomOf="@+id/hsvFilter" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
