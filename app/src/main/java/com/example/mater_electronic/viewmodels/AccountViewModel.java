@@ -9,11 +9,14 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.mater_electronic.database.AccountDatabase;
 import com.example.mater_electronic.models.account.Account;
+import com.example.mater_electronic.models.account.Address;
 import com.example.mater_electronic.models.account.ChangePassAccountRequest;
 import com.example.mater_electronic.models.account.ChangePassAccountResponse;
 import com.example.mater_electronic.models.account.GetAccountResponse;
 import com.example.mater_electronic.models.account.UpdateAccountResponse;
 import com.example.mater_electronic.repositories.AccountRespository;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -86,6 +89,33 @@ public class AccountViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<ChangePassAccountResponse> call, Throwable t){
+                errorMessage.setValue("Lỗi: " + t.getMessage());
+                updateSuccess.setValue(false);
+            }
+        });
+    }
+
+    //Update Address
+    public void updateAddress(String accessToken, List<Address> addressList){
+        accountRespository.updateAddressList(accessToken, addressList, new Callback<UpdateAccountResponse>() {
+            @Override
+            public void onResponse(Call<UpdateAccountResponse> call, Response<UpdateAccountResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().isSuccess()) {
+                        resultMessage.setValue("Cập nhật danh sách địa chỉ thành công;");
+                    } else {
+                        resultMessage.setValue("Cập nhật danh sách địa chỉ thất bại");
+                    }
+                } else {
+                    resultMessage.setValue("Lỗi server: " + response.message());
+                }
+
+                assert response.body() != null;
+                updateSuccess.setValue(response.body().isSuccess());
+            }
+
+            @Override
+            public void onFailure(Call<UpdateAccountResponse> call, Throwable t) {
                 errorMessage.setValue("Lỗi: " + t.getMessage());
                 updateSuccess.setValue(false);
             }

@@ -5,6 +5,7 @@ import com.example.mater_electronic.models.account.ChangePassAccountRequest;
 import com.example.mater_electronic.models.account.ChangePassAccountResponse;
 import com.example.mater_electronic.models.account.GetAccountResponse;
 import com.example.mater_electronic.models.account.UpdateAccountResponse;
+import com.example.mater_electronic.models.account.UpdateAddressRequest;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -43,6 +44,13 @@ public interface AccountService {
             @Part("phone") RequestBody phone,
             @Part("birthday") RequestBody birthday,
             @Part("gender") RequestBody gender
+    );
+
+    //API Update addressList only
+    @PATCH("customer/manageAccount")
+    Call<UpdateAccountResponse> updateAddressList(
+            @Header("Authorization") String accessToken,
+            @Body UpdateAddressRequest request
     );
 
     //API đổi mật khẩu trong profile

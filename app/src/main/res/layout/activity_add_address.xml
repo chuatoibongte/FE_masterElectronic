@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addAddress"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/margin_lg"
+    tools:context=".ui.activity.profile.myaddress.AddAddress">
+    <FrameLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!-- Back arrow -->
+        <ImageView
+            android:id="@+id/backArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_back_arrow" />
+
+        <TextView
+            android:id="@+id/notificationTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|center_vertical"
+            android:text="Địa chỉ giao hàng"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/large_text_size"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/changeAddressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/titleLayout"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/titleLayout"
+        app:layout_constraintTop_toBottomOf="@+id/titleLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Thêm Địa Chỉ"
+            android:textAlignment="center"
+            android:layout_weight="1"
+            android:textColor="@color/dark_text"
+            android:textSize="@dimen/large_text_size"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/nameAddressTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Tên"
+        android:textSize="@dimen/medium_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/changeAddressLayout"
+        app:layout_constraintHorizontal_bias="0.072"
+        app:layout_constraintStart_toStartOf="@+id/changeAddressLayout"
+        app:layout_constraintTop_toBottomOf="@+id/changeAddressLayout" />
+
+    <RelativeLayout
+        android:id="@+id/nameAddressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_xs"
+        app:layout_constraintEnd_toEndOf="@+id/nameAddressTxt"
+        app:layout_constraintStart_toStartOf="@+id/nameAddressTxt"
+        app:layout_constraintTop_toBottomOf="@+id/nameAddressTxt">
+
+        <EditText
+            android:id="@+id/nameEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_background"
+            android:hint="Tên"
+            android:inputType="text"
+            android:padding="12dp"
+            android:textColorHint="#D8CFC6" />
+
+    </RelativeLayout>
+
+    <!-- Password -->
+
+    <TextView
+        android:id="@+id/addressTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="Địa Chỉ"
+        android:textSize="@dimen/medium_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/nameAddressTxt"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/nameAddressTxt"
+        app:layout_constraintTop_toBottomOf="@+id/nameAddressTxt" />
+
+    <RelativeLayout
+        android:id="@+id/addressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="@id/nameAddressLayout"
+        app:layout_constraintStart_toStartOf="@id/nameAddressLayout"
+        app:layout_constraintTop_toBottomOf="@+id/nameAddressLayout">
+        <EditText
+            android:id="@+id/addressEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_background"
+            android:hint="Địa chỉ"
+            android:inputType="text"
+            android:padding="12dp"
+            android:textColorHint="#D8CFC6" />
+    </RelativeLayout>
+
+    <!--    Xác nhận pass-->
+    <TextView
+        android:id="@+id/phoneTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="Số điện thoại"
+        android:textSize="@dimen/medium_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/addressTxt"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/addressTxt"
+        app:layout_constraintTop_toBottomOf="@+id/addressTxt" />
+
+    <RelativeLayout
+        android:id="@+id/phoneLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="@id/addressLayout"
+        app:layout_constraintStart_toStartOf="@id/addressLayout"
+        app:layout_constraintTop_toBottomOf="@+id/addressLayout">
+        <EditText
+            android:id="@+id/phoneEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_background"
+            android:hint="Số điện thoại"
+            android:inputType="phone"
+            android:padding="12dp"
+            android:textColorHint="#D8CFC6" />
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/agreeBtn"
+        android:layout_width="186dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="344dp"
+        android:background="@drawable/button_background"
+        android:text="Đồng Ý"
+        android:textColor="@color/dark_primary_text"
+        android:textSize="@dimen/large_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/changeAddressLayout"
+        app:layout_constraintStart_toStartOf="@+id/changeAddressLayout"
+        app:layout_constraintTop_toBottomOf="@+id/changeAddressLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

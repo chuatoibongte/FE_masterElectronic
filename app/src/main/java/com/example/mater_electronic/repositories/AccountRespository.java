@@ -3,15 +3,18 @@ package com.example.mater_electronic.repositories;
 import android.net.Uri;
 
 import com.example.mater_electronic.models.account.Account;
+import com.example.mater_electronic.models.account.Address;
 import com.example.mater_electronic.models.account.ChangePassAccountRequest;
 import com.example.mater_electronic.models.account.ChangePassAccountResponse;
 import com.example.mater_electronic.models.account.GetAccountResponse;
 import com.example.mater_electronic.models.account.UpdateAccountResponse;
+import com.example.mater_electronic.models.account.UpdateAddressRequest;
 import com.example.mater_electronic.network.ApiClient;
 import com.example.mater_electronic.network.account.AccountService;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 import okhttp3.MediaType;
@@ -33,6 +36,15 @@ public class AccountRespository {
     public void changePasss(String accessToken, ChangePassAccountRequest request, Callback<ChangePassAccountResponse> callback){
         String authHeader = "Bearer " + accessToken;
         accountServiceApi.changePass(authHeader, request).enqueue(callback);
+    }
+
+    //Update địa chỉ mới
+    public void updateAddressList(String accessToken, List<Address> addressList, Callback<UpdateAccountResponse> callback){
+        String authHeader = "Bearer " + accessToken;
+
+        //Create RequestBody
+        UpdateAddressRequest request = new UpdateAddressRequest(addressList);
+        accountServiceApi.updateAddressList(authHeader, request).enqueue(callback);
     }
 
     //Update dữ liệu Account with image

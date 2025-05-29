@@ -1,5 +1,6 @@
 package com.example.mater_electronic.ui.activity.profile.myaddress;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,19 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         holder.tvAddressUserName.setText(address.getName());
         holder.tvAddress.setText(address.getAddress());
         holder.tvPhone.setText(address.getPhone());
+
+        // Handle edit button click
+        holder.editBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), EditMyAddress.class);
+
+            // Pass address data and position
+            intent.putExtra("address_position", position);
+            intent.putExtra("address_name", address.getName());
+            intent.putExtra("address_address", address.getAddress());
+            intent.putExtra("address_phone", address.getPhone());
+
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override
