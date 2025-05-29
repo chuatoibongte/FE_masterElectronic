@@ -29,7 +29,7 @@ public class CheckoutViewModel extends AndroidViewModel {
     }
     private void loadCartItems() {
         new Thread(() -> {
-            List<CartItem> items = cartManager.getAllCartItems();
+            List<CartItem> items = cartManager.getSelectedCartItems();
             cartItems.postValue(items);
         }).start();
     }

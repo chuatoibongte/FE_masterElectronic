@@ -1,6 +1,7 @@
 package com.example.mater_electronic.ui.activity.detail;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,7 @@ import com.example.mater_electronic.databinding.ActivityProductDetailBinding;
 import com.example.mater_electronic.models.cart.CartItem;
 import com.example.mater_electronic.models.product.ElectronicImg;
 import com.example.mater_electronic.models.product.Product;
+import com.example.mater_electronic.ui.navigation.my_cart.MyCartFragment;
 import com.example.mater_electronic.utils.LoadImageByUrl;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
@@ -49,7 +51,15 @@ public class ProductDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        context = this;
         binding.btnBack.setOnClickListener(v -> finish());
+        binding.btnMyCart.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MyCartFragment.class);
+            startActivity(intent);
+        });
+        binding.btnChatbot.setOnClickListener(v -> {
+            Toast.makeText(this, "Chatbot", Toast.LENGTH_SHORT).show();
+        });
         String productId = getIntent().getStringExtra("product_id");
 //        String productId = "6814329cc86355927f0c3bf3";
         if (productId == "") {
@@ -180,7 +190,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         btnClose.setOnClickListener(v -> bottomSheetDialog.dismiss());
 
         btnAddToCart.setOnClickListener(v -> {
-            Executors.newSingleThreadExecutor().execute(() -> {
+            // Executors.newSingleThreadExecutor().execute(() -> {
                 CartDatabase db = CartDatabase.getInstance(context);
                 CartDAO cartDAO = db.cartDAO();
 
@@ -209,11 +219,11 @@ public class ProductDetailActivity extends AppCompatActivity {
                     cartDAO.insertCartItem(newItem);
                 }
 
-                new Handler(Looper.getMainLooper()).post(() -> {
+                //new Handler(Looper.getMainLooper()).post(() -> {
                     Toast.makeText(context, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
                     bottomSheetDialog.dismiss();
-                });
-            });
+                //});
+            //});
         });
 
 
