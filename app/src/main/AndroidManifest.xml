@@ -19,6 +19,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.profile.myorder.OrderStatus"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.profile.myaddress.AddAddress"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.profile.myaddress.EditMyAddress"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.profile.myaddress.MyAddress"
             android:exported="false" />
         <activity

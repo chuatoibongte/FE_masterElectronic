@@ -108,6 +108,16 @@ public class ProfileFragment extends Fragment {
         binding.editProfile.setOnClickListener(editClickListener);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Refresh data when returning from EditAccount
+        SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        String _id = prefs.getString("_id", "");
+        Account account = AccountDatabase.getInstance(requireActivity()).accountDAO().getAccountById(_id);
+        displayAccountInfo(account);
+    }
+
     // Giải phóng binding để tránh memory leak
     @Override
     public void onDestroyView() {
