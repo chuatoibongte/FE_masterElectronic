@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.database.cart.CartManager;
+import com.example.mater_electronic.databinding.FragmentMycartBinding;
 import com.example.mater_electronic.models.cart.CartItem;
 import com.example.mater_electronic.ui.activity.detail.ProductDetailActivity;
 import com.example.mater_electronic.ui.navigation.home.HomeProductAdapter;
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartViewHolder> {
     private CartManager cartManager;
+    private OnCartChangedListener cartChangedListener;
 
     private Context mContext;
     private List<CartItem> mCartItems;
@@ -36,6 +38,12 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartView
     }
     public void setCartManager(CartManager cartManager) {
         this.cartManager = cartManager;
+    }
+    public interface OnCartChangedListener {
+        void onCartChanged();
+    }
+    public void setOnCartChangedListener(OnCartChangedListener listener) {
+        this.cartChangedListener = listener;
     }
     public static class MyCartViewHolder extends RecyclerView.ViewHolder {
         CartManager cartManager;
@@ -108,6 +116,8 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartView
             // Cập nhật UI
             holder.txtQuantity.setText(String.valueOf(newQuantity));
             holder.cartItemPrice.setText(formatPrice(item.getPrice() * newQuantity));
+            //
+            if (cartChangedListener != null) cartChangedListener.onCartChanged();
         });
 
         // Event: giảm số lượng
@@ -129,15 +139,18 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartView
                 // Cập nhật giao diện
                 holder.txtQuantity.setText(String.valueOf(newQuantity));
                 holder.cartItemPrice.setText(formatPrice(item.getPrice() * newQuantity));
+                //
+                if (cartChangedListener != null) cartChangedListener.onCartChanged();
             } else {
                 // Nếu giảm về 0 thì xóa
                 if (cartManager != null) {
                     cartManager.updateQuantity(item_cart.getId(), 0);
                 }
-
                 mCartItems.remove(item_position);
                 notifyItemRemoved(item_position);
                 notifyItemRangeChanged(item_position, mCartItems.size());
+                //
+                if (cartChangedListener != null) cartChangedListener.onCartChanged();
             }
         });
         // Event: icon trash - xóa item
@@ -148,15 +161,23 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.MyCartView
             }
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, mCartItems.size());
+            //
+            if (cartChangedListener != null) cartChangedListener.onCartChanged();
         });
         holder.iconSelect.setOnClickListener(v -> {
             if(item.isSelected()) {
                 item.setSelected(false);
+                cartManager.toggleSelection(item.getId(), false);
                 holder.iconSelect.setImageResource(R.drawable.ic_unselected);
+                //
+                if (cartChangedListener != null) cartChangedListener.onCartChanged();
                 return;
             }
             holder.iconSelect.setImageResource(R.drawable.ic_selected);
             item.setSelected(true);
+            cartManager.toggleSelection(item.getId(), true);
+            //
+            if (cartChangedListener != null) cartChangedListener.onCartChanged();
         });
     }
     @Override

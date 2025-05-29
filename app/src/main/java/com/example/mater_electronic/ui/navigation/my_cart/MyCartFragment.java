@@ -53,6 +53,11 @@ public class MyCartFragment extends Fragment {
 
         binding.cartItemsList.setAdapter(myCartAdapter);
 
+        myCartAdapter.setOnCartChangedListener(() -> {
+            double totalPrice = cartManager.getTotalPrice(); // Lấy lại tổng giá từ DB
+            binding.originalPriceValue.setText(formatPrice(totalPrice));
+            binding.totalPriceValue.setText(formatPrice(totalPrice));
+        });
 
         binding.originalPriceValue.setText(String.valueOf(formatPrice(cartManager.getTotalPrice())));
         // calc total price
