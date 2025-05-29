@@ -2,6 +2,7 @@ package com.example.mater_electronic.network;
 
 import com.example.mater_electronic.network.account.AccountService;
 import com.example.mater_electronic.network.auth.AuthService;
+import com.example.mater_electronic.network.order.OrderService;
 import com.example.mater_electronic.network.product.ProductService;
 
 import retrofit2.Retrofit;
@@ -39,5 +40,14 @@ public class ApiClient {
                     .build();
         }
         return retrofit.create(AccountService.class);
+    }
+    public static OrderService getOrderService() {
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofit.create(OrderService.class);
     }
 }

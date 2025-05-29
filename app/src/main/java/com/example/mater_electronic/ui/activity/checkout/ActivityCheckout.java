@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -20,10 +22,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.mater_electronic.R;
+import com.example.mater_electronic.database.AccountDatabase;
 import com.example.mater_electronic.database.cart.CartManager;
 import com.example.mater_electronic.databinding.ActivityCheckoutBinding;
 import com.example.mater_electronic.databinding.ItemCheckoutProductBinding;
+import com.example.mater_electronic.models.account.Account;
+import com.example.mater_electronic.models.account.Address;
 import com.example.mater_electronic.models.cart.CartItem;
+import com.example.mater_electronic.models.checkout.CheckoutItem;
 import com.example.mater_electronic.ui.activity.success.ActivitySuccess;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -57,24 +63,84 @@ public class ActivityCheckout extends AppCompatActivity {
             showProductList();
             showTotalPrice();
         });
+        checkoutViewModel.getResultMessage().observe(this, message -> {
+            if (message != null) {
+                // gọi API lưu order và chuyển hướng sang ActivitySuccess
+                // Tạo intent để mở activity khác
+                // Xác định lựa chọn Có/Không muốn nhận thông báo
+                if(message == "Tạo đơn hàng thành công") {
+                    cartManager.deleteSelectedItems();
+                    int selectedId = binding.notificationChoiceGroup.getCheckedRadioButtonId();
+                    boolean wantsNotification = selectedId == R.id.rbNotifyYes;
+                    Intent intent = new Intent(ActivityCheckout.this, ActivitySuccess.class);
+                    intent.putExtra("success", true);
+                    intent.putExtra("wants_notification", wantsNotification);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ActivityCheckout.this, ActivitySuccess.class);
+                    intent.putExtra("success", true);
+                    intent.putExtra("wants_notification", false);
+                    startActivity(intent);
+                }
+            }
+        });
+        checkoutViewModel.getErrorMessage().observe(this, message -> {
+            if(message != null) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
         // Nhận dữ liệu từ Intent
 
         setupCustomerInfo();      // Thiết lập thông tin người nhận (hardcoded ở đây)
         showProductList();        // Hiển thị danh sách sản phẩm và tính tổng
         showTotalPrice();         // Set tổng giá
         setDeliveryDate();        // Set ngày giao hàng dự kiến
-        setupClickListeners();    // Xử lý nút bấm
         binding.editAddressIcon.setOnClickListener(v -> showAddressDropdown());
 
-        binding.checkoutMuangayButton.setOnClickListener(v -> {
-            // Xác định lựa chọn Có/Không
-            int selectedId = binding.notificationChoiceGroup.getCheckedRadioButtonId();
-            boolean wantsNotification = selectedId == R.id.rbNotifyYes;
-
-            // Tạo intent để mở activity khác
-            Intent intent = new Intent(ActivityCheckout.this, ActivitySuccess.class); // <-- thay bằng tên Activity thật
-            intent.putExtra("wants_notification", wantsNotification);
-            startActivity(intent);
+        binding.btnBuyNow.setOnClickListener(v -> {
+            // Kiểm tra có chọn địa chỉ hay chưa
+            if(binding.recipientName.getText().toString().equals("Vui lòng chọn địa chỉ nhận hàng")) {
+                Toast.makeText(this, "Vui lòng chọn địa chỉ nhận hàng", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            // Kiểm tra có chọn phương thức thanh toán hay chưa
+            if(binding.paymentMethodGroup.getCheckedRadioButtonId() == -1) {
+                Toast.makeText(this, "Vui lòng chọn phương thức thanh toán", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            // Lấy địa chỉ đã chọn
+            String selectedAddressName = binding.recipientName.getText().toString();
+            String selectedAddressAddress = binding.recipientAddress.getText().toString();
+            String selectedAddressPhone = binding.recipientPhone.getText().toString();
+            Address selecedAddress = new Address(selectedAddressName, selectedAddressAddress, selectedAddressPhone);
+            // Lấy phương thức thanh toán đã chọn
+            RadioButton selectedPaymentMethodRadioButton = findViewById(binding.paymentMethodGroup.getCheckedRadioButtonId());
+            String selectedPaymentMethod = "";
+            if(selectedPaymentMethodRadioButton.getText().toString().equals("Thanh toán khi nhận hàng")) {
+                selectedPaymentMethod = "direct";
+            } else if(selectedPaymentMethodRadioButton.getText().toString().equals("Momo")) {
+                selectedPaymentMethod = "momo";
+            }
+            else {
+                selectedPaymentMethod = "banking";
+            }
+            // Lấy ghi chú
+            String note = binding.etNote.getText().toString();
+            // Lấy list electronics
+            List<CheckoutItem> checkoutItems = new ArrayList<>();
+            for (CartItem item : cartItems) {
+                CheckoutItem checkoutItem = new CheckoutItem();
+                checkoutItem.setElectronicID(item.getProductId());
+                checkoutItem.setQuantity(item.getQuantity());
+                checkoutItems.add(checkoutItem);
+            }
+            // Lấy userID
+            String userID = getCurrentUserId();
+            String accessToken = getCurrentUserAccessToken();
+            // Gọi API để tạo đơn hàng
+            checkoutViewModel.createOrder(accessToken, note, selectedPaymentMethod, selecedAddress, checkoutItems);
         });
 
     }
@@ -82,13 +148,17 @@ public class ActivityCheckout extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         return prefs.getString("_id", "");
     }
+    private String getCurrentUserAccessToken() {
+        SharedPreferences prefs = getApplication().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        return prefs.getString("accessToken", null);
+    }
     private String formatPrice(double price) {
         return String.format("%,.0f₫", price);  // 1000000 -> 1.000.000₫
     }
     private void setupCustomerInfo() {
-        binding.recipientName.setText("Nguyễn Văn A");
-        binding.recipientAddress.setText("123 Lý Thường Kiệt, Q.10, TP.HCM");
-        binding.recipientPhone.setText("0901234567");
+        binding.recipientName.setText("Vui lòng chọn địa chỉ nhận hàng");
+        binding.recipientAddress.setText("");
+        binding.recipientPhone.setText("");
     }
 
     private void showProductList() {
@@ -103,16 +173,7 @@ public class ActivityCheckout extends AppCompatActivity {
         binding.txtDeliveryDate.setText("Dự Kiến: 15/05/2025");
     }
 
-    private void setupClickListeners() {
-        binding.checkoutMuangayButton.setOnClickListener(v -> {
-            // Xử lý thanh toán ở đây
-            // TODO: xử lý logic thanh toán
-        });
 
-        binding.editAddressIcon.setOnClickListener(v -> {
-            // TODO: mở dialog chỉnh sửa địa chỉ nếu cần
-        });
-    }
 
     private void showAddressDropdown() {
         BottomSheetDialog dialog = new BottomSheetDialog(this);
@@ -120,16 +181,13 @@ public class ActivityCheckout extends AppCompatActivity {
         dialog.setContentView(view);
 
         LinearLayout addressContainer = view.findViewById(R.id.addressContainer);
-
-        // Dữ liệu giả lập: Tên - Địa chỉ - SĐT
-        List<String> addresses = new ArrayList<>();
-        addresses.add("Nguyễn Văn A - 123 Lý Thường Kiệt - 0909123456");
-        addresses.add("Trần Thị B - 456 Điện Biên Phủ - 0909234567");
-        addresses.add("Phạm Văn C - 789 Cách Mạng Tháng 8 - 0909345678");
-
-        // Thêm địa chỉ từ danh sách
-        for (String address : addresses) {
-            TextView addressView = createAddressTextView(address);
+        //Lấy _id từ sharedPreferences
+        String _id = getSharedPreferences("user_prefs", MODE_PRIVATE).getString("_id", null);
+        //Lấy dữ liệu từ account và hiển thị
+        Account account = AccountDatabase.getInstance(this).accountDAO().getAccountById(_id);
+        List<Address> addressList = account.getAddressList();
+        for(Address address : addressList) {
+            TextView addressView = createAddressTextView(address.getName() + " - " + address.getAddress() + " - " + address.getPhone());
             addressView.setOnClickListener(v -> {
                 String selected = ((TextView) v).getText().toString();
                 String[] parts = selected.split(" - ");
@@ -142,6 +200,27 @@ public class ActivityCheckout extends AppCompatActivity {
             });
             addressContainer.addView(addressView);
         }
+        // Dữ liệu giả lập: Tên - Địa chỉ - SĐT
+//        List<String> addresses = new ArrayList<>();
+//        addresses.add("Nguyễn Văn A - 123 Lý Thường Kiệt - 0909123456");
+//        addresses.add("Trần Thị B - 456 Điện Biên Phủ - 0909234567");
+//        addresses.add("Phạm Văn C - 789 Cách Mạng Tháng 8 - 0909345678");
+//
+//        // Thêm địa chỉ từ danh sách
+//        for (String address : addresses) {
+//            TextView addressView = createAddressTextView(address);
+//            addressView.setOnClickListener(v -> {
+//                String selected = ((TextView) v).getText().toString();
+//                String[] parts = selected.split(" - ");
+//                if (parts.length == 3) {
+//                    binding.recipientName.setText(parts[0]);
+//                    binding.recipientAddress.setText(parts[1]);
+//                    binding.recipientPhone.setText(parts[2]);
+//                }
+//                dialog.dismiss();
+//            });
+//            addressContainer.addView(addressView);
+//        }
 
         // Dòng "Thêm địa chỉ"
         TextView addAddressView = createAddressTextView("➕ Thêm địa chỉ mới");
@@ -152,7 +231,6 @@ public class ActivityCheckout extends AppCompatActivity {
             dialog.dismiss();
         });
         addressContainer.addView(addAddressView);
-
         dialog.show();
     }
 
@@ -169,6 +247,4 @@ public class ActivityCheckout extends AppCompatActivity {
         tv.setBackgroundResource(android.R.drawable.list_selector_background);
         return tv;
     }
-
-
 }
