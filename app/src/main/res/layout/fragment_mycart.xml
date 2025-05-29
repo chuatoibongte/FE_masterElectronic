@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/margin_lg"
-    tools:context=".ui.navigation.my_cart.MyCartFragment">
+    tools:context=".ui.navigation.my_cart.MyCartFragment"
+    android:paddingBottom="@dimen/margin_bottom_btn">
 
     <!-- Title -->
     <TextView
