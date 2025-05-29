@@ -26,6 +26,7 @@ import com.example.mater_electronic.ui.activity.detail.ProductDetailActivity;
 import com.example.mater_electronic.ui.activity.login.LoginActivity;
 import com.example.mater_electronic.ui.activity.register.Register;
 import com.example.mater_electronic.ui.activity.search.SearchFocusActivity;
+import com.example.mater_electronic.ui.activity.searchresult.SearchResultActivity;
 import com.example.mater_electronic.ui.navigation.search.SearchActivity;
 import com.example.mater_electronic.models.ProductItem;
 
@@ -95,12 +96,37 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
+        binding.homeCategoryLaptop.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), SearchResultActivity.class);
+            intent.putExtra("keyword", "Laptop");
+            startActivity(intent);
+        });
+        binding.homeCategoryPhone.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), SearchResultActivity.class);
+            intent.putExtra("keyword", "Điện thoại");
+            startActivity(intent);
+        });
+        binding.homeCategoryCpu.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), SearchResultActivity.class);
+            intent.putExtra("keyword", "CPU");
+            startActivity(intent);
+        });
+        binding.homeCategoryRam.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), SearchResultActivity.class);
+            intent.putExtra("keyword", "RAM");
+            startActivity(intent);
+        });
+        binding.homeCategoryFan.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), SearchResultActivity.class);
+            intent.putExtra("keyword", "Quạt tản nhiệt");
+            startActivity(intent);
+        });
         // Thiết lập Banner ViewPager2
         List<Home_mainevent_BannerItem> bannerItems = new ArrayList<>();
         bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent)); // Ảnh 1
-        bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent2)); // Ảnh 2
+//        bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent2)); // Ảnh 2
         bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent)); // Ảnh 3
-        bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent2)); // Ảnh 4
+        // bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent2)); // Ảnh 4
         bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent)); // Ảnh 5
 
         Home_mainevent_BannerAdapter bannerAdapter = new Home_mainevent_BannerAdapter(bannerItems);

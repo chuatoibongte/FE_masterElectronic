@@ -53,11 +53,20 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/confirmedStatus"
+                android:id="@+id/pendingStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:background="@drawable/button_background2"
+                android:paddingHorizontal="@dimen/margin_sm"
+                android:text="Đang chờ"
+                android:textColor="@color/dark_color_bg"
+                android:textSize="@dimen/big_text_size" />
+            <TextView
+                android:id="@+id/confirmedStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:paddingHorizontal="@dimen/margin_sm"
                 android:text="Đơn đã đặt"
                 android:textColor="@color/dark_color_bg"
@@ -115,11 +124,21 @@
 
         </LinearLayout>
     </HorizontalScrollView>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvAddress"
+    <TextView
+        android:id="@+id/tvNoOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/hsvFilter"
+        android:text="Không có đơn hàng nào"
+        android:visibility="gone"
+        >
+
+    </TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMyOrder"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
         android:layout_marginTop="@dimen/margin_md"
         android:orientation="horizontal"
         android:overScrollMode="never"

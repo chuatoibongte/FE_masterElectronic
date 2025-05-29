@@ -15,11 +15,11 @@
     <string name="sign_up_now">Đăng ký ngay</string>"
     <!--    -->
     <string name="app_name">mater_electronic</string>
-    <string name="title_home">Home</string>
-    <string name="title_category">Category</string>
-    <string name="title_mycart">Mycart</string>
+    <string name="title_home">Trang chủ</string>
+    <string name="title_category">Danh mục</string>
+    <string name="title_mycart">Giỏ hàng</string>
     <string name="title_chatbot">Chatbot</string>
-    <string name="title_profile">Profile</string>
+    <string name="title_profile">Hồ sơ</string>
     <string name="register_title">Đăng ký</string>
     <string name="sign_up_option_alt">Đã có tài khoản ? </string>
     <string name="sign_up_txt">Đăng ký</string>
