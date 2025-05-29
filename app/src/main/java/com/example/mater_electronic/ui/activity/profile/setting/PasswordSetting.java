@@ -23,7 +23,6 @@ public class PasswordSetting extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         binding = ActivityPasswordSettingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
