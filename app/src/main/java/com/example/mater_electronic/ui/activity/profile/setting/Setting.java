@@ -18,7 +18,6 @@ public class Setting extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
 
         //View binding
         binding = ActivitySettingBinding.inflate(getLayoutInflater());

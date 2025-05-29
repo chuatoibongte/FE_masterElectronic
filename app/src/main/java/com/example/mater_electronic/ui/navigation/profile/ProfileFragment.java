@@ -17,7 +17,9 @@ import com.example.mater_electronic.databinding.FragmentProfileBinding;
 import com.example.mater_electronic.models.account.Account;
 import com.example.mater_electronic.ui.activity.login.LoginActivity;
 import com.example.mater_electronic.ui.activity.profile.edit.EditAccountActivity;
+import com.example.mater_electronic.ui.activity.profile.favorite.MyFavorite;
 import com.example.mater_electronic.ui.activity.profile.myaddress.MyAddress;
+import com.example.mater_electronic.ui.activity.profile.myorder.MyOrder;
 import com.example.mater_electronic.ui.activity.profile.notification.Notification;
 import com.example.mater_electronic.ui.activity.profile.setting.Setting;
 import com.example.mater_electronic.utils.LoadImageByUrl;
@@ -47,6 +49,16 @@ public class ProfileFragment extends Fragment {
         //Sang MyAddress activity
         binding.listAddressLayout.setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), MyAddress.class));
+        });
+
+        //Sang MyOrder activity
+        binding.orderLayout.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), MyOrder.class));
+        });
+
+        //Sang MyFavorite activity
+        binding.favoriteLayout.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), MyFavorite.class));
         });
 
         // Lấy accessToken từ SharedPreferences để sử dụng khi cần gọi API hoặc xác thực

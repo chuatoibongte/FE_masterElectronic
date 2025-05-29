@@ -29,7 +29,6 @@ public class EditMyAddress extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         binding = ActivityEditMyAddressBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
