@@ -15,12 +15,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.mater_electronic.MainActivity;
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.database.cart.CartDAO;
 import com.example.mater_electronic.database.cart.CartDatabase;
@@ -28,6 +30,7 @@ import com.example.mater_electronic.databinding.ActivityProductDetailBinding;
 import com.example.mater_electronic.models.cart.CartItem;
 import com.example.mater_electronic.models.product.ElectronicImg;
 import com.example.mater_electronic.models.product.Product;
+import com.example.mater_electronic.ui.activity.login.LoginActivity;
 import com.example.mater_electronic.ui.navigation.my_cart.MyCartFragment;
 import com.example.mater_electronic.utils.LoadImageByUrl;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -131,15 +134,25 @@ public class ProductDetailActivity extends AppCompatActivity {
                 binding.productRatingBar.setRating((float) product.getRating());
 
                 binding.btnAddToCart.setOnClickListener(v -> {
-                    showQuantityBottomSheet(product);
+                    String accessToken = getCurrentUserAccessToken();
+                    if(accessToken == null) {
+                        showLoginRequiredDialog();
+                    }
+                    else showQuantityBottomSheet(product);
                 });
 
                 // Show bottom sheet when clicking Buy Now
-                binding.btnBuyNow.setOnClickListener(v -> showQuantityBottomSheet(product));
+                binding.btnBuyNow.setOnClickListener(v -> {
+                    String accessToken = getCurrentUserAccessToken();
+                    if(accessToken == null) {
+                        showLoginRequiredDialog();
+                    }
+                    else showQuantityBottomSheet(product);
+                });
             }
         });
     }
-
+    // show bottom sheet để chọn số lượng
     private void showQuantityBottomSheet(Product product) {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         View bottomSheetView = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_quantity, null);
@@ -220,7 +233,18 @@ public class ProductDetailActivity extends AppCompatActivity {
                 }
 
                 //new Handler(Looper.getMainLooper()).post(() -> {
-                    Toast.makeText(context, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(context)
+                            .setTitle("Thành công")
+                            .setMessage("Đã thêm sản phẩm vào giỏ hàng.")
+                            .setPositiveButton("Xem giỏ hàng", (dialog, which) -> {
+                                // You can add any additional actions here if needed
+                                Intent intent = new Intent(context, MainActivity.class);
+                                intent.putExtra("target_nav", R.id.navigation_mycart); // ID của fragment trong nav_graph
+                                startActivity(intent);
+
+                            })
+                            .setNegativeButton("Đóng", null)
+                            .show();
                     bottomSheetDialog.dismiss();
                 //});
             //});
@@ -236,12 +260,35 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         bottomSheetDialog.show();
     }
+    // alert dialog yêu cầu đăng nhập để thực hiện chức năng nào đó
+    private void showLoginRequiredDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_login_required, null);
+        builder.setView(dialogView);
 
+        AlertDialog alertDialog = builder.create();
+
+        Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
+        Button btnLogin = dialogView.findViewById(R.id.btn_login);
+
+        btnCancel.setOnClickListener(v -> alertDialog.dismiss());
+
+        btnLogin.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            // Chuyển sang màn hình đăng nhập
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        });
+
+        alertDialog.show();
+    }
+    // update tổng tiền
     private void updateTotalPrice(TextView tvTotalPrice, double unitPrice, int quantity) {
         double totalPrice = unitPrice * quantity;
         tvTotalPrice.setText("Tổng: \n" + formatPrice(totalPrice) + " ₫");
     }
-
+    // format giá về dạng xxx.xxx.xxx
     private String formatPrice(double price) {
         NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
         return formatter.format(price);
@@ -262,7 +309,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         SharedPreferences prefs = getApplication().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         return prefs.getString("_id", "");
     }
-
+    private String getCurrentUserAccessToken() {
+        SharedPreferences prefs = getApplication().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        return prefs.getString("accessToken", null);
+    }
     @Override
     public void onPause() {
         super.onPause();
@@ -273,5 +323,10 @@ public class ProductDetailActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         startAutoScroll(); // Tiếp tục khi Fragment hiển thị lại
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }

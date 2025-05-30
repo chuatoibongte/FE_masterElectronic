@@ -28,7 +28,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -37,6 +36,11 @@ public class LoginActivity extends AppCompatActivity {
 
         //Back button
         binding.backArrow.setOnClickListener(v -> finish());
+
+        binding.ivLoginAsGuest.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
 
         //Observe quan sát thay đổi để thực hiện Chuyển trang Home nếu đăng nhập thành công
         loginViewModel.getResultMessage().observe(this, message-> {

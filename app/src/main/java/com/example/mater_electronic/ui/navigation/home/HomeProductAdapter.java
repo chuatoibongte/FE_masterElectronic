@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mater_electronic.R;
@@ -46,6 +48,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             intent.putExtra("product_id", productItem.get_id());
             v.getContext().startActivity(intent);
         });
+        holder.cvProductItem.startAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.home_rv_animation));
     }
     @Override
     public int getItemCount() {
@@ -55,11 +58,13 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         return String.format("%,.0f", price);  // 1000000 -> 1.000.000₫
     }
     static class ProductViewHolder extends RecyclerView.ViewHolder {
+        CardView cvProductItem;
         ImageView imgProduct, btnFavorite, btnAddToCart;
         TextView tvName, tvPrice;
         RatingBar ratingBar;
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
+            cvProductItem = itemView.findViewById(R.id.cvProductItem);
             imgProduct = itemView.findViewById(R.id.imgProduct);
             tvName = itemView.findViewById(R.id.tvProductName);
             tvPrice = itemView.findViewById(R.id.tvProductPrice);

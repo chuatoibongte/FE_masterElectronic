@@ -32,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+        int targetNavId = getIntent().getIntExtra("target_nav", -1);
+        if (targetNavId != -1) {
+            binding.navView.setSelectedItemId(targetNavId);
+        }
     }
 
 }

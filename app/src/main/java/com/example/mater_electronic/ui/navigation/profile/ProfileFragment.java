@@ -119,6 +119,11 @@ public class ProfileFragment extends Fragment {
         binding.editBtn.setOnClickListener(editClickListener);
         binding.editProfile.setOnClickListener(editClickListener);
     }
+    private boolean isLoggedIn(SharedPreferences prefs) {
+        String accessToken = prefs.getString("accessToken", null);
+        String _id = prefs.getString("_id", null);
+        return accessToken != null && _id != null;
+    }
 
     @Override
     public void onResume() {
