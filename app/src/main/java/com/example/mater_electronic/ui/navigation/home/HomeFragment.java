@@ -64,12 +64,12 @@ public class HomeFragment extends Fragment {
                 // Đã đăng nhập và tìm thấy tài khoản
                 binding.homeLogin.setVisibility(View.GONE);
                 binding.homeRegister.setVisibility(View.GONE);
-                binding.tvWelcome.setText("Hi, Welcome " + account.getUsername());
+                binding.tvWelcome.setText("Xin chào " + account.getUsername());
             } else {
                 // Đã có accessToken nhưng không tìm thấy tài khoản trong DB
                 binding.homeLogin.setVisibility(View.VISIBLE);
                 binding.homeRegister.setVisibility(View.VISIBLE);
-                binding.tvWelcome.setText("Welcome! Please register or log in.");
+                binding.tvWelcome.setText("Chào bạn! Xin hãy đăng nhập");
             }
         } else {
             //Hiện nút vì người dùng chưa đăng nhập
@@ -124,9 +124,9 @@ public class HomeFragment extends Fragment {
         // Thiết lập Banner ViewPager2
         List<Home_mainevent_BannerItem> bannerItems = new ArrayList<>();
         bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent)); // Ảnh 1
-//        bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent2)); // Ảnh 2
+        bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent2)); // Ảnh 2
         bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent)); // Ảnh 3
-        // bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent2)); // Ảnh 4
+         bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent2)); // Ảnh 4
         bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent)); // Ảnh 5
 
         Home_mainevent_BannerAdapter bannerAdapter = new Home_mainevent_BannerAdapter(bannerItems);

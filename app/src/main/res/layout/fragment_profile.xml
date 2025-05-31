@@ -169,9 +169,9 @@
 
     </LinearLayout>
 
-    <!--    Chính sách riêng tư-->
+    <!--    Địa chỉ của tôi-->
     <LinearLayout
-        android:id="@+id/policyLayout"
+        android:id="@+id/listAddressLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_sm"
@@ -181,39 +181,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/mainOtptionsLayout"
         app:layout_constraintTop_toBottomOf="@+id/mainOtptionsLayout">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/button_background"
-            android:padding="8dp"
-            android:src="@drawable/ic_key" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/margin_sm"
-            android:layout_weight="1"
-            android:text="@string/my_policy"
-            android:textColor="@color/dark_text"
-            android:textSize="@dimen/large_text_size" />
-    </LinearLayout>
-
-    <!--    Địa chỉ của tôi-->
-    <LinearLayout
-        android:id="@+id/listAddressLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_sm"
-        android:layout_marginTop="12dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@+id/policyLayout"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/policyLayout"
-        app:layout_constraintTop_toBottomOf="@+id/policyLayout">
 
         <ImageView
             android:id="@+id/imageView2"

@@ -52,6 +52,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private Context context;
     private String accessToken;
     private boolean isFavorite = false;
+    private int currentFollowersCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         productViewModel.getProductDetail(productId);
         productViewModel.getReviews(productId);
+
+        //Get check favorite api
+        myFavoriteViewModel.checkFavourite(accessToken, productId);
         // set recyclerview
         RecyclerView recyclerViewReviews = binding.customerReviewRecyclerView;
         recyclerViewReviews.setLayoutManager(new LinearLayoutManager(this));
@@ -145,6 +149,10 @@ public class ProductDetailActivity extends AppCompatActivity {
                 binding.tvProductDescription.setText(product.getDescription());
                 binding.tvRating.setText(String.valueOf(product.getRating()));
                 binding.productRatingBar.setRating((float) product.getRating());
+                binding.tvFollowers.setText(String.valueOf(product.getFollowers()));
+
+                //get current followers count
+                currentFollowersCount = product.getFollowers();
 
                 binding.btnAddToCart.setOnClickListener(v -> {
                     if(accessToken == null) {
@@ -181,10 +189,16 @@ public class ProductDetailActivity extends AppCompatActivity {
         myFavoriteViewModel.getResultMessage().observe(this, message -> {
             if (message != null && !message.isEmpty()) {
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-                // Toggle favorite state after successful addition
-                isFavorite = true;
+                // Toggle favorite state after successful addition and deletion
+                isFavorite = !isFavorite;
                 updateFavoriteIcon();
             }
+        });
+
+        //Observe isFavorite from checking favorite
+        myFavoriteViewModel.getIsFavorite().observe(this, isFavorite -> {
+            this.isFavorite = isFavorite;
+            updateFavoriteIcon();
         });
 
         // Observe error messages
@@ -196,24 +210,22 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void setupFavoriteButton(Product product) {
-        // TODO: Check if product is already in favorites by calling API or checking local data
-        // For now, we'll assume it's not favorite initially
-        isFavorite = false;
-        updateFavoriteIcon();
-
         binding.ivFavorite.setOnClickListener(v -> {
-            if (accessToken.isEmpty()) {
+            // Check if accessToken is null or empty
+            if (accessToken == null || accessToken.isEmpty()) {
                 Toast.makeText(this, "Vui lòng đăng nhập để thêm vào yêu thích", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (!isFavorite) {
-                // Add to favorite
                 myFavoriteViewModel.addFavourite(accessToken, product.get_id());
+                currentFollowersCount++;
             } else {
-                // TODO: Implement remove from favorite functionality
-                Toast.makeText(this, "Chức năng xóa khỏi yêu thích sẽ được cập nhật", Toast.LENGTH_SHORT).show();
+                myFavoriteViewModel.deleteFavorite(accessToken, product.get_id());
+                currentFollowersCount--;
             }
+
+            binding.tvFollowers.setText(String.valueOf(currentFollowersCount));
         });
     }
 
@@ -226,6 +238,8 @@ public class ProductDetailActivity extends AppCompatActivity {
             binding.ivFavorite.clearColorFilter();
         }
     }
+
+
 
     // show bottom sheet để chọn số lượng
     private void showQuantityBottomSheet(Product product) {
