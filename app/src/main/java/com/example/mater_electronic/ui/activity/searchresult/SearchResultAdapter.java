@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mater_electronic.R;
@@ -45,6 +47,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             intent.putExtra("product_id", productItem.get_id());
             v.getContext().startActivity(intent);
         });
+        holder.cvProductItem.startAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.home_rv_animation));
     }
 
     @Override
@@ -56,6 +59,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         return String.format("%,.0f", price);  // 1000000 -> 1.000.000₫
     }
     public class SearchResultViewHolder extends RecyclerView.ViewHolder {
+        CardView cvProductItem;
         ImageView imgProduct, btnFavorite, btnAddToCart;
         TextView tvName, tvPrice;
         RatingBar ratingBar;
@@ -67,6 +71,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             btnFavorite = itemView.findViewById(R.id.btnFavorite);
             btnAddToCart = itemView.findViewById(R.id.btnAddToCart);
             ratingBar = itemView.findViewById(R.id.productRatingBar);
+            cvProductItem = itemView.findViewById(R.id.cvProductItem);
         }
     }
 }

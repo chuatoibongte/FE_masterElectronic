@@ -47,6 +47,9 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyOrderV
             holder.tvThirdProduct.setText(orderItem.getListElectronics().get(2).getElectronicID().getName());
             holder.tvThirdProductQuantity.setText("x" + String.valueOf(orderItem.getListElectronics().get(2).getQuantity()));
         }
+        if(orderItem.getListElectronics().size() > 3) {
+            holder.tvMore.setVisibility(View.VISIBLE);
+        }
         LoadImageByUrl.loadImage(holder.ivOrderItem, orderItem.getListElectronics().get(0).getElectronicID().getElectronicImgs().get(0).getUrl());
         holder.tvTotalPrice.setText("Tổng giá: \n" + String.valueOf(formatPrice(orderItem.getTotalPrice())) + " VNĐ");
         holder.llParent.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +87,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyOrderV
         TextView tvThirdProductQuantity;
         TextView tvTotalPrice;
         ImageView ivOrderItem;
+        TextView tvMore;
 
         public MyOrderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,6 +102,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyOrderV
             tvTotalPrice = itemView.findViewById(R.id.tvTotalPrice);
             ivOrderItem = itemView.findViewById(R.id.ivOrderItem);
             llParent = itemView.findViewById(R.id.llParent);
+            tvMore = itemView.findViewById(R.id.tvMore);
         }
     }
 }
