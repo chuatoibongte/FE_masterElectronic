@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.mater_electronic.models.favourite.AddFavouriteRequest;
+import com.example.mater_electronic.models.favourite.AddFavouriteResponse;
 import com.example.mater_electronic.models.favourite.GetFavouriteResponse;
 import com.example.mater_electronic.models.product.Product;
 import com.example.mater_electronic.repositories.FavouriteRepository;
@@ -15,6 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MyFavoriteViewModel extends ViewModel {
+    private MutableLiveData<String> resultMessage = new MutableLiveData<>();
     private FavouriteRepository favoriteRepository = new FavouriteRepository();
     private MutableLiveData<List<Product>> favoriteProducts = new MutableLiveData<>();
     private final MutableLiveData<Boolean> updateSuccess = new MutableLiveData<>();
@@ -22,7 +25,9 @@ public class MyFavoriteViewModel extends ViewModel {
     public LiveData<Boolean> getUpdateSuccess() {
         return updateSuccess;
     }
-
+    public LiveData<String> getResultMessage() {
+        return resultMessage;
+    }
     public LiveData<List<Product>> getFavoriteProducts() {
         return favoriteProducts;
     }
@@ -45,6 +50,24 @@ public class MyFavoriteViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<GetFavouriteResponse> call, Throwable t) {
+                errorMessage.setValue("Lỗi: " + t.getMessage());
+            }
+        });
+    }
+    public void addFavourite(String accessToken, String electronicID) {
+        AddFavouriteRequest addFavouriteRequest = new AddFavouriteRequest(electronicID);
+        favoriteRepository.addFavorite(accessToken, addFavouriteRequest, new Callback<AddFavouriteResponse>() {
+            @Override
+            public void onResponse(Call<AddFavouriteResponse> call, Response<AddFavouriteResponse> response) {
+                if (!response.isSuccessful()) {
+                    errorMessage.setValue("Lỗi: " + response.code());
+                    return;
+                }
+                resultMessage.setValue("Thêm sản phẩm yêu thích thành công");
+            }
+
+            @Override
+            public void onFailure(Call<AddFavouriteResponse> call, Throwable t) {
                 errorMessage.setValue("Lỗi: " + t.getMessage());
             }
         });
