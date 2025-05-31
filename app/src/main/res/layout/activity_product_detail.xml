@@ -45,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
+                android:orientation="horizontal"
                 android:paddingRight="@dimen/margin_sm"
                 >
 
@@ -60,6 +61,15 @@
                     android:contentDescription="@string/add_to_favorite"
 
                     />
+
+                <TextView
+                    android:id="@+id/tvFollowers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:text="4.5"
+                    android:textSize="@dimen/medium_text_size" />
 
                 <ImageView
                     android:id="@+id/ivAddToCart"

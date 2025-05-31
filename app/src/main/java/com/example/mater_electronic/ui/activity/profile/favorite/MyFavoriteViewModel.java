@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.mater_electronic.models.favourite.AddFavouriteRequest;
 import com.example.mater_electronic.models.favourite.AddFavouriteResponse;
+import com.example.mater_electronic.models.favourite.CheckFavouriteResponse;
+import com.example.mater_electronic.models.favourite.DeleteFavouriteRequest;
+import com.example.mater_electronic.models.favourite.DeleteFavouriteResponse;
 import com.example.mater_electronic.models.favourite.GetFavouriteResponse;
 import com.example.mater_electronic.models.product.Product;
 import com.example.mater_electronic.repositories.FavouriteRepository;
@@ -22,6 +25,10 @@ public class MyFavoriteViewModel extends ViewModel {
     private MutableLiveData<List<Product>> favoriteProducts = new MutableLiveData<>();
     private final MutableLiveData<Boolean> updateSuccess = new MutableLiveData<>();
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isFavorite = new MutableLiveData<>();
+    public LiveData<Boolean> getIsFavorite() {
+        return isFavorite;
+    }
     public LiveData<Boolean> getUpdateSuccess() {
         return updateSuccess;
     }
@@ -68,6 +75,39 @@ public class MyFavoriteViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<AddFavouriteResponse> call, Throwable t) {
+                errorMessage.setValue("Lỗi: " + t.getMessage());
+            }
+        });
+    }
+    public void checkFavourite(String accessToken, String electronicID) {
+        favoriteRepository.checkFavourite(accessToken, electronicID, new Callback<CheckFavouriteResponse>() {
+            @Override
+            public void onResponse(Call<CheckFavouriteResponse> call, Response<CheckFavouriteResponse> response) {
+                if (!response.isSuccessful()) {
+                    errorMessage.setValue("Lỗi: " + response.code());
+                    return;
+                }
+                assert response.body() != null;
+                isFavorite.setValue(response.body().isStatus());
+            }
+            @Override
+            public void onFailure(Call<CheckFavouriteResponse> call, Throwable t) {
+                errorMessage.setValue("Lỗi: " + t.getMessage());
+            }
+        });
+    }
+    public void deleteFavorite(String accessToken, String electronicID){
+        favoriteRepository.deleteFavorite(accessToken, electronicID, new Callback<DeleteFavouriteResponse>(){
+            @Override
+            public void onResponse(Call<DeleteFavouriteResponse> call, Response<DeleteFavouriteResponse> response) {
+                if (!response.isSuccessful()) {
+                    errorMessage.setValue("Lỗi: " + response.code());
+                    return;
+                }
+                resultMessage.setValue("Xóa sản phẩm yêu thích thành công");
+            }
+            @Override
+            public void onFailure(Call<DeleteFavouriteResponse> call, Throwable t) {
                 errorMessage.setValue("Lỗi: " + t.getMessage());
             }
         });
