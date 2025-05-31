@@ -147,7 +147,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                 binding.productRatingBar.setRating((float) product.getRating());
 
                 binding.btnAddToCart.setOnClickListener(v -> {
-                    String accessToken = getCurrentUserAccessToken();
                     if(accessToken == null) {
                         showLoginRequiredDialog();
                     }
@@ -159,7 +158,6 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                 // Show bottom sheet when clicking Buy Now
                 binding.btnBuyNow.setOnClickListener(v -> {
-                    String accessToken = getCurrentUserAccessToken();
                     if(accessToken == null) {
                         showLoginRequiredDialog();
                     }
@@ -171,10 +169,10 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void getAccessToken() {
         SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        accessToken = sharedPreferences.getString("accessToken", "");
+        accessToken = sharedPreferences.getString("accessToken", null);
 
-        if (accessToken.isEmpty()) {
-            Toast.makeText(this, "Vui lòng đăng nhập để sử dụng chức năng yêu thích", Toast.LENGTH_SHORT).show();
+        if (accessToken == null || accessToken.isEmpty()) {
+            Toast.makeText(this, "Vui lòng đăng nhập", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -385,10 +383,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     private String getCurrentUserId() {
         SharedPreferences prefs = getApplication().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         return prefs.getString("_id", "");
-    }
-    private String getCurrentUserAccessToken() {
-        SharedPreferences prefs = getApplication().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-        return prefs.getString("accessToken", null);
     }
     @Override
     public void onPause() {
