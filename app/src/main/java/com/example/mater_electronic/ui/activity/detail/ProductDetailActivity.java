@@ -28,6 +28,7 @@ import com.example.mater_electronic.databinding.ActivityProductDetailBinding;
 import com.example.mater_electronic.models.cart.CartItem;
 import com.example.mater_electronic.models.product.ElectronicImg;
 import com.example.mater_electronic.models.product.Product;
+import com.example.mater_electronic.ui.activity.profile.favorite.MyFavoriteViewModel;
 import com.example.mater_electronic.ui.navigation.my_cart.MyCartFragment;
 import com.example.mater_electronic.utils.LoadImageByUrl;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -42,9 +43,12 @@ import java.util.concurrent.Executors;
 public class ProductDetailActivity extends AppCompatActivity {
     private ActivityProductDetailBinding binding;
     private Handler handler;
+    private MyFavoriteViewModel myFavoriteViewModel;
     private Runnable autoScrollRunnable;
     private Product currentProduct;
     private Context context;
+    private String accessToken;
+    private boolean isFavorite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         binding.btnChatbot.setOnClickListener(v -> {
             Toast.makeText(this, "Chatbot", Toast.LENGTH_SHORT).show();
         });
+
+        //Lấy accessToken nếu có
+        getAccessToken();
+
+        //Lấy mã sản phẩm
         String productId = getIntent().getStringExtra("product_id");
 //        String productId = "6814329cc86355927f0c3bf3";
         if (productId == "") {
@@ -69,6 +78,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
 
         // set viewmodel
+        myFavoriteViewModel = new ViewModelProvider(this).get(MyFavoriteViewModel.class);
         ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         productViewModel.getProductDetail(productId);
         productViewModel.getReviews(productId);
@@ -76,6 +86,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         RecyclerView recyclerViewReviews = binding.customerReviewRecyclerView;
         recyclerViewReviews.setLayoutManager(new LinearLayoutManager(this));
         CustomerReviewAdapter customerReviewAdapter = new CustomerReviewAdapter(this);
+
+        // Setup favorite observers
+        setupFavoriteObservers();
 
         recyclerViewReviews.setAdapter(customerReviewAdapter);
         productViewModel.getProductReviewLiveData().observe(this, reviews -> {
@@ -136,8 +149,71 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                 // Show bottom sheet when clicking Buy Now
                 binding.btnBuyNow.setOnClickListener(v -> showQuantityBottomSheet(product));
+
+                // Setup favorite button click listener
+                setupFavoriteButton(product);
             }
         });
+    }
+
+    private void getAccessToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        accessToken = sharedPreferences.getString("accessToken", "");
+
+        if (accessToken.isEmpty()) {
+            Toast.makeText(this, "Vui lòng đăng nhập để sử dụng chức năng yêu thích", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setupFavoriteObservers() {
+        // Observe result message from adding to favorite
+        myFavoriteViewModel.getResultMessage().observe(this, message -> {
+            if (message != null && !message.isEmpty()) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                // Toggle favorite state after successful addition
+                isFavorite = true;
+                updateFavoriteIcon();
+            }
+        });
+
+        // Observe error messages
+        myFavoriteViewModel.getErrorMessage().observe(this, errorMessage -> {
+            if (errorMessage != null && !errorMessage.isEmpty()) {
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setupFavoriteButton(Product product) {
+        // TODO: Check if product is already in favorites by calling API or checking local data
+        // For now, we'll assume it's not favorite initially
+        isFavorite = false;
+        updateFavoriteIcon();
+
+        binding.ivFavorite.setOnClickListener(v -> {
+            if (accessToken.isEmpty()) {
+                Toast.makeText(this, "Vui lòng đăng nhập để thêm vào yêu thích", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!isFavorite) {
+                // Add to favorite
+                myFavoriteViewModel.addFavourite(accessToken, product.get_id());
+            } else {
+                // TODO: Implement remove from favorite functionality
+                Toast.makeText(this, "Chức năng xóa khỏi yêu thích sẽ được cập nhật", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateFavoriteIcon() {
+        if (isFavorite) {
+            binding.ivFavorite.setImageResource(R.drawable.ic_heart_filled);
+            binding.ivFavorite.setColorFilter(getResources().getColor(R.color.lightred));
+        } else {
+            binding.ivFavorite.setImageResource(R.drawable.ic_heart);
+            binding.ivFavorite.clearColorFilter();
+        }
     }
 
     private void showQuantityBottomSheet(Product product) {

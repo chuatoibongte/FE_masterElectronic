@@ -26,6 +26,8 @@
     <color name="mycart_backgroud">#FAF0E6</color>
 
     <color name="red">#FF0000</color>
+    <color name="lightred">#E91E63</color>
+    <color name="blue">#0000FF</color>
 
     <color name="primary_color">#F4B5A4</color>
 <!--    <color name="primary_text">#1C1C1E</color>-->
