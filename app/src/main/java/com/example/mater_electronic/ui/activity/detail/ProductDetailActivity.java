@@ -179,9 +179,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         accessToken = sharedPreferences.getString("accessToken", null);
 
-        if (accessToken == null || accessToken.isEmpty()) {
-            Toast.makeText(this, "Vui lòng đăng nhập", Toast.LENGTH_SHORT).show();
-        }
+//        if (accessToken == null || accessToken.isEmpty()) {
+//            Toast.makeText(this, "Vui lòng đăng nhập", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     private void setupFavoriteObservers() {

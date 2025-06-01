@@ -1,5 +1,7 @@
 package com.example.mater_electronic;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -32,10 +34,20 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        if(getCurrentUserId().isEmpty()) {
+            navView.getMenu().findItem(R.id.navigation_profile).setVisible(false);
+            navView.getMenu().findItem(R.id.navigation_mycart).setVisible(false);
+        }
+
         int targetNavId = getIntent().getIntExtra("target_nav", -1);
         if (targetNavId != -1) {
             binding.navView.setSelectedItemId(targetNavId);
         }
+    }
+    private String getCurrentUserId() {
+        SharedPreferences prefs = getApplication().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        return prefs.getString("_id", "");
     }
 
 }
