@@ -24,6 +24,7 @@ import retrofit2.Response;
 public class LoginViewModel extends AndroidViewModel {
     private final AuthRepository repo = new AuthRepository();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isAccountCorrect = new MutableLiveData<>();
     private final MutableLiveData<String> resultMessage = new MutableLiveData<>();
     private final Application application;
 
@@ -34,6 +35,9 @@ public class LoginViewModel extends AndroidViewModel {
 
     public LiveData<Boolean> getIsLoading() {
         return isLoading;
+    }
+    public LiveData<Boolean> getIsAccountCorrect() {
+        return isAccountCorrect;
     }
     public LiveData<String> getResultMessage() {
         return resultMessage;
@@ -48,6 +52,7 @@ public class LoginViewModel extends AndroidViewModel {
                 isLoading.setValue(false);
                 if (response.isSuccessful() && response.body() != null) {
                     //Lưu thông tin người dùng vào SharedPreferences
+                    Log.e("LoginViewModel", "Login: " + response.toString());
                     if(response.body().isSuccess()){
                         SharedPreferences prefs = application.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
@@ -66,7 +71,8 @@ public class LoginViewModel extends AndroidViewModel {
                         resultMessage.setValue("Đăng nhập thất bại");
                     }
                 } else {
-                    resultMessage.setValue("Lỗi server:  " + response.message());
+                    Log.e("LoginViewModel", "Login: " + response.body());
+                    resultMessage.setValue("Lỗi server:  login failed");
                 }
             }
 

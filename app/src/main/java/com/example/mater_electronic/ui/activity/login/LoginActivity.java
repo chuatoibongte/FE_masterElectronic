@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -44,13 +45,20 @@ public class LoginActivity extends AppCompatActivity {
 
         //Observe quan sát thay đổi để thực hiện Chuyển trang Home nếu đăng nhập thành công
         loginViewModel.getResultMessage().observe(this, message-> {
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            Log.e("LoginViewModel", message);
+            // Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             if(message.contains("thành công")){
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+            } else {
+                new AlertDialog.Builder(this)
+                        .setTitle("Thông báo")
+                        .setMessage("Đăng nhập thất bại: sai email hoặc mật khẩu")
+                        .setPositiveButton("Ok", null)
+                        .setNegativeButton("Đóng", null)
+                        .show();
+                // Toast.makeText(this, "Đăng nhập thất bại: sai email hoặc mật khẩu", Toast.LENGTH_SHORT).show();
             }
-            finish();
+            // finish();
         });
 
         //Khi call api đang loading (nên dùng process bar)
