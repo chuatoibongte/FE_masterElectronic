@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
             if(message.contains("thành công")){
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                finish();
             } else {
                 new AlertDialog.Builder(this)
                         .setTitle("Thông báo")

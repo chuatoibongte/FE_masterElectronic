@@ -52,9 +52,7 @@ public class ProductViewModel extends ViewModel {
                         errorMessage.setValue("Không thể tải chi tiết sản phẩm");
                     }
                 }
-
             }
-
             @Override
             public void onFailure(Call<GetElectronicByIdResponse> call, Throwable t) {
                 errorMessage.setValue("Lỗi: " + t.getMessage());

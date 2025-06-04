@@ -25,9 +25,13 @@ import retrofit2.Response;
 public class MyOrderViewModel extends AndroidViewModel {
     private OrderRepository orderRepository = new OrderRepository();
     private MutableLiveData<List<Order>> orderLiveData = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
     public LiveData<List<Order>> getOrderByUserIDandStatus() {
         return orderLiveData;
+    }
+    public LiveData<Boolean> getIsLoading() {
+        return isLoading;
     }
     public LiveData<String> getErrorMessage() {
         return errorMessage;
@@ -36,6 +40,7 @@ public class MyOrderViewModel extends AndroidViewModel {
         super(application);
     }
     public void getOrderByUserIDandStatus(String accessToken, String status) {
+        isLoading.setValue(true);
         orderRepository.getOrderByUserIDandStatus(accessToken, status, new Callback<GetOrderResponse>() {
             @Override
             public void onResponse(Call<GetOrderResponse> call, Response<GetOrderResponse> response) {
@@ -43,15 +48,18 @@ public class MyOrderViewModel extends AndroidViewModel {
                 if (response.isSuccessful()) {
                     GetOrderResponse getOrderResponse = response.body();
                     if (getOrderResponse != null && getOrderResponse.isSuccess()) {
-
                         List<Order> orderList = getOrderResponse.getOrders();
                         orderLiveData.setValue(orderList);
                     } else {
                         errorMessage.setValue("Không thể tải order của bạn");
                     }
+                    isLoading.setValue(false);
+                }
+                else {
+                    errorMessage.setValue("Lỗi server !!!");
+                    isLoading.setValue(false);
                 }
             }
-
             @Override
             public void onFailure(Call<GetOrderResponse> call, Throwable t) {
                 errorMessage.setValue("Lỗi:" + t.getMessage());
