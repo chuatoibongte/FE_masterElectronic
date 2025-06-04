@@ -148,7 +148,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 binding.tvProductPrice.setText(formatPrice(product.getPrice()) + " ₫");
                 binding.tvProductDescription.setText(product.getDescription());
                 binding.tvRating.setText(String.valueOf(product.getRating()));
-                binding.productRatingBar.setRating((float) product.getRating());
+                binding.productRatingBar.setRating(product.getRating());
                 binding.tvFollowers.setText(String.valueOf(product.getFollowers()));
 
                 //get current followers count

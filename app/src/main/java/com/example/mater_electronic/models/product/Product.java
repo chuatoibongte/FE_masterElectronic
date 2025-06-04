@@ -14,7 +14,7 @@ public class Product {
     private double discount;
     private int quantitySold;
     private String brandName;
-    private double rating;
+    private float rating;
     private int numReview;
     private List<Specification> specifications;
     private String publishDate;
@@ -112,11 +112,11 @@ public class Product {
         this.brandName = brandName;
     }
 
-    public double getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 

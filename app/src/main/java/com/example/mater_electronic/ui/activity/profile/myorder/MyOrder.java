@@ -44,7 +44,7 @@ public class MyOrder extends AppCompatActivity {
                 binding.rvMyOrder.setAdapter(myOrderAdapter);
             }
             else {
-                binding.tvNoOrder.setVisibility(View.GONE);
+                binding.tvNoOrder.setVisibility(View.INVISIBLE);
                 Log.e("MyOrder", "Số lượng order nhận được: " + (orders != null ? orders.size() : "null"));
                 myOrderAdapter = new MyOrderAdapter(orders);
                 binding.rvMyOrder.setAdapter(myOrderAdapter);
@@ -52,6 +52,18 @@ public class MyOrder extends AppCompatActivity {
         });
         myOrderViewModel.getErrorMessage().observe(this, errorMessage -> {
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+        });
+        myOrderViewModel.getIsLoading().observe(this, isLoading -> {
+            Log.e("Loading", "Loading: " + isLoading);
+            if(isLoading != null) {
+                if (isLoading) {
+                    binding.rvMyOrder.setVisibility(View.GONE);
+                    binding.loadingOverlay.setVisibility(View.VISIBLE);
+                } else {
+                    binding.rvMyOrder.setVisibility(View.VISIBLE);
+                    binding.loadingOverlay.setVisibility(View.GONE);
+                }
+            }
         });
         binding.backBtn.setOnClickListener(v -> finish());
         binding.pendingStatus.setOnClickListener(v -> {
