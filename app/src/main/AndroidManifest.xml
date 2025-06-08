@@ -19,6 +19,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.review.ReviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.profile.myorder.deliveredorderitem.DeliveredOrderItem"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.profile.favorite.MyFavorite"
             android:exported="false" />
         <activity

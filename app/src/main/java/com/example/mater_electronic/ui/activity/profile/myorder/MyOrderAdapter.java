@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.models.myorder.Order;
+import com.example.mater_electronic.ui.activity.profile.myorder.deliveredorderitem.DeliveredOrderItem;
+import com.example.mater_electronic.utils.FormatUtil;
 import com.example.mater_electronic.utils.LoadImageByUrl;
 
 import java.util.List;
@@ -53,11 +55,18 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyOrderV
             holder.tvMore.setVisibility(View.VISIBLE);
         }
         LoadImageByUrl.loadImage(holder.ivOrderItem, orderItem.getListElectronics().get(0).getElectronicID().getElectronicImgs().get(0).getUrl());
-        holder.tvTotalPrice.setText("Tổng giá: \n" + String.valueOf(formatPrice(orderItem.getTotalPrice())) + " VNĐ");
+        holder.tvTotalPrice.setText("Tổng giá: \n" + FormatUtil.formatPrice(orderItem.getTotalPrice()));
 
         if(Objects.equals(orderItem.getStatus(), "delivered")) {
             holder.cvOrderItem.setOnClickListener(v -> {
-                Toast.makeText(v.getContext(), "Đi đến xác nhận đã nhận hàng và đánh giá sản phẩm", Toast.LENGTH_SHORT).show();
+                String orderId = orderItem.get_id();
+                String status = orderItem.getStatus();
+                String time = orderItem.getCreatedAt().substring(0, 10);
+                Intent intent = new Intent(v.getContext(), DeliveredOrderItem.class);
+                intent.putExtra("orderId", orderId);
+                intent.putExtra("status", status);
+                intent.putExtra("time", time);
+                v.getContext().startActivity(intent);
             });
         }
         else {
@@ -75,9 +84,6 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyOrderV
                 }
             });
         }
-    }
-    private String formatPrice(double price) {
-        return String.format("%,.0f", price);  // 1000000 -> 1.000.000
     }
 
     @Override
