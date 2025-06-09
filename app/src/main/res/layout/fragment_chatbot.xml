@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:id="@+id/chatbot_container"
     android:paddingBottom="@dimen/margin_bottom_btn">
 
     <!-- Tiêu đề Chatbot -->
@@ -71,27 +72,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-
         <EditText
             android:id="@+id/editChatInput"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:hint="Hãy hỏi tôi điều gì đó ..."
-            android:drawablePadding="@dimen/margin_sm"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
+            android:drawablePadding="12dp"
+            android:padding="12dp"
             android:background="@drawable/bg_search_edittext"
             android:textColor="#000000"
             android:textColorHint="#888888"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionSend"
             android:inputType="text"
-            android:layout_gravity="center_horizontal"
-            />
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical" />
+        <ImageButton
+            android:id="@+id/btnPickImages"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_send_circle"
+            android:src="@drawable/img_library"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:contentDescription="Gửi"
+            android:padding="6dp"
+            android:layout_gravity="center_vertical" />
 
         <ImageButton
             android:id="@+id/btnSend"
@@ -102,8 +108,8 @@
             android:scaleType="centerInside"
             android:adjustViewBounds="true"
             android:contentDescription="Gửi"
-            android:padding="12dp"
-            android:layout_gravity="center_horizontal"/>
+            android:padding="6dp"
+            android:layout_gravity="center_vertical" />
 
     </LinearLayout>
 

@@ -1,9 +1,12 @@
 package com.example.mater_electronic.ui.navigation.chabot;
 
+import android.net.Uri;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.mater_electronic.models.chatbot.ChatbotImgResponse;
 import com.example.mater_electronic.models.chatbot.ChatbotTextRequest;
 import com.example.mater_electronic.models.chatbot.ChatbotTextResponse;
 import com.example.mater_electronic.models.product.Product;
@@ -80,6 +83,46 @@ public class ChatbotViewModel extends ViewModel {
             @Override
             public void onFailure(Call<ChatbotTextResponse> call, Throwable t) {
                 errorMessage.postValue("Lỗi kết nối: " + t.getMessage());
+            }
+        });
+    }
+
+    // Get products from chatbot API when input is image
+    public void getImgChatbot(Uri imageUri, android.content.Context context) {
+        // Clear previous error
+        errorMessage.setValue(null);
+
+        if (imageUri == null) {
+            errorMessage.postValue("Vui lòng chọn hình ảnh");
+            return;
+        }
+
+        chatbotRespository.getImgChatbot(imageUri, context, new Callback<ChatbotImgResponse>() {
+            @Override
+            public void onResponse(Call<ChatbotImgResponse> call, Response<ChatbotImgResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Product> products = response.body().getData();
+                    if (products != null && !products.isEmpty()) {
+                        productList.postValue(products);
+                    } else {
+                        errorMessage.postValue("Không tìm thấy sản phẩm phù hợp với hình ảnh của bạn");
+                    }
+                } else {
+                    String errorMsg = "Lỗi server: " + response.code();
+                    if (response.message() != null) {
+                        errorMsg += " - " + response.message();
+                    }
+                    errorMessage.postValue(errorMsg);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ChatbotImgResponse> call, Throwable t) {
+                String errorMsg = "Lỗi kết nối";
+                if (t.getMessage() != null) {
+                    errorMsg += ": " + t.getMessage();
+                }
+                errorMessage.postValue(errorMsg);
             }
         });
     }

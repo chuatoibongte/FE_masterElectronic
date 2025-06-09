@@ -1,11 +1,16 @@
 package com.example.mater_electronic.ui.navigation.chabot;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -24,6 +29,15 @@ public class ChatbotFragment extends Fragment {
     private ChatAdapter chatAdapter;
     private List<ChatItem> chatItems;
     private ChatbotViewModel chatbotViewModel;
+    private Uri selectedImageUri;
+    private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Khởi tạo photopicker
+        registerPhotoPicker();
+    }
 
     @Nullable
     @Override
@@ -98,6 +112,14 @@ public class ChatbotFragment extends Fragment {
             }
         });
 
+        //Xử lý khi nhấn vào gửi ảnh
+        binding.btnPickImages.setOnClickListener((v -> {
+            if(pickMedia != null){
+                pickMedia.launch(new PickVisualMediaRequest.Builder()
+                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                        .build());
+            }
+        }));
     }
 
     //Hàm chào khách
@@ -113,6 +135,11 @@ public class ChatbotFragment extends Fragment {
     //Hàm thêm user message
     private void addUserMessage(String message) {
         chatItems.add(new ChatItem.TextMessage(true, message));
+        notifyItemInserted();
+    }
+
+    private void addUserImageMessage(Uri imageUri) {
+        chatItems.add(new ChatItem.ImageMessage(imageUri, true));
         notifyItemInserted();
     }
 
@@ -148,6 +175,29 @@ public class ChatbotFragment extends Fragment {
             chatItems.remove(lastIndex);
             chatAdapter.notifyItemRemoved(lastIndex);
         }
+    }
+
+    //Đăng ký launcher Photo Picker
+    private void registerPhotoPicker() {
+        pickMedia = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+            if (uri != null) {
+                //Thêm image mesage vào chat
+                addUserImageMessage(uri);
+
+                addBotMessage("Đang phân tích ảnh và tìm kiếm sản phẩm...");
+
+                // Gọi API
+                binding.rvChat.postDelayed(() -> {
+                    // Xóa lệnh đang tải
+                    removeLastMessage();
+
+                    // Gọi image chatbot API
+                    chatbotViewModel.getImgChatbot(uri, requireContext());
+                }, 1000);
+            } else {
+                Toast.makeText(getContext(), "Không thể chọn ảnh", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

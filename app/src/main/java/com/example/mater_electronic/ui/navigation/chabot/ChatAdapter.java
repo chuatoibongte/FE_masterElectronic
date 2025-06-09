@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.mater_electronic.R;
+import com.example.mater_electronic.databinding.ItemChatImgUserBinding;
 import com.example.mater_electronic.databinding.ItemChatProductBinding;
 import com.example.mater_electronic.databinding.ItemChatTextBotBinding;
 import com.example.mater_electronic.databinding.ItemChatTextUserBinding;
@@ -22,6 +23,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int TYPE_USER = 0;
     public static final int TYPE_BOT = 1;
     public static final int TYPE_PRODUCT = 2;
+    public static final int TYPE_USER_IMAGE = 3;
 
     public ChatAdapter(List<ChatItem> items) {
         this.items = items;
@@ -34,6 +36,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return ((ChatItem.TextMessage) item).isUser ? TYPE_USER : TYPE_BOT;
         } else if (item instanceof ChatItem.ProductMessage) {
             return TYPE_PRODUCT;
+        } else if(item instanceof ChatItem.ImageMessage){
+            return TYPE_USER_IMAGE;
         }
         return -1;
     }
@@ -51,6 +55,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (viewType == TYPE_PRODUCT) {
             ItemChatProductBinding binding = ItemChatProductBinding.inflate(inflater, parent, false);
             return new ProductViewHolder(binding);
+        } else if(viewType == TYPE_USER_IMAGE){
+            ItemChatImgUserBinding binding = ItemChatImgUserBinding.inflate(inflater, parent, false);
+            return new UserImageViewHolder(binding);
         }
         throw new IllegalArgumentException("Invalid viewType: " + viewType);
     }
@@ -64,6 +71,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((BotTextViewHolder) holder).bind((ChatItem.TextMessage) item);
         } else if (holder instanceof ProductViewHolder) {
             ((ProductViewHolder) holder).bind((ChatItem.ProductMessage) item);
+        } else if(holder instanceof UserImageViewHolder){
+            ((UserImageViewHolder) holder).bind((ChatItem.ImageMessage) item);
         }
     }
 
@@ -91,6 +100,24 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
         void bind(ChatItem.TextMessage item) {
             binding.tvMessage.setText(item.message);
+        }
+    }
+
+    static class UserImageViewHolder extends RecyclerView.ViewHolder {
+        ItemChatImgUserBinding binding;
+        UserImageViewHolder(ItemChatImgUserBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        void bind(ChatItem.ImageMessage item) {
+            // Load image from URL
+            if(item.imageUri != null){
+                Glide.with(binding.imgUserImage.getContext())
+                        .load(item.imageUri)
+                        .placeholder(R.drawable.bg_image_placeholder)
+                        .into(binding.imgUserImage);
+            }
         }
     }
 

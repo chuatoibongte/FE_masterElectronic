@@ -125,9 +125,9 @@ public class HomeFragment extends Fragment {
         List<Home_mainevent_BannerItem> bannerItems = new ArrayList<>();
         bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent)); // Ảnh 1
         bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent2)); // Ảnh 2
-        bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent)); // Ảnh 3
-         bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent2)); // Ảnh 4
-        bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent)); // Ảnh 5
+        bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent3)); // Ảnh 3
+         bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent4)); // Ảnh 4
+        bannerItems.add(new Home_mainevent_BannerItem(R.drawable.image_testhome_mainevent5)); // Ảnh 5
 
         Home_mainevent_BannerAdapter bannerAdapter = new Home_mainevent_BannerAdapter(bannerItems);
         ViewPager2 viewPager = binding.homeMainevent;

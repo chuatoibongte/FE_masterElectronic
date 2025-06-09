@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.mater_electronic.R;
 import com.example.mater_electronic.database.AccountDatabase;
 import com.example.mater_electronic.databinding.FragmentProfileBinding;
 import com.example.mater_electronic.models.account.Account;
@@ -22,6 +24,7 @@ import com.example.mater_electronic.ui.activity.profile.myaddress.MyAddress;
 import com.example.mater_electronic.ui.activity.profile.myorder.MyOrder;
 import com.example.mater_electronic.ui.activity.profile.notification.Notification;
 import com.example.mater_electronic.ui.activity.profile.setting.Setting;
+import com.example.mater_electronic.ui.navigation.chabot.ChatbotFragment;
 import com.example.mater_electronic.utils.LoadImageByUrl;
 
 public class ProfileFragment extends Fragment {
@@ -60,6 +63,7 @@ public class ProfileFragment extends Fragment {
         binding.favoriteLayout.setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), MyFavorite.class));
         });
+
 
         // Lấy accessToken từ SharedPreferences để sử dụng khi cần gọi API hoặc xác thực
         SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
