@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.mater_electronic.databinding.FragmentChatbotBinding;
+import com.example.mater_electronic.models.product.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ChatbotFragment extends Fragment {
     private FragmentChatbotBinding binding;
     private ChatAdapter chatAdapter;
     private List<ChatItem> chatItems;
-    private ChatbotViewModel chatbotProductViewModel;
+    private ChatbotViewModel chatbotViewModel;
 
     @Nullable
     @Override
@@ -38,58 +39,115 @@ public class ChatbotFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Khởi tạo ViewModel riêng cho Chatbot
-        chatbotProductViewModel = new ViewModelProvider(this).get(ChatbotViewModel.class);
+        chatbotViewModel = new ViewModelProvider(this).get(ChatbotViewModel.class);
 
+        //Tạo chatitems và adapter
         chatItems = new ArrayList<>();
         chatAdapter = new ChatAdapter(chatItems);
 
+        //Setup RecyclerView
         binding.rvChat.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvChat.setAdapter(chatAdapter);
 
-        // Observe sản phẩm từ ViewModel để hiển thị khi có data
-        chatbotProductViewModel.getProductLiveData().observe(getViewLifecycleOwner(), product -> {
-            if (product != null) {
-                // Bot nhắn giới thiệu
-                chatItems.add(new ChatItem.TextMessage(false, "Bạn Có Thể Tham Khảo Các Sản Phẩm Sau Đây"));
-                chatAdapter.notifyItemInserted(chatItems.size() - 1);
-                binding.rvChat.scrollToPosition(chatItems.size() - 1);
+        //Thêm thông báo chào khách hàng
+        addWelcomeMessage();
 
-                String imgUrl = null;
-                if (product.getElectronicImgs() != null && !product.getElectronicImgs().isEmpty()) {
-                    imgUrl = product.getElectronicImgs().get(0).getUrl();
+        chatbotViewModel.getProductList().observe(getViewLifecycleOwner(), products -> {
+            if(products != null && !products.isEmpty()){
+                //Bot nhắn giới thiệu
+                addBotMessage("Tôi đã tìm thấy " + products.size() + " sản phẩm phù hợp với yêu cầu của bạn: ");
+
+                //Thêm product vào chat
+                for(Product product : products){
+                    addProductMessage(product);
                 }
-                chatItems.add(new ChatItem.ProductMessage(
-                        product.get_id(), // Lấy đúng id của product từ API
-                        imgUrl,
-                        product.getName(),
-                        formatPrice(product.getPrice()) + " Đ"
-                ));
 
-                chatAdapter.notifyItemInserted(chatItems.size() - 1);
-                binding.rvChat.scrollToPosition(chatItems.size() - 1);
+                //Thêm thông báo gợi ý
+                addBotMessage("Bạn có thể nhấn vào sản phẩm để xem chi tiết!");
             }
         });
 
-        binding.btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String message = binding.editChatInput.getText().toString().trim();
-                if (!TextUtils.isEmpty(message)) {
-                    chatItems.add(new ChatItem.TextMessage(true, message));
-                    chatAdapter.notifyItemInserted(chatItems.size() - 1);
-                    binding.rvChat.scrollToPosition(chatItems.size() - 1);
-                    binding.editChatInput.setText("");
-
-                    // Call API lấy sản phẩm id cứng
-                    binding.rvChat.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            chatbotProductViewModel.getProductById("6814329cc86355927f0c3bf3");
-                        }
-                    }, 800);
-                }
+        //Observe lỗi từ chatbot API
+        chatbotViewModel.getErrorMessage().observe(getViewLifecycleOwner(), error ->{
+            if(error != null && !error.isEmpty()){
+                addBotMessage("Xin lỗi, chúng tôi không tìm thấy sản phẩm. Vui lòng thử lại sau");
             }
         });
+
+        //Xử lý khi nhấn nút gửi tin nhắn
+        binding.btnSend.setOnClickListener(v -> {
+            String message = binding.editChatInput.getText().toString().trim();
+            if (!TextUtils.isEmpty(message)) {
+                //Thêm tin nhắn người dùng vào chat
+                addUserMessage(message);
+
+                //Clear input người dùng
+                binding.editChatInput.setText("");
+
+                // Hiện thị đang xử lý tin nhắn
+                addBotMessage("Đang tìm kiếm...");
+
+                //Gọi API chatbot
+                binding.rvChat.postDelayed(() -> {
+                    //Xóa dòng đang tìm kiếm
+                    removeLastMessage();
+
+                    //Gọi chatbot API
+                    chatbotViewModel.getTextChatbot(message);
+                }, 800);
+            }
+        });
+
+    }
+
+    //Hàm chào khách
+    private void addWelcomeMessage() {
+        addBotMessage("Chào mừng bạn! Tôi là trợ lý mua sắm của bạn. Hãy cho tôi biết bạn đang tìm kiếm sản phẩm gì?");
+    }
+
+    //Hàm thêm bot mesage
+    private void addBotMessage(String message) {
+        chatItems.add(new ChatItem.TextMessage(false, message));
+        notifyItemInserted();
+    }
+    //Hàm thêm user message
+    private void addUserMessage(String message) {
+        chatItems.add(new ChatItem.TextMessage(true, message));
+        notifyItemInserted();
+    }
+
+    //Hàm xử lý khi thêm product vào chatitem
+    private void addProductMessage(Product product){
+        String imageUrl = null;
+        if(product.getElectronicImgs() != null && !product.getElectronicImgs().isEmpty()){
+            //Lấy ảnh đầu tiên của product để hiển thị
+            imageUrl = product.getElectronicImgs().get(0).getUrl();
+        }
+
+        ChatItem.ProductMessage productMessage = new ChatItem.ProductMessage(
+                product.get_id(),
+                imageUrl,
+                product.getName(),
+                formatPrice(product.getPrice()) + " Đ"
+        );
+
+        chatItems.add(productMessage);
+        notifyItemInserted();
+    }
+
+    //Hàm xử lý khi item insert vào chatitem
+    private void notifyItemInserted() {
+        chatAdapter.notifyItemInserted(chatItems.size() - 1);
+        binding.rvChat.scrollToPosition(chatItems.size() - 1);
+    }
+
+    //Xóa message cuối cùng
+    private void removeLastMessage() {
+        if(!chatItems.isEmpty()){
+            int lastIndex = chatItems.size() - 1;
+            chatItems.remove(lastIndex);
+            chatAdapter.notifyItemRemoved(lastIndex);
+        }
     }
 
     @Override
