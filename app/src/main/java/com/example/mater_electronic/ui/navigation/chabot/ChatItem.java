@@ -1,9 +1,12 @@
 package com.example.mater_electronic.ui.navigation.chabot;
 
+import android.net.Uri;
+
 public abstract class ChatItem {
     public static final int TYPE_USER_TEXT = 0;
     public static final int TYPE_BOT_TEXT = 1;
     public static final int TYPE_PRODUCT = 2;
+    public static final int TYPE_USER_IMAGE = 3;
 
     public abstract int getType();
 
@@ -19,6 +22,20 @@ public abstract class ChatItem {
         @Override
         public int getType() {
             return isUser ? TYPE_USER_TEXT : TYPE_BOT_TEXT;
+        }
+    }
+
+    public static class ImageMessage extends ChatItem {
+        public boolean isUser;
+        public Uri imageUri;
+        public ImageMessage(Uri imageUri, Boolean isUser) {
+            this.imageUri = imageUri;
+            this.isUser = isUser;
+        }
+
+        @Override
+        public int getType() {
+            return TYPE_USER_IMAGE;
         }
     }
 

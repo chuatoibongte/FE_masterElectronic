@@ -269,37 +269,37 @@
     </LinearLayout>
 
     <!--    Chatbot tro giup-->
-    <LinearLayout
-        android:id="@+id/chatbotLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_sm"
-        android:layout_marginTop="12dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@+id/settingLayout"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/settingLayout"
-        app:layout_constraintTop_toBottomOf="@+id/settingLayout">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/chatbotLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/margin_sm"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/settingLayout"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/settingLayout"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/settingLayout">-->
 
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/button_background"
-            android:padding="8dp"
-            android:src="@drawable/ic_chatbot" />
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView5"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/button_background"-->
+<!--            android:padding="8dp"-->
+<!--            android:src="@drawable/ic_chatbot" />-->
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/margin_sm"
-            android:layout_weight="1"
-            android:text="@string/my_chatbot"
-            android:textColor="@color/dark_text"
-            android:textSize="@dimen/large_text_size" />
-    </LinearLayout>
+<!--        <TextView-->
+<!--            android:id="@+id/textView5"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginStart="@dimen/margin_sm"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="@string/my_chatbot"-->
+<!--            android:textColor="@color/dark_text"-->
+<!--            android:textSize="@dimen/large_text_size" />-->
+<!--    </LinearLayout>-->
 
     <!--    Đăng xuất-->
     <LinearLayout
@@ -309,10 +309,10 @@
         android:layout_marginStart="@dimen/margin_sm"
         android:layout_marginTop="12dp"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@+id/chatbotLayout"
+        app:layout_constraintEnd_toEndOf="@+id/settingLayout"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/chatbotLayout"
-        app:layout_constraintTop_toBottomOf="@+id/chatbotLayout">
+        app:layout_constraintStart_toStartOf="@+id/settingLayout"
+        app:layout_constraintTop_toBottomOf="@+id/settingLayout">
 
         <ImageView
             android:id="@+id/imageView6"
