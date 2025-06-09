@@ -1,6 +1,8 @@
 package com.example.mater_electronic.network;
 
+import com.example.mater_electronic.models.review.Review;
 import com.example.mater_electronic.network.account.AccountService;
+import com.example.mater_electronic.network.review.ReviewService;
 import com.example.mater_electronic.network.auth.AuthService;
 import com.example.mater_electronic.network.chatbot.ChatbotService;
 import com.example.mater_electronic.network.favorite.FavoriteService;
@@ -73,5 +75,15 @@ public class ApiClient {
                     .build();
         }
         return retrofit.create(ChatbotService.class);
+    }
+
+    public static ReviewService getReviewService() {
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return  retrofit.create(ReviewService.class);
     }
 }
