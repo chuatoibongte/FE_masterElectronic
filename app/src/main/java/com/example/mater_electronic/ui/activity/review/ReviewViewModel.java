@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.mater_electronic.models.review.CheckReviewExistResponse;
 import com.example.mater_electronic.models.review.CreateReviewResponse;
+import com.example.mater_electronic.models.review.DeleteReviewResponse;
 import com.example.mater_electronic.models.review.Review;
 import com.example.mater_electronic.repositories.ReviewRepository;
 
@@ -25,6 +26,7 @@ public class ReviewViewModel extends AndroidViewModel {
 
     private MutableLiveData<Boolean> isReviewSuccess = new MutableLiveData<>();
     private MutableLiveData<Boolean> isUpdateReviewSuccess = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isDeleteReviewSuccess = new MutableLiveData<>();
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private MutableLiveData<String> checkIsExistedMessage = new MutableLiveData<>();
     private MutableLiveData<Review> existedReview = new MutableLiveData<>();
@@ -34,6 +36,9 @@ public class ReviewViewModel extends AndroidViewModel {
     }
     public LiveData<Boolean> getIsUpdateReviewSuccess() {
         return isUpdateReviewSuccess;
+    }
+    public LiveData<Boolean> getIsDeleteReviewSuccess() {
+        return isDeleteReviewSuccess;
     }
 
     public LiveData<Boolean> getIsLoading() {
@@ -94,6 +99,28 @@ public class ReviewViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Call<CreateReviewResponse> call, Throwable t) {
+                errorMessage.setValue("Lỗi: " + t.getMessage());
+            }
+        });
+    }
+
+    public void deleteReview(String accessToken, String electronicID, String commentID){
+        isLoading.setValue(true);
+        reviewRepository.deleteReview(accessToken, electronicID, commentID, new Callback<DeleteReviewResponse>() {
+            @Override
+            public void onResponse(Call<DeleteReviewResponse> call, Response<DeleteReviewResponse> response) {
+                if(response.isSuccessful()) {
+                    isDeleteReviewSuccess.setValue(true);
+                    isLoading.setValue(false);
+                } else {
+                    isDeleteReviewSuccess.setValue(false);
+                    errorMessage.postValue("Xóa đánh giá thất bại: " + response.message());
+                    isLoading.setValue(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteReviewResponse> call, Throwable t) {
                 errorMessage.setValue("Lỗi: " + t.getMessage());
             }
         });

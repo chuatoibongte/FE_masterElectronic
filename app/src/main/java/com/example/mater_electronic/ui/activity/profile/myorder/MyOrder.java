@@ -40,16 +40,45 @@ public class MyOrder extends AppCompatActivity {
         myOrderViewModel.getOrderByUserIDandStatus().observe(this, orders -> {
             if(orders == null) {
                 binding.tvNoOrder.setVisibility(View.VISIBLE);
-                myOrderAdapter = new MyOrderAdapter(new ArrayList<>());
+                myOrderAdapter = new MyOrderAdapter(new ArrayList<>(), new MyOrderActionListener() {
+                    @Override
+                    public void onCancelOrder(String orderId) {
+                        myOrderViewModel.cancelOrder(getCurrentUserAccessToken(), orderId);
+                    }
+                    @Override
+                    public void onConfirmReceived(String orderId) {
+                        myOrderViewModel.receivedOrder(getCurrentUserAccessToken(), orderId);
+                    }
+                });
                 binding.rvMyOrder.setAdapter(myOrderAdapter);
             }
             else {
                 binding.tvNoOrder.setVisibility(View.INVISIBLE);
                 Log.e("MyOrder", "Số lượng order nhận được: " + (orders != null ? orders.size() : "null"));
-                myOrderAdapter = new MyOrderAdapter(orders);
+                myOrderAdapter = new MyOrderAdapter(orders, new MyOrderActionListener() {
+                    @Override
+                    public void onCancelOrder(String orderId) {
+                        myOrderViewModel.cancelOrder(getCurrentUserAccessToken(), orderId);
+                    }
+                    @Override
+                    public void onConfirmReceived(String orderId) {
+                        myOrderViewModel.receivedOrder(getCurrentUserAccessToken(), orderId);
+                    }
+                });
                 binding.rvMyOrder.setAdapter(myOrderAdapter);
             }
         });
+//        myOrderViewModel.getIsCancelOrderCalled().observe(this, isCancelOrderCalled -> {
+//            if(isCancelOrderCalled != null) {
+//                myOrderViewModel.getOrderByUserIDandStatus(getCurrentUserAccessToken(), "pending");
+//            }
+//        });
+//        myOrderViewModel.getIsReceivedOrderCalled().observe(this, isReceivedOrderCalled -> {
+//            if(isReceivedOrderCalled != null) {
+//                binding.deliveredStatus.performClick();
+//                // myOrderViewModel.getOrderByUserIDandStatus(getCurrentUserAccessToken(), "delivered");
+//            }
+//        });
         myOrderViewModel.getErrorMessage().observe(this, errorMessage -> {
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         });

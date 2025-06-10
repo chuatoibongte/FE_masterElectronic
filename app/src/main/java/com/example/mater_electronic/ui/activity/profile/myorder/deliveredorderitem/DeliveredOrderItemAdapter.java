@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.models.myorder.OrderElectronics;
+import com.example.mater_electronic.ui.activity.detail.ProductDetailActivity;
 import com.example.mater_electronic.ui.activity.review.ReviewActivity;
 import com.example.mater_electronic.utils.FormatUtil;
 import com.example.mater_electronic.utils.LoadImageByUrl;
@@ -41,6 +42,12 @@ public class DeliveredOrderItemAdapter extends RecyclerView.Adapter<DeliveredOrd
         OrderElectronics orderElectronics = orderElectronicsList.get(position);
         LoadImageByUrl.loadImage(holder.ivElectronicItem, orderElectronics.getElectronicID().getElectronicImgs().get(0).getUrl());
         holder.tvProductName.setText(orderElectronics.getElectronicID().getName());
+        holder.tvProductName.setOnClickListener(v -> {
+            Log.e("Adapter", "Click item id: " + orderElectronics.getElectronicID().get_id());
+            Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
+            intent.putExtra("product_id", orderElectronics.getElectronicID().get_id());
+            v.getContext().startActivity(intent);
+        });
         holder.tvProductPrice.setText(FormatUtil.formatPrice(orderElectronics.getElectronicID().getPrice()));
         holder.tvProductQuantity.setText("x" + String.valueOf(orderElectronics.getQuantity()));
         holder.tvTotalPrice.setText(FormatUtil.formatPrice(orderElectronics.getElectronicID().getPrice() * orderElectronics.getQuantity()));

@@ -1,5 +1,6 @@
 package com.example.mater_electronic.ui.activity.searchresult;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mater_electronic.MainActivity;
 import com.example.mater_electronic.R;
 import com.example.mater_electronic.databinding.ActivitySearchResultBinding;
 import com.example.mater_electronic.localdata.DataLocalManager;
@@ -43,6 +45,13 @@ public class SearchResultActivity extends AppCompatActivity {
         binding.btnBack.setOnClickListener(v -> finish());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2); // 2 cột
         binding.rvSearchResult.setLayoutManager(gridLayoutManager);
+
+        binding.btnMyCart.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("target_nav", R.id.navigation_mycart); // ID trong menu bottom navigation
+            startActivity(intent);
+            finish();
+        });
 
         productList = new ArrayList<>();
         adapter = new SearchResultAdapter(productList);

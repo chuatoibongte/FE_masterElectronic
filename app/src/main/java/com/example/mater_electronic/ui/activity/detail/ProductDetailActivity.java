@@ -62,8 +62,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         context = this;
         binding.btnBack.setOnClickListener(v -> finish());
         binding.btnMyCart.setOnClickListener(v -> {
-            Intent intent = new Intent(this, MyCartFragment.class);
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("target_nav", R.id.navigation_mycart); // ID trong menu bottom navigation
             startActivity(intent);
+            finish();
         });
         binding.btnChatbot.setOnClickListener(v -> {
             Toast.makeText(this, "Chatbot", Toast.LENGTH_SHORT).show();
@@ -341,9 +343,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
         btnBuyNow.setOnClickListener(v -> {
-            Toast.makeText(this, "Mua " + quantity[0] + " sản phẩm - Tổng: " +
-                    formatPrice(productPrice * quantity[0]) + " ₫", Toast.LENGTH_SHORT).show();
+            btnAddToCart.performClick();
             bottomSheetDialog.dismiss();
+            binding.btnMyCart.performClick();
             // Here you can add logic to proceed to checkout/payment
         });
 
