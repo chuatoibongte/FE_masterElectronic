@@ -53,15 +53,22 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="8dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <ImageView
+                    android:id="@+id/ivOrderItem"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/bg_rounded_10dp"
+                    android:contentDescription="Order Item Pic"
+                    android:scaleType="centerCrop" />
 
-            <ImageView
-                android:id="@+id/ivOrderItem"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:adjustViewBounds="true"
-                android:background="@drawable/bg_rounded_10dp"
-                android:contentDescription="Order Item Pic"
-                android:scaleType="centerCrop" />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -189,7 +196,19 @@
 
 
         </LinearLayout>
-
+        <Button
+            android:id="@+id/btnReceived"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:text="Đã nhận được hàng"
+            android:textColor="@color/white"
+            android:textSize="@dimen/medium_text_size"
+            android:textStyle="bold"
+            android:backgroundTint="@color/dark_color_bg"
+            android:visibility="gone"
+            />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

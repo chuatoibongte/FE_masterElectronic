@@ -43,11 +43,12 @@ public class ReviewActivity extends AppCompatActivity {
     private String reviewID = "";
     private ReviewViewModel reviewViewModel;
 
+    private ImageView btnBack;
     private ImageView ivProductImage;
     private TextView tvProductName;
     private RatingBar ratingBar;
     private EditText etReviewContent;
-    private Button btnPickImages, btnSubmitReview;
+    private Button btnPickImages, btnSubmitReview, btnDeleteReview;
     private RecyclerView rvSelectedImages;
     private FrameLayout loadingOverlay;
     private ProgressBar progressBar;
@@ -79,17 +80,19 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
 
+        btnBack = findViewById(R.id.backBtn);
         ivProductImage = findViewById(R.id.ivProductImage);
         tvProductName = findViewById(R.id.tvProductName);
         ratingBar = findViewById(R.id.ratingBar);
         etReviewContent = findViewById(R.id.etReviewContent);
         btnPickImages = findViewById(R.id.btnPickImages);
         btnSubmitReview = findViewById(R.id.btnSubmitReview);
+        btnDeleteReview = findViewById(R.id.btnDeleteReview);
         rvSelectedImages = findViewById(R.id.rvSelectedImages);
         loadingOverlay = findViewById(R.id.loadingOverlay);
         progressBar = findViewById(R.id.progressBar);
 
-
+        btnBack.setOnClickListener(v -> finish());
         // Nhận dữ liệu từ intent
         String electronicID = getIntent().getStringExtra("electronicID");
         String productName = getIntent().getStringExtra("productName");
@@ -110,6 +113,7 @@ public class ReviewActivity extends AppCompatActivity {
         reviewViewModel.getCheckIsExistedMessage().observe(this, message -> {
             if(message.equals("existed")) {
                 btnSubmitReview.setText("Cập nhật đánh giá");
+                btnDeleteReview.setVisibility(View.VISIBLE);
 //                rvSelectedImages.setVisibility(View.GONE);
 //                btnPickImages.setVisibility(View.GONE);
                 Toast.makeText(this, "Bạn đã đánh giá sản phẩm này rồi", Toast.LENGTH_SHORT).show();
@@ -124,6 +128,13 @@ public class ReviewActivity extends AppCompatActivity {
                             reviewID,
                             imageUris,
                             ReviewActivity.this
+                    );
+                });
+                btnDeleteReview.setOnClickListener(v -> {
+                    reviewViewModel.deleteReview(
+                            getCurrentUserAccessToken(),
+                            electronicID,
+                            reviewID
                     );
                 });
             }
@@ -173,6 +184,16 @@ public class ReviewActivity extends AppCompatActivity {
             }
             else {
                 Toast.makeText(ReviewActivity.this, "Cập nhật đánh giá thất bại", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        reviewViewModel.getIsDeleteReviewSuccess().observe(this, isDeleteReviewSuccess -> {
+            if(isDeleteReviewSuccess) {
+                Toast.makeText(ReviewActivity.this, "Xóa đánh giá thành công", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else {
+                Toast.makeText(ReviewActivity.this, "Xóa đánh giá thất bại", Toast.LENGTH_SHORT).show();
             }
         });
 
