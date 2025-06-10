@@ -1,6 +1,5 @@
 package com.example.mater_electronic.ui.activity.profile.myaddress;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +16,11 @@ import java.util.List;
 
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressViewHolder> {
     private List<Address> addressList;
-    public AddressAdapter(List<Address> addressList) {
+    private AddressActionListener listener;
+
+    public AddressAdapter(List<Address> addressList, AddressActionListener listener) {
         this.addressList = addressList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -39,15 +41,16 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
 
         // Handle edit button click
         holder.editBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), EditMyAddress.class);
+            if (listener != null) {
+                listener.onEditAddress(position, address);
+            }
+        });
 
-            // Pass address data and position
-            intent.putExtra("address_position", position);
-            intent.putExtra("address_name", address.getName());
-            intent.putExtra("address_address", address.getAddress());
-            intent.putExtra("address_phone", address.getPhone());
-
-            v.getContext().startActivity(intent);
+        // Handle delete button click
+        holder.deleteBtn.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onDeleteAddress(position);
+            }
         });
     }
 
@@ -56,9 +59,21 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         return addressList != null ? addressList.size() : 0;
     }
 
+    public void removeItem(int position) {
+        if (addressList != null && position >= 0 && position < addressList.size()) {
+            addressList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, addressList.size());
+        }
+    }
+
     public void updateAddressList(List<Address> newAddressList) {
         this.addressList = newAddressList;
         notifyDataSetChanged();
+    }
+
+    public List<Address> getCurrentAddressList() {
+        return addressList;
     }
 
     static class AddressViewHolder extends RecyclerView.ViewHolder {
@@ -66,6 +81,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         TextView tvAddress;
         TextView tvPhone;
         ImageView editBtn;
+        ImageView deleteBtn;
 
         public AddressViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,6 +89,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
             tvAddress = itemView.findViewById(R.id.tvAddress);
             tvPhone = itemView.findViewById(R.id.tvPhone);
             editBtn = itemView.findViewById(R.id.editBtn);
+            deleteBtn = itemView.findViewById(R.id.deleteBtn);
         }
     }
 }
