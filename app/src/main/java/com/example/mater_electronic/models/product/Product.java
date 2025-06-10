@@ -23,6 +23,15 @@ public class Product {
     private int __v;
     private int followers;
     private String slugCate;
+    private String slugName;
+
+    public String getSlugName() {
+        return slugName;
+    }
+
+    public void setSlugName(String slugName) {
+        this.slugName = slugName;
+    }
 
     public String get_id() {
         return _id;
