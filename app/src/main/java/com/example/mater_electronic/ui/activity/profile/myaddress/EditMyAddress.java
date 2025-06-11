@@ -2,7 +2,9 @@ package com.example.mater_electronic.ui.activity.profile.myaddress;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -46,6 +48,9 @@ public class EditMyAddress extends AppCompatActivity {
 
         // Set click listeners
         setClickListeners();
+
+        //Set up onchange listeners
+        updateRealtimeAddress();
 
         // Observe update results
         accountViewModel.getUpdateSuccess().observe(this, success -> {
@@ -98,6 +103,62 @@ public class EditMyAddress extends AppCompatActivity {
         accountId = getSharedPreferences("user_prefs", MODE_PRIVATE).getString("_id", null);
         //Lấy accessToken từ sharedPreferences
         accessToken = getSharedPreferences("user_prefs", MODE_PRIVATE).getString("accessToken", null);
+    }
+
+    private void updateRealtimeAddress(){
+        //When name input got change
+        binding.nameEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.tvAddressUserName.setText(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        //When address input got change
+        binding.addressEdt.addTextChangedListener((new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.tvAddress.setText(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        }));
+
+        //When phone input got change
+        binding.phoneEdt.addTextChangedListener((new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.tvPhone.setText(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        }));
     }
 
     private void loadAccountData() {
