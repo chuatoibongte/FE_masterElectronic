@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.mater_electronic.models.displaydata.GetElectronicByIdResponse;
+import com.example.mater_electronic.models.myorder.CancelOrderResponse;
 import com.example.mater_electronic.models.myorder.GetOrderResponse;
 import com.example.mater_electronic.models.myorder.Order;
 import com.example.mater_electronic.models.product.Product;
@@ -63,6 +64,65 @@ public class MyOrderViewModel extends AndroidViewModel {
             @Override
             public void onFailure(Call<GetOrderResponse> call, Throwable t) {
                 errorMessage.setValue("Lỗi:" + t.getMessage());
+            }
+        });
+    }
+    public void cancelOrder(String accessToken, String id) {
+        isLoading.setValue(true);
+        orderRepository.cancelOrder(accessToken, id, new Callback<CancelOrderResponse>() {
+            @Override
+            public void onResponse(Call<CancelOrderResponse> call, Response<CancelOrderResponse> response) {
+                if (response.isSuccessful()) {
+                    CancelOrderResponse cancelOrderResponse = response.body();
+                    if (cancelOrderResponse != null && cancelOrderResponse.isSuccess()) {
+                        Toast.makeText(getApplication(), "Hủy đơn hàng thành công", Toast.LENGTH_SHORT).show();
+                        getOrderByUserIDandStatus(accessToken, "pending");
+                        isLoading.setValue(false);
+                    }
+                    else {
+                        Toast.makeText(getApplication(), "Hủy đơn hàng thất bại", Toast.LENGTH_SHORT).show();
+                        isLoading.setValue(false);
+                    }
+                }
+                else {
+                    Toast.makeText(getApplication(), "Lỗi server !!!", Toast.LENGTH_SHORT).show();
+                    isLoading.setValue(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CancelOrderResponse> call, Throwable t) {
+                errorMessage.setValue("Lỗi:" + t.getMessage());
+                isLoading.setValue(false);
+            }
+        });
+    }
+    public void receivedOrder(String accessToken, String id) {
+        isLoading.setValue(true);
+        orderRepository.receivedOrder(accessToken, id, new Callback<CancelOrderResponse>() {
+            @Override
+            public void onResponse(Call<CancelOrderResponse> call, Response<CancelOrderResponse> response) {
+                if (response.isSuccessful()) {
+                    CancelOrderResponse cancelOrderResponse = response.body();
+                    if (cancelOrderResponse != null && cancelOrderResponse.isSuccess()) {
+                        Toast.makeText(getApplication(), "Xác nhận thành công", Toast.LENGTH_SHORT).show();
+                        getOrderByUserIDandStatus(accessToken, "in transit");
+                        isLoading.setValue(false);
+                    }
+                    else {
+                        Toast.makeText(getApplication(), "Xác nhận thất bại", Toast.LENGTH_SHORT).show();
+                        isLoading.setValue(false);
+                    }
+                }
+                else {
+                    Toast.makeText(getApplication(), "Lỗi server !!!", Toast.LENGTH_SHORT).show();
+                    isLoading.setValue(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CancelOrderResponse> call, Throwable t) {
+
             }
         });
     }

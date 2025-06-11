@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mater_electronic.R;
@@ -24,9 +26,11 @@ import java.util.Objects;
 
 public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyOrderViewHolder> {
     private List<Order> orderList;
-    public MyOrderAdapter(List<Order> orderList) {
+    private MyOrderActionListener actionListener;
+    public MyOrderAdapter(List<Order> orderList, MyOrderActionListener actionListener) {
         super();
         this.orderList = orderList;
+        this.actionListener = actionListener;
     }
 
     @NonNull
@@ -40,6 +44,21 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyOrderV
     public void onBindViewHolder(@NonNull MyOrderAdapter.MyOrderViewHolder holder, int position) {
         Order orderItem = orderList.get(position);
         holder.tvStatus.setText("Trạng thái: " + orderItem.getStatus());
+        if(orderItem.getStatus().equals("in transit")) {
+            holder.btnReceived.setVisibility(View.VISIBLE);
+            holder.btnReceived.setOnClickListener(v -> {
+                actionListener.onConfirmReceived(orderItem.get_id());
+                Toast.makeText(v.getContext(), "Đã nhận được hàng", Toast.LENGTH_SHORT).show();
+            });
+        }
+        if(orderItem.getStatus().equals("pending")) {
+            holder.btnReceived.setVisibility(View.VISIBLE);
+            holder.btnReceived.setText("Hủy đơn hàng");
+            holder.btnReceived.setOnClickListener(v -> {
+                actionListener.onCancelOrder(orderItem.get_id());
+                Toast.makeText(v.getContext(), "Hủy đơn hàng", Toast.LENGTH_SHORT).show();
+            });
+        }
         holder.tvOrderDate.setText(orderItem.getTime().substring(0, 10));
         holder.tvFirstProduct.setText(orderItem.getListElectronics().get(0).getElectronicID().getName());
         holder.tvFirstProductQuantity.setText("x" + String.valueOf(orderItem.getListElectronics().get(0).getQuantity()));
@@ -106,6 +125,8 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyOrderV
         ImageView ivOrderItem;
         TextView tvMore;
 
+        Button btnReceived;
+
         public MyOrderViewHolder(@NonNull View itemView) {
             super(itemView);
             cvOrderItem = itemView.findViewById(R.id.cvOrderItem);
@@ -121,6 +142,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.MyOrderV
             ivOrderItem = itemView.findViewById(R.id.ivOrderItem);
             llParent = itemView.findViewById(R.id.llParent);
             tvMore = itemView.findViewById(R.id.tvMore);
+            btnReceived = itemView.findViewById(R.id.btnReceived);
         }
     }
 }

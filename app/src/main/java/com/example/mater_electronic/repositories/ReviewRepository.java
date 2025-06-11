@@ -5,6 +5,7 @@ import android.net.Uri;
 
 import com.example.mater_electronic.models.review.CheckReviewExistResponse;
 import com.example.mater_electronic.models.review.CreateReviewResponse;
+import com.example.mater_electronic.models.review.DeleteReviewResponse;
 import com.example.mater_electronic.network.ApiClient;
 import com.example.mater_electronic.network.review.ReviewService;
 
@@ -47,7 +48,10 @@ public class ReviewRepository {
 
         reviewServiceApi.updateReview(authHeader, ratingBody, contentBody, electronicIDBody, commentIDBody, imageParts).enqueue(callback);
     }
-
+    public void deleteReview(String accessToken, String electronicID, String commentID, Callback<DeleteReviewResponse> callback) {
+        String authHeader = "Bearer " + accessToken;
+        reviewServiceApi.deleteReview(authHeader, electronicID, commentID).enqueue(callback);
+    }
     private List<MultipartBody.Part> prepareImagePartsFromUri(List<Uri> imageUris, Context context) {
         List<MultipartBody.Part> parts = new ArrayList<>();
 
