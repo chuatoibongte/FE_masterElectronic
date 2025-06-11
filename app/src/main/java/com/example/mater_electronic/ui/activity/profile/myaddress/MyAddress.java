@@ -2,6 +2,7 @@ package com.example.mater_electronic.ui.activity.profile.myaddress;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -26,6 +27,7 @@ public class MyAddress extends AppCompatActivity implements AddressActionListene
     private AccountViewModel accountViewModel;
     private String accessToken;
     private List<Address> currentAddressList;
+    private boolean isUpdating = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class MyAddress extends AppCompatActivity implements AddressActionListene
 
         //Lấy _id từ sharedPreferences
         accountId = getSharedPreferences("user_prefs", MODE_PRIVATE).getString("_id", null);
-        accessToken = getSharedPreferences("user_prefs", MODE_PRIVATE).getString("access_token", null);
+        accessToken = getSharedPreferences("user_prefs", MODE_PRIVATE).getString("accessToken", null);
 
         setupViewModel();
         setupRecyclerView();
@@ -67,13 +69,16 @@ public class MyAddress extends AppCompatActivity implements AddressActionListene
         // Observe update success for API calls
         accountViewModel.getUpdateSuccess().observe(this, success -> {
             if (success != null) {
+                // Reset updating flag regardless of success or failure
+                isUpdating = false;
+
                 if (success) {
                     // Update local database after successful API call
                     updateLocalDatabase();
                     Toast.makeText(this, "Cập nhật địa chỉ thành công", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Cập nhật địa chỉ thất bại", Toast.LENGTH_SHORT).show();
-                    // Reload original data on failure
+                    // reload data to restore original state
                     loadAndDisplayAddresses();
                 }
             }
@@ -89,6 +94,7 @@ public class MyAddress extends AppCompatActivity implements AddressActionListene
         // Observe error messages
         accountViewModel.getErrorMessage().observe(this, error -> {
             if (error != null && !error.isEmpty()) {
+                isUpdating = false; // Reset flag to false
                 Toast.makeText(this, "Lỗi: " + error, Toast.LENGTH_LONG).show();
                 // Reload original data on error
                 loadAndDisplayAddresses();
@@ -106,7 +112,10 @@ public class MyAddress extends AppCompatActivity implements AddressActionListene
         Account account = AccountDatabase.getInstance(this).accountDAO().getAccountById(accountId);
 
         if (account != null && account.getAddressList() != null && !account.getAddressList().isEmpty()) {
-            currentAddressList = new ArrayList<>(account.getAddressList());
+            currentAddressList = new ArrayList<>();
+            for (Address addr : account.getAddressList()) {
+                currentAddressList.add(addr);
+            }
             displayAddresses(currentAddressList);
         } else {
             Toast.makeText(this, "Không có địa chỉ nào", Toast.LENGTH_SHORT).show();
@@ -132,6 +141,11 @@ public class MyAddress extends AppCompatActivity implements AddressActionListene
 
     @Override
     public void onDeleteAddress(int position) {
+        // Validate position
+        if (currentAddressList == null || position < 0 || position >= currentAddressList.size()) {
+            Toast.makeText(this, "Lỗi: Vị trí không hợp lệ", Toast.LENGTH_SHORT).show();
+            return;
+        }
         showDeleteConfirmationDialog(position);
     }
 
@@ -157,34 +171,52 @@ public class MyAddress extends AppCompatActivity implements AddressActionListene
     }
 
     private void deleteAddress(int position) {
-        if (currentAddressList == null || position >= currentAddressList.size()) {
+        if (isUpdating) {
+            Toast.makeText(this, "Đang xử lý, vui lòng đợi...", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (currentAddressList == null || position < 0 || position >= currentAddressList.size()) {
             Toast.makeText(this, "Lỗi: Không thể xóa địa chỉ", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Remove from current list
-        currentAddressList.remove(position);
+        try {
+            // Remove from current list
+            currentAddressList.remove(position);
 
-        // Update adapter immediately for better UX
-        addressAdapter.removeItem(position);
+            // Update adapter immediately for better UX
+            addressAdapter.removeItem(position);
 
-        // Call API to update address list if access token is available
-        if (accessToken != null && !accessToken.isEmpty()) {
-            accountViewModel.updateAddress(accessToken, currentAddressList);
-        } else {
-            // If no access token, just update local database
-            updateLocalDatabase();
-            Toast.makeText(this, "Đã xóa địa chỉ", Toast.LENGTH_SHORT).show();
+            // Set updating flag
+            isUpdating = true;
+
+
+            // Call API to update address list if access token is available
+            if (accessToken != null && !accessToken.isEmpty()) {
+                accountViewModel.updateAddress(accessToken, new ArrayList<>(currentAddressList));
+            }
+        } catch (Exception e) {
+            isUpdating = false;
+            Toast.makeText(this, "Lỗi khi xóa địa chỉ: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            // Reload data to restore original state
+            loadAndDisplayAddresses();
         }
     }
 
     private void updateLocalDatabase() {
         if (accountId != null && currentAddressList != null) {
-            // Update local database with new address list
-            Account account = AccountDatabase.getInstance(this).accountDAO().getAccountById(accountId);
-            if (account != null) {
-                account.setAddressList(currentAddressList);
-                AccountDatabase.getInstance(this).accountDAO().updateAccount(account);
+            try {
+                // Update local database with new address list
+                Account account = AccountDatabase.getInstance(this).accountDAO().getAccountById(accountId);
+                if (account != null) {
+                    // Create a new copy of the address list for the account
+                    List<Address> updatedList = new ArrayList<>(currentAddressList);
+                    account.setAddressList(updatedList);
+                    AccountDatabase.getInstance(this).accountDAO().updateAccount(account);
+                }
+            } catch (Exception e) {
+                Toast.makeText(this, "Lỗi cập nhật cơ sở dữ liệu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
